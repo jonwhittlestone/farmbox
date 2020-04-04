@@ -49,28 +49,29 @@ sdfgsd
 ---
 ## Phase One
 
-Produce summary totals for a `DeliverySession` for each site as a downloadable report so client knows what goods to purchase.
-The totals are calculated by ingesting a zip containing XLSXs
+* Produce summary totals for a `DeliverySession` for each site as a downloadable report so client knows what goods to purchase.
+* The totals are calculated by ingesting a zip containing XLSXs
 
 ## Phase Two
 
-Fulfillment: For each `Customer` in the `DeliverySession`, a packing list to also be used as receipt. 
-Can be filtered by by `DeliverySite` and customer delivery address postcode
+* Fulfillment: For each `Customer` in the `DeliverySession`, a packing list generated
+* also be used as receipt. 
+* Can be filtered by by `DeliverySite` and customer delivery address postcode
 
 ## Phase Three
 
-System awareness of products with prices, and orders
-Client pays for VPS eg £20 p/m
-Simple reporting with metabase
+* System awareness of products with prices, and orders
+* Client pays for VPS eg £20 p/m
+* Simple reporting with metabase
 
 ## Phase Four
 
-Email ingestion from Gmail?
+* Email ingestion from Inbox
 
 ## Phase Four
 
-Customer ordering via an online form accessing own login area
+* Customer ordering via an online form accessing own login area
 
 ## Phase Five
 
-Full backend and custom storefront not including yearly hosting.
+* Full backend and custom storefront with CC processing w/Stripe or similar
