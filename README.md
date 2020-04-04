@@ -1,5 +1,26 @@
 # farmbox
 
+Prerequisites
+
+* Python3 virtual environment
+
+Quickstart
+
+1. Clone this repo
+2. With the virtual environment activated, install the dependencies
+
+        pip install -r requirements.txt
+3. Run the migrations
+
+        ./manage.py migrate
+3. Run the development server
+
+        ./manage.py runserver
+
+4. Log in at with the default superuser credentials (admin/Evoke-Enduring8-Figurine):
+
+        http://localhost:8000/admin/
+---
 ## Operation - Client Questions
 
 #### What are the basic steps from a customer making an order to a customer opening their package at home?
