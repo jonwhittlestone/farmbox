@@ -60,6 +60,7 @@ Can be filtered by by `DeliverySite` and customer delivery address postcode
 ## Phase Three
 
 System awareness of products with prices, and orders
+Client pays for VPS eg £20 p/m
 Simple reporting with metabase
 
 ## Phase Four
