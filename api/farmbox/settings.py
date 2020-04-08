@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shared'
+    'shared',
+    'order'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,11 @@ DEFAULT_SUPERUSER = {
     'email': 'dev@howapped.com',
     'password': 'Evoke-Enduring8-Figurine'
 }
+
+FULFILLMENT_METHODS_DELIVERY = 'Delivery'
+FULFILLMENT_METHODS_COLLECTION = 'Collection'
+
+COLLECTION_LOCATIONS_DENBIES = 'Denbies'
+COLLECTION_LOCATIONS_OCKLEY = 'Ockley'
+
+# COLLECTION_LOCATIONS = ['Denbies', 'Ockley', 'None']

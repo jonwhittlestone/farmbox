@@ -28,12 +28,24 @@ Quickstart
 ---
 ## Operation - Customer Questions
 
+15-20 bags is fine, no need for an ecommerce solution
+no automated stock solution, so no checking of inventory
+
 #### What are the basic steps from a customer making an order to a customer opening their package at home?
 
 afdf
 
 ---
 #### What is the most time-consuming step? What step do you feel is the most inefficient?
+- george (she) copies from excel to master sheet
+- master sheet is then costed
+- 'A butternut quash is a £1'
+ourdering via excel
+
+- generate a sheet for each customer, print all out (100 sheets)
+- generate picking list
+- generate orders at the same time
+- 
 
 sdfgsdf
 
@@ -50,27 +62,44 @@ sdfgsd
 ---
 #### How is the volunteer delivery managed? 
 
-sdfgsd
+sdfgsdosort list 
+sort list by postcode
+6-8 to orders
+when drivers come, print out individual list
+customers don't provide postcodes
+
 
 ---
 #### How many deliveries need to be done on average, and how long do they take? 
 
-sdfgsd
+sdo6-8ofgsd
+6-8, £50 per day
+20% discount
 
 ---
 #### Do you have any ideas for automation?
 
 sdfgsd
+going from input sheet (customer) to creating individual customer sheet
 
 ---
 #### Do you have any ideas for automation in short-term?
 
-sdfgsd
+sdfgsdo
+Biggest Problem is - Where are we?? Can we do this order?
 
 ---
 #### What would your ideal ordering system look like?
 
-sdfgsd
+sdfgsdo
+Customer click on website
+Review confirmation then and there
+Quote in advance
+
+Pay in advance
+Limit the demand. The customer would know if it could fulfillled
+
+
 
 ---
 ## Phase One
