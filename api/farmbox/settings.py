@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'shared',
     'order'
 ]
@@ -133,4 +134,6 @@ FULFILLMENT_METHODS_COLLECTION = 'Collection'
 COLLECTION_LOCATIONS_DENBIES = 'Denbies'
 COLLECTION_LOCATIONS_OCKLEY = 'Ockley'
 
-# COLLECTION_LOCATIONS = ['Denbies', 'Ockley', 'None']
+GRAPHENE = {
+    'SCHEMA': 'farmbox.schema.schema'
+}
