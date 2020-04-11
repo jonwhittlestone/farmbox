@@ -2,6 +2,13 @@ from django.db import models
 from django.conf import settings
 from product.models import Product
 
+
+class FulfillmentEvent(models.Model):
+    target_date = models.DateField()
+
+    def __str__(self):
+        return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT)
+
 class Order(models.Model):
     DEFAULT_USER_ID = 1
 
@@ -20,7 +27,6 @@ class Order(models.Model):
     customer_phone = models.CharField(max_length=64)
     fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=16)
     collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A')
-    customer_specified_fulfilled_at = models.DateTimeField()
     archived = models.BooleanField(default=False)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
@@ -30,6 +36,13 @@ class Order(models.Model):
         default=DEFAULT_USER_ID,
         blank=False,
         null=True
+    )
+
+    fulfillment_event = models.ForeignKey(
+        FulfillmentEvent,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False
     )
     products = models.ManyToManyField(Product)
 

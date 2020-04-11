@@ -149,7 +149,7 @@ GRAPHENE = {
     'SCHEMA': 'farmbox.schema.schema'
 }
 
-
+DISPLAY_DATE_FORMAT = "%a %d/%m/%Y"
 PRODUCT_CATEGORIES_VEGBAG = 'Vegbag'
 PRODUCT_CATEGORIES_ITEM = 'Item'
 
