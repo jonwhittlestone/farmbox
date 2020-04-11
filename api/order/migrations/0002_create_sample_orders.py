@@ -1,6 +1,11 @@
+import random
 from django.db import migrations
 from django.conf import settings
 from django.utils import timezone
+from product.models import Product
+from order.models import Order
+
+NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5
 
 sample_orders = [
     {
@@ -11,9 +16,9 @@ sample_orders = [
         'customer_phone': '0789 449 5422',
         'fulfillment_method': 'Delivery',
         'collection_location': 'Denbies',
-        'customer_specified_fulfilled_at': '2020-04-05 07:24:18',
-        'created_at': '2020-04-05 07:24:18',
-        'modified_at': '2020-04-05 07:24:18',
+        'customer_specified_fulfilled_at': '2020-05-01 06:08:45.204004+00:00',
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
     },
 
     {
@@ -24,9 +29,9 @@ sample_orders = [
         'customer_phone': '0789 449 5422',
         'fulfillment_method': 'Collection',
         'collection_location': 'Denbies',
-        'customer_specified_fulfilled_at': '2020-04-05 07:24:18',
-        'created_at': '2020-04-05 07:24:18',
-        'modified_at': '2020-04-05 07:24:18',
+        'customer_specified_fulfilled_at': '2020-05-01 06:08:45.204004+00:00',
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
     },
 
     {
@@ -37,9 +42,9 @@ sample_orders = [
         'customer_phone': '0789 449 5422',
         'fulfillment_method': 'Delivery',
         'collection_location': '',
-        'customer_specified_fulfilled_at': '2020-04-05 07:24:18',
-        'created_at': '2020-04-05 07:24:18',
-        'modified_at': '2020-04-05 07:24:18',
+        'customer_specified_fulfilled_at': '2020-05-01 06:08:45.204004+00:00',
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
     },
 
     {
@@ -50,9 +55,9 @@ sample_orders = [
         'customer_phone': '0789 449 5422',
         'fulfillment_method': 'Collection',
         'collection_location': 'Ockley',
-        'customer_specified_fulfilled_at': '2020-04-12 07:24:18',
-        'created_at': '2020-04-05 07:24:18',
-        'modified_at': '2020-04-05 07:24:18',
+        'customer_specified_fulfilled_at': '2020-05-01 06:08:45.204004+00:00',
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
     }
 ]
 
@@ -69,6 +74,17 @@ def add_default(apps, schema_editor):
         order['user_id'] = 1
         ord = Order_Model(**order)
         ord.save()
+
+    
+    # add sample products
+    for ord in Order.objects.all():
+        valid_products_ids = Product.objects.all().values_list('id', flat=True)
+        ids = list(valid_products_ids)
+        random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
+        qs = Product.objects.filter(id__in=random_products_ids)
+        for p in qs:
+            ord.products.add(p)
+
 
 class Migration(migrations.Migration):
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from product.models import Product
 
 class Order(models.Model):
     DEFAULT_USER_ID = 1
@@ -30,3 +31,7 @@ class Order(models.Model):
         blank=False,
         null=True
     )
+    products = models.ManyToManyField(Product)
+
+    def __str__(self):
+        return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'

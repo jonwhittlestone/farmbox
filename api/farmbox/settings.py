@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third party libraries
     'graphene_django',
+    'djmoney',
+    'django_extensions',
+
+    # user apps
     'shared',
-    'order'
+    'order',
+    'product'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +64,9 @@ ROOT_URLCONF = 'farmbox.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [            
+            os.path.join(PROJECT_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,6 +143,33 @@ FULFILLMENT_METHODS_COLLECTION = 'Collection'
 COLLECTION_LOCATIONS_DENBIES = 'Denbies'
 COLLECTION_LOCATIONS_OCKLEY = 'Ockley'
 
+DEFAULT_CURRENCY = 'GBP'
+
 GRAPHENE = {
     'SCHEMA': 'farmbox.schema.schema'
+}
+
+
+PRODUCT_CATEGORIES_VEGBAG = 'Vegbag'
+PRODUCT_CATEGORIES_ITEM = 'Item'
+
+PRODUCT_PICKING_PACKING_SURCHARGE = {
+    PRODUCT_CATEGORIES_VEGBAG: [],
+    PRODUCT_CATEGORIES_ITEM:[
+        {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['<',10],'surcharge':1},
+        {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['>',10], 'surcharge':2},
+        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION,'grand_total_condition':['<',10], 'surcharge':1},
+    ]
+}
+
+# only applied once to subtotal
+PICKING_PACKING_SURCHARGE = {
+    PRODUCT_CATEGORIES_VEGBAG: [
+        {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'surcharge':2},
+    ],
+    PRODUCT_CATEGORIES_ITEM:[
+        {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['<',10], 'surcharge':2},
+        {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['>',10], 'surcharge':2},
+        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION,'grand_total_condition':['<',10], 'surcharge':1},
+    ]
 }
