@@ -1,0 +1,8 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#10313A",
+        "titleBar.activeBackground": "#174552",
+        "titleBar.activeForeground": "#F7FCFD"
+    },
+    "python.pythonPath": "/home/jon/code/playground/farmbox/venv/bin/python3"
+}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from product.models import Product
+from django.utils import timezone
 
 
 class FulfillmentEvent(models.Model):
@@ -48,3 +49,8 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now()
+            self.modified_at = timezone.now()
