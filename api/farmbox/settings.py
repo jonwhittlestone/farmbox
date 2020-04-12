@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # third party libraries
     'graphene_django',
     'djmoney',
-    # 'django_extensions',
+    'django_extensions',
 
     # user apps
     'shared',
