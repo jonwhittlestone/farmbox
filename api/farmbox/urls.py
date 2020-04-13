@@ -12,6 +12,7 @@ admin.site.index_title = 'Village Greens Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path(r'api/order/input-sheet/<int:f_event_id>/',
         login_required(order_api.download_input_xlsx), name='download_input_xlsx'),

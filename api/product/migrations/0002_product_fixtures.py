@@ -45,8 +45,8 @@ initial_products = [
     },
 
     {
-        'name': 'Brocoli',
-        'slug': 'brocoli',
+        'name': 'Broccoli',
+        'slug': 'broccoli',
         'pack_size': 'Head appr 250g',
         'price': Money(2.5, settings.DEFAULT_CURRENCY),
         'published': True,

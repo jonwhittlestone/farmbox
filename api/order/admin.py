@@ -11,7 +11,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class FulfillmentEventAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id','target_date')
 
 admin.site.register(Order, OrderAdmin)
 

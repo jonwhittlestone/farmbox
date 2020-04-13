@@ -21,13 +21,14 @@ class Order(models.Model):
         DENBIES = settings.COLLECTION_LOCATIONS_DENBIES
         OCKLEY = settings.COLLECTION_LOCATIONS_OCKLEY
 
-    customer_name = models.CharField(max_length=512)
-    customer_address = models.CharField(max_length=512)
-    customer_postcode = models.CharField(max_length=8)
-    customer_email = models.EmailField(max_length=64)
-    customer_phone = models.CharField(max_length=64)
-    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=16)
-    collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A')
+    customer_name = models.CharField(max_length=512, verbose_name='Name')
+    customer_address = models.CharField(max_length=512, verbose_name='Address')
+    customer_postcode = models.CharField(max_length=8, verbose_name='Postcode')
+    customer_email = models.EmailField(max_length=64, verbose_name='Email')
+    customer_phone = models.CharField(max_length=64, verbose_name='Phone')
+    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=16, verbose_name='DELIVERY / COLLECTION')
+    collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A', verbose_name='If collection, which shop?')
+    notes = models.TextField(blank=True, verbose_name='NOTES')
     archived = models.BooleanField(default=False)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
@@ -54,3 +55,6 @@ class Order(models.Model):
         if not self.id:
             self.created_at = timezone.now()
             self.modified_at = timezone.now()
+
+    def product_count(self, id):
+        return self.products.filter(id=id).count()

@@ -2,6 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "DEV",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+                "--noreload",
+                "--nothreading",
+            ],
+            "django": true
+        },
+        {
             "name": "Pytest Example",
             "type": "python",
             "request": "launch",
