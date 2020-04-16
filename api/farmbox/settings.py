@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     # user apps
     'shared',
     'order',
-    'product'
+    'product',
+    'sheets'
 ]
 
 MIDDLEWARE = [
@@ -171,5 +172,13 @@ PICKING_PACKING_SURCHARGE = {
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['<',10], 'surcharge':2},
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['>',10], 'surcharge':2},
         {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION,'grand_total_condition':['<',10], 'surcharge':1},
+    ]
+}
+
+INPUT_SHEET = {
+    'ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS': [
+        'customer_name', 'customer_address', 'customer_postcode', 
+        'customer_email', 'customer_phone', 
+        'fulfillment_method', 'collection_location', 'notes'
     ]
 }

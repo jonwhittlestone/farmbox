@@ -4,67 +4,9 @@ from django.conf import settings
 from django.utils import timezone
 from product.models import Product
 from order.models import Order, FulfillmentEvent
+from order.fixtures import sample_fulfillment_events, sample_orders
 
 NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5
-
-sample_fulfillment_events = [
-    {'target_date' : '2020-06-01'},
-    {'target_date' : '2020-06-08'}
-]
-
-sample_orders = [
-    {
-        'customer_name': '[NotARealOrder] Christopher Koliba',
-        'customer_address': '11 Lonsdale Place, Dorking',
-        'customer_postcode': 'RH4 2WJ',
-        'customer_email': 'dev+farmbox@howapped.com',
-        'customer_phone': '0789 449 5422',
-        'fulfillment_method': 'Delivery',
-        'collection_location': 'Denbies',
-        'notes': '04-Mar',
-        'created_at': timezone.now(),
-        'modified_at': timezone.now(),
-    },
-
-    {
-        'customer_name': '[NotARealOrder] Mike Jameson',
-        'customer_address': '12 Curtis Road, Dorking',
-        'customer_postcode': 'RH4 1XD',
-        'customer_email': 'dev+farmbox@howapped.com',
-        'customer_phone': '0789 449 5422',
-        'fulfillment_method': 'Collection',
-        'collection_location': 'Denbies',
-        'notes': 'weekly',
-        'created_at': timezone.now(),
-        'modified_at': timezone.now(),
-    },
-
-    {
-        'customer_name': '[NotARealOrder] Valerie Bennet',
-        'customer_address': 'Cotton Row, Holmbury St. Mary',
-        'customer_postcode': 'RH5 6NB',
-        'customer_email': 'dev+farmbox@howapped.com',
-        'customer_phone': '0789 449 5422',
-        'fulfillment_method': 'Delivery',
-        'collection_location': '',
-        'notes': 'weekly',
-        'created_at': timezone.now(),
-        'modified_at': timezone.now(),
-    },
-
-    {
-        'customer_name': '[NotARealOrder] Chloe Fawcett',
-        'customer_address': 'Dial Post Barn, Horsham, West Sussex',
-        'customer_postcode': 'RH12 4QX',
-        'customer_email': 'dev+farmbox@howapped.com',
-        'customer_phone': '0789 449 5422',
-        'fulfillment_method': 'Collection',
-        'collection_location': 'Ockley',
-        'notes': 'watch out for dog',
-        'created_at': timezone.now(),
-        'modified_at': timezone.now(),
-    }
-]
 
 def reverse_migration(apps, schema_editor):
     pass

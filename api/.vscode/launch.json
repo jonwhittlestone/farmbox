@@ -14,10 +14,33 @@
             "django": true
         },
         {
-            "name": "Pytest Example",
+            "name": "All Tests",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/../venv/bin/pytest",
+            "django": true,
+            "args": [
+                "-v"
+            ],
+        },
+        {
+            "name": "Test - Generating Input Sheet",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "order/tests.py::TestGeneratingInputSheet"
+            ],
+            "django": true
+        },
+        {
+            "name": "Test - test_a_list_of_lists_is_created_for_headers_and_customer_details",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "order/tests.py::TestGeneratingInputSheet::test_a_list_of_lists_is_created_for_headers_and_customer_details"
+            ],
             "django": true
         },
     ]
