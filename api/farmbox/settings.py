@@ -32,12 +32,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     # third party libraries
     'graphene_django',
     'djmoney',
@@ -47,7 +41,15 @@ INSTALLED_APPS = [
     'shared',
     'order',
     'product',
-    'sheets'
+    'sheets',
+
+    # moved django
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -66,11 +68,12 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [            
-            # os.path.join(PROJECT_DIR, 'templates'),
+            os.path.join(PROJECT_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                # 'bids3.context_processors.base_template',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

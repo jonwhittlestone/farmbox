@@ -17,6 +17,9 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = Product
 
 class OrderFactory(factory.django.DjangoModelFactory):
+    # fulfillment_event_id = 3
+    # user_id = 1
+
     class Meta:
         model = Order
 
@@ -34,8 +37,23 @@ def test_pytest_can_be_run_from_vscode_by_ensuring_the_workspace_is_api_and_hit_
 
 @pytest.mark.django_db
 def test_factory_boy_integrated():
-    ord = OrderFactory(customer_name='Jon Whittlestone')
-    assert ord.customer_name == 'Jon Whittlestone'
+
+    f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
+    sample = {
+        'customer_name':'Jon Whittlestone',
+        'fulfillment_event_id': f_event.id,
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
+    }
+
+    count_of_orders_in_db_before_factory = Order.objects.all().count()
+    ord = OrderFactory(**sample)
+    order_qs = Order.objects.all()[0]
+
+    assert Order.objects.all().count() == count_of_orders_in_db_before_factory + 1
+    assert order_qs.id != None
+    assert order_qs.customer_name == 'Jon Whittlestone'
+    assert order_qs.fulfillment_event_id == f_event.id
 
 
 @pytest.mark.django_db
@@ -46,21 +64,6 @@ def test_download_input_xlsx_returns_byte_stream(client):
     assert res.status_code == 200
 
 from django.utils import timezone
-inline_sample_orders = [
-    {
-        'customer_name': '[NotARealOrder] Christopher Koliba',
-        'customer_address': '11 Lonsdale Place, Dorking',
-        'customer_postcode': 'RH4 2WJ',
-        'customer_email': 'dev+farmbox@howapped.com',
-        'customer_phone': '0789 449 5422',
-        'fulfillment_method': 'Delivery',
-        'collection_location': 'Denbies',
-        'notes': '04-Mar',
-        'created_at': timezone.now(),
-        'modified_at': timezone.now(),
-    },
-]
-
 from sheets.generate import InputSheet
 
 @pytest.mark.django_db
@@ -74,45 +77,74 @@ class TestGeneratingInputSheet:
 
     @pytest.fixture
     def event_orders_products(self):
+        # self.clean_up()
         orders, products = [],[]
-        f_event = FulfillmentEvent.objects.first()
-        # products
+        # f_event = FulfillmentEvent.objects.first()
         # create sample fulfillment event
-        # f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
+        f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
 
-        # create sample products
-        # for initial_p in initial_products:
-        #     p = ProductFactory(**initial_p)
-        #     p.save()
-        #     products.append(p)
+        # no need to create sample products
+        # as they will have already
+        # been migrated
 
         # add orders
-        # for i,sample in enumerate(sample_orders):
-            # sample['fulfillment_event_id'] = f_event.id
-            # print(sample)
-            # order = OrderFactory(**sample)
-            # order.fulfillment_event = f_event
-            # order.id = i+1
-            # order.save()
-            # orders.append(order) 
+        for i,sample in enumerate(sample_orders):
+            sample['fulfillment_event_id'] = f_event.id
+            order = OrderFactory(**sample)
+            order.id = i+1
+            order.save()
+            orders.append(order) 
 
         # add X number of products to order
-        # for ord in orders:
-        #     NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5           
-        #     valid_products_ids = Product.objects.all().values_list('id', flat=True)
-        #     ids = list(valid_products_ids)
-        #     random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
-        #     qs = Product.objects.filter(id__in=random_products_ids)
-        #     for p in qs:
-        #         ord.products.add(p)
-        # f_event_id_db = Order.objects.all()[0].fulfillment_event_id
-        # debug=True
-        # return {
-        #     'f_event': f_event,
-        #     'orders': orders,
-        #     'all_products': products
-        # }
+        for ord in orders:
+            NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5           
+            valid_products_ids = Product.objects.all().values_list('id', flat=True)
+            ids = list(p.id for p in products)
+            random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
+            qs = Product.objects.filter(id__in=random_products_ids)
+            for p in qs:
+                ord.products.add(p)
+        
+        debug=True
+        return {
+            'f_event': f_event,
+            'orders': orders,
+            'all_products': products
+        }
 
+
+    def test_a_list_of_lists_is_created_for_headers_and_customer_details(self,event_orders_products):
+        '''
+            Create the untransposed multi-dimensional list containing
+            order product counts
+        '''
+        maker = InputSheet()
+        # construct header columns and test
+        # The header list will be one or more columns of the generated xlsx
+        customer_headers = maker.customer_headers
+        product_headers = maker.product_headers
+        headers = [maker.customer_headers + maker.product_headers]
+        assert headers == maker.headers
+
+        # get customer order columns
+        cols = maker.order_cols(event_orders_products['f_event'].id)
+
+
+        # assert cols count matches filter
+        # the count of orders for the event
+        product_start_idx = len(maker.customer_headers) - 1
+        product_end_idx = len(headers) - 1
+        email_idx = settings.INPUT_SHEET['ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS'].index(
+            'customer_email')
+
+        for output_ord_col in cols:
+            for product_id,product_count in zip(maker.product_ids, range(product_start_idx, product_end_idx)):
+                # print(f'ID {product_id}: {output_ord_col[product_count]}')
+                db_ord = Order.objects.get(customer_email=output_ord_col[email_idx])
+                assert output_ord_col[product_count] == db_ord.products.filter(id=product_id).count()
+
+        debug = True
+        self.clean_up()
 
     def test_for_input_sheet_headers_i_can_generate_a_list_of_customer_details(self, settings):
         expected = ['Email', 'If collection, which shop?']
@@ -134,35 +166,6 @@ class TestGeneratingInputSheet:
         # assert the count of product headers matches the count of products that aren't archived
         self.clean_up()
 
-    def test_a_list_of_lists_is_created_for_headers_and_customer_details(self):
-        '''
-            Create the untransposed multi-dimensional list containing
-            order product counts
-        '''
-        maker = InputSheet()
-        # construct header columns and test
-        # The header list will be one or more columns of the generated xlsx
-        customer_headers = maker.customer_headers
-        product_headers = maker.product_headers
-        # assert headers == [maker.customer_headers + maker.product_headers]
-        headers = [maker.customer_headers + maker.product_headers]
-        assert headers == maker.headers
-
-        testing_f_event_id = Order.objects.all()[0].fulfillment_event_id
-        # get customer order columns
-        cols = maker.order_cols(testing_f_event_id)
-
-        # assert one of the contents of product counts, matches 
-        # the order's product count held in the database
-        # find_a_product_row_containing_a_non_zero
-        for i in range(0,len(product_headers)):
-            pass
-        
-        # assert cols count matches the count of orders for the event
-
-        debug = True
-
-        self.clean_up()
 
 
     def test_a_generated_xlsx_can_be_inspected_to_contain_expected_data(self):
@@ -174,6 +177,14 @@ class TestGeneratingInputSheet:
         '''
         pass
         # clean up saved file
+
+        # assert contents of product counts, matches 
+        # the order's product count held in the database
+        # find_a_product_row_containing_a_non_zero
+
+        # for i in range(0,len(product_headers)):
+        #     pass
+
         assert False
 
         self.clean_up()

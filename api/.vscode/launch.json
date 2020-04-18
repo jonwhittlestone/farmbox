@@ -24,6 +24,17 @@
             ],
         },
         {
+            "name": "Test - Factory Order Sanity",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "django": true,
+            "args": [
+                "-v",
+                "order/tests.py::test_factory_boy_integrated"
+            ],
+        },
+        {
             "name": "Test - Generating Input Sheet",
             "type": "python",
             "request": "launch",

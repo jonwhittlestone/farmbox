@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+
+{% block welcome-msg %}
+    Hello,
+    <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+{% endblock %}
+
+{% block userlinks %}
+    <a href="" title="Ingest Order spreadsheets from Dropbox">
+        Fetch Orders
+    </a> /
+    {{ block.super }}
+    <p>
+    <a href='' title='View Events'>NEXT EVENT: Mon 08/06/2020</a> / <a href='' title='View Orders for the event'>TOTAL ORDERS:</a> <strong>49</strong> [Denbies: (32) Ockley (17]
+    </p>
+{% endblock %}
