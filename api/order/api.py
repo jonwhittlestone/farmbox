@@ -12,8 +12,9 @@ def download_input_xlsx(request, f_event_id):
     generator = InputSheet()
     df = generator.to_df(f_event_id)
     excel_file = IO()
-    xlwriter = pd.ExcelWriter(excel_file, engine='xlsxwriter', options={'encoding': 'utf-8'})
-    df.to_excel(xlwriter, 'Worksheet 1')
+    xlwriter = pd.ExcelWriter(
+        excel_file, engine='xlsxwriter', options={'encoding': 'utf-8'})
+    df.to_excel(xlwriter, 'Worksheet 1', index=False)
     xlwriter.save()
     xlwriter.close()
 
@@ -24,5 +25,6 @@ def download_input_xlsx(request, f_event_id):
                             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
     # set the file name
-    response['Content-Disposition'] = f'attachment; filename=event-dd-mm-yyyy-generated-INPUT.xlsx'
+
+    response['Content-Disposition'] = f'attachment; filename=evt-INPUT.xlsx'
     return response

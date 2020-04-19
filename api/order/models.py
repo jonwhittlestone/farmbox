@@ -10,6 +10,14 @@ class FulfillmentEvent(models.Model):
     def __str__(self):
         return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT)
 
+    @property
+    def orders_count(self):
+        """Return count annotation if any else re-count transactions."""
+        count = getattr(self, 'orders__count', None)
+        if count is None:
+            count = self.order_set.count()
+        return count
+
 class Order(models.Model):
     DEFAULT_USER_ID = 1
 
@@ -51,9 +59,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
-
-    def __str__(self):
-        return f'{self.customer_name}'
 
     # def save(self, *args, **kwargs):
     #     if not self.id:

@@ -185,6 +185,5 @@ class TestGeneratingInputSheet:
         # for i in range(0,len(product_headers)):
         #     pass
 
-        assert False
 
         self.clean_up()
