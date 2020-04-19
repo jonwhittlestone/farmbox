@@ -22,6 +22,7 @@ class InputSheet:
 
     @property
     def customer_headers(self) -> List:
+        self._customer_headers = []
         fields = settings.INPUT_SHEET.get('ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS',[])
         for h in fields:
             self._customer_headers.append(Order._meta.get_field(h).verbose_name)
@@ -34,6 +35,7 @@ class InputSheet:
 
     @property
     def product_headers(self) -> List:
+        self._product_headers = []
         qs = Product.objects.filter(published=True)
         product_names = list(qs.values_list('name', flat=True))
         product_ids = list(qs.values_list('id', flat=True))
@@ -62,14 +64,14 @@ class InputSheet:
 
     def to_df(self, f_event_id:int):
         self.prepare(f_event_id)
-
-        df = pd.DataFrame(self._cols) 
+        df = pd.DataFrame(self.headers + self._cols) 
         output = df.transpose()
+
         return output
 
     def save_xlsx(self, f_event_id:int, path='./generated_input.xlsx'):
         df_output = self.to_df(f_event_id)
 
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
-        df_output.to_excel(writer, sheet_name='INPUT')
+        df_output.to_excel(writer, sheet_name=f'{INPUT-dd-mm-yy}')
         writer.save()
