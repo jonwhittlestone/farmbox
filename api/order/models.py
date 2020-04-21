@@ -4,11 +4,40 @@ from product.models import Product
 from django.utils import timezone
 
 
+class OrderForm(models.Model):
+    filename = models.CharField(max_length=512)
+
+    fulfillment_event = models.ForeignKey(
+        'FulfillmentEvent',
+        on_delete=models.CASCADE,
+        # default=MOST_RECENT_EVENT
+        blank=False,
+        null=False
+    )
+
+    order_created = models.ForeignKey(
+        'order',
+        on_delete=models.CASCADE,
+        null=True,
+        default=None,
+        verbose_name='Order Succesfully Created?'
+    )
+
+    created_at = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.filename} uploaded at {self.created_at}'
+    
+
 class FulfillmentEvent(models.Model):
     target_date = models.DateField()
 
     def __str__(self):
         return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT)
+
+    # @property
+    # def most_recent(self):
+    #     return self.
 
     @property
     def orders_count(self):

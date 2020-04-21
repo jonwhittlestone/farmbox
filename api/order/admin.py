@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.conf import settings
-from order.models import Order
-from order.models import FulfillmentEvent
+from order.models import Order, OrderForm, FulfillmentEvent
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+
+class OrderFormAdmin(admin.ModelAdmin):
+    list_display = ('filename', 'created_at', 'fulfillment_event', 'order_created')
+
+    list_filter = ('fulfillment_event',)
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('customer_name','customer_email','customer_phone','customer_postcode','fulfillment_event','fulfillment_method', 'created_at')
@@ -23,6 +27,7 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
         return (mark_safe(f'<a href="{url}">Download</a>'))
 
 
-admin.site.register(Order, OrderAdmin)
 
+admin.site.register(OrderForm, OrderFormAdmin)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(FulfillmentEvent, FulfillmentEventAdmin)

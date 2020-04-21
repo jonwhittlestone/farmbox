@@ -1,0 +1,53 @@
+excel_data for order Form
+
+CUSTOMER DETAILS
+    000
+        00:A1
+            Village Greens Order Form
+    001
+        00:A2
+            Please email to vegbag@vgfarm...
+        01:B2
+            Name
+        02:C2
+            Nigel Samplestock
+        03:D2
+            None
+    002
+        00:A3
+            'Call 07792211457 if you need help'
+        01:B3
+            'Address'
+        02:C3
+            '107, Fairfield Drive'
+    ...
+    008
+        00:A9
+            None
+        01:B9
+            'Deliver / Collection Date'
+        02:C9
+            'datetime.datetime(2020, 4, 24, 0, 0)'
+
+PRODUCTS
+
+    012
+        00:A13
+            'Village Greens Veg Bag : Large'
+        01:B13
+            '9-10 line'
+        02:C13
+            1
+        03:D13
+            15
+    ...
+    019
+        00:A18
+            'Cabbage Hispi'
+        01:B18
+            1
+        02:C18
+            None
+        03:D18
+            1.3
+

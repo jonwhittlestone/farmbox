@@ -1,3 +1,7 @@
-from django.test import TestCase
+import pytest
+from sheets.reader import OrderSheet as OrderSheetReader
 
-# Create your tests here.
+def test_reader_to_order_model():
+    r = OrderSheetReader()
+    r.read()
+    assert True

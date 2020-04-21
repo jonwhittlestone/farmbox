@@ -54,5 +54,16 @@
             ],
             "django": true
         },
+
+        {
+            "name": "Test - Reading Order Form",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "sheets/tests.py::test_reader_to_order_model"
+            ],
+            "django": true
+        },
     ]
 }
