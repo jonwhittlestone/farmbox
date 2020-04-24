@@ -10,6 +10,7 @@ This repo is to contain code for both `api` and `client`
 ```
 [ ] Plumbing in header metrics and tidy up
 [ ] Order spreadsheets ingestion from Dropbox
+[ ] Dockerizing / github actions deployment
 [ ] Customer/Receipt sheets generation
 
 [ ] Separate customer model
