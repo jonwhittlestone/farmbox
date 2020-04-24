@@ -4,6 +4,8 @@ An app for better workflow for farm shops that take in orders by xlsx. Currently
 
 This repo is to contain code for both `api` and `client`
 
+![admin](screenshot.png)
+
 ## API
 
 Prerequisites
