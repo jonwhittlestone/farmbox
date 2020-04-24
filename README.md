@@ -7,6 +7,7 @@ This repo is to contain code for both `api` and `client`
 ![admin](screenshot.png)
 
 ## What's next ..
+```
 [ ] Plumbing in header metrics and tidy up
 [ ] Order spreadsheets ingestion from Dropbox
 [ ] Customer/Receipt sheets generation
@@ -14,6 +15,9 @@ This repo is to contain code for both `api` and `client`
 [ ] Separate customer model
 [ ] State Machine
 [ ] Stripe integration
+
+[ ] Mobile app
+```
 
 ## API
 
