@@ -21,6 +21,8 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
     list_display = ('id','target_date','orders_count', '_input_sheet')
     readonly_fields = ('orders_count','_input_sheet',)
 
+    list_filter = ('id',)
+
     def _input_sheet(self,obj):
         # print(obj.id)
         url = reverse('download_input_xlsx',args=(obj.id,))

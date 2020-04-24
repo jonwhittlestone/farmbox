@@ -48,7 +48,7 @@ def test_factory_boy_integrated():
 
     count_of_orders_in_db_before_factory = Order.objects.all().count()
     ord = OrderFactory(**sample)
-    order_qs = Order.objects.all()[0]
+    order_qs = Order.objects.all().last()
 
     assert Order.objects.all().count() == count_of_orders_in_db_before_factory + 1
     assert order_qs.id != None
@@ -58,7 +58,8 @@ def test_factory_boy_integrated():
 
 @pytest.mark.django_db
 def test_download_input_xlsx_returns_byte_stream(client):
-    assert False
+    pass
+    # assert False
     user,client = user_allowed(client)
     res = client.get('/api/order/input-sheet/1/')
     assert res.status_code == 200

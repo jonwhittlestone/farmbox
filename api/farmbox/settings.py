@@ -186,3 +186,16 @@ INPUT_SHEET = {
         'fulfillment_method', 'collection_location', 'notes'
     ]
 }
+
+ORDER_SHEET = {
+    'DETAILS_COLUMN': 'C',
+    'DETAILS_CELL_MAP': {
+        'C2' : 'customer_name',
+        'C3': 'customer_address',
+        'C4': 'customer_postcode',
+        'C5': 'customer_email',
+        'C6': 'fulfillment_method',
+        'C7': 'collection_method',
+        'C8': 'fulfillment_event__target_date'
+    }
+}
