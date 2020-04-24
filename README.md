@@ -1,10 +1,19 @@
 # farmbox
 
-An app for better workflow for farm shops that take in orders by xlsx. Currently, it aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
+An Django app (Python 3.8) for better workflow for farm shops that take in orders by xlsx. Currently, it aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
 
 This repo is to contain code for both `api` and `client`
 
 ![admin](screenshot.png)
+
+## What's next ..
+[ ] Plumbing in header metrics and tidy up
+[ ] Order spreadsheets ingestion from Dropbox
+[ ] Customer/Receipt sheets generation
+
+[ ] Separate customer model
+[ ] State Machine
+[ ] Stripe integration
 
 ## API
 
