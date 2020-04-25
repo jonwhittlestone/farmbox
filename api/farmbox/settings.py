@@ -188,14 +188,16 @@ INPUT_SHEET = {
 }
 
 ORDER_SHEET = {
-    'DETAILS_COLUMN': 'C',
+    'PRODUCT_NAME_COL': 'A',
+    'PRODUCT_COUNT_COL': 'C',
     'DETAILS_CELL_MAP': {
         'C2' : 'customer_name',
         'C3': 'customer_address',
         'C4': 'customer_postcode',
         'C5': 'customer_email',
-        'C6': 'fulfillment_method',
-        'C7': 'collection_method',
-        'C8': 'fulfillment_event__target_date'
+        'C6': 'customer_phone',
+        'C7': 'fulfillment_method',
+        'C8': 'collection_location',
+        'C9': 'fulfillment_event__target_date'
     }
 }

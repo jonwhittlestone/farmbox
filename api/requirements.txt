@@ -71,5 +71,6 @@ tornado==6.0.4
 traitlets==4.3.3
 wcwidth==0.1.9
 webencodings==0.5.1
+word2number==1.1
 XlsxWriter==1.2.8
 zipp==3.1.0

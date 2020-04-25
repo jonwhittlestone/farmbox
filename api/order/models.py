@@ -27,6 +27,9 @@ class OrderForm(models.Model):
 
     def __str__(self):
         return f'{self.filename} uploaded at {self.created_at}'
+
+    # @classmethod
+    # def count_cell_parser
     
 
 class FulfillmentEvent(models.Model):
