@@ -13,11 +13,18 @@ This repo is to contain code for both `api` and `client`
 [ ] Dockerizing / github actions deployment
 [ ] Customer/Receipt sheets generation
 
+[ ] Delivery management
+[ ] Collection management
+
 [ ] Separate customer model
 [ ] State Machine
+[ ] Order form generation from product model
+[ ] Web Order Form
+
+[ ] Invoice/Costing calculation
 [ ] Stripe integration
 
-[ ] Mobile app
+[ ] Mobile app for picking management / updating order
 ```
 
 ## API
