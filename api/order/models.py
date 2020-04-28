@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from product.models import Product
+# from product.models import Product
 from django.utils import timezone
 
 
@@ -11,11 +11,11 @@ class OrderForm(models.Model):
         'FulfillmentEvent',
         on_delete=models.CASCADE,
         # default=MOST_RECENT_EVENT
-        blank=False,
-        null=False
+        blank=True,
+        null=True
     )
 
-    order_created = models.ForeignKey(
+    order = models.ForeignKey(
         'order',
         on_delete=models.CASCADE,
         null=True,
@@ -87,7 +87,11 @@ class Order(models.Model):
         blank=False,
         null=False
     )
-    products = models.ManyToManyField(Product)
+    # products = models.ManyToManyField(
+    #     Product,)
+
+    products = models.ManyToManyField(
+        'product.Product', through='ProductQuantity', related_name='products')
 
     def __str__(self):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
@@ -99,3 +103,12 @@ class Order(models.Model):
 
     def product_count(self, id):
         return self.products.filter(id=id).count()
+
+    # from django.db.models.loading import get_model
+    # ProductMdl = get_model('product', 'Product')
+
+class ProductQuantity(models.Model):
+
+    order = models.ForeignKey('order.Order', related_name='product_quantities', on_delete=models.CASCADE)
+    product = models.ForeignKey('product.Product', related_name='product_quantities', on_delete=models.CASCADE)
+    quantity = models.IntegerField(blank=False)

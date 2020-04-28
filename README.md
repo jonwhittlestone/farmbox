@@ -6,24 +6,54 @@ This repo is to contain code for both `api` and `client`
 
 ![admin](screenshot.png)
 
+## Current Limitations
+- Fixed product listing
+
+- Fixed XLSX order form (see [order/sample-order-v070420.xlsx](order/sample-order-v070420.xlsx))
+
+- No separate customer model. Cannot see all historical orders for a single customer
+
 ## What's next ..
 ```
+==========================================
+Phase 1
+==========================================
+[ ] Creating the order from the sheet
+        - Don't overwrite duplicates by identifying common key eg {surname}-{email}-{date}-{product_count}
+        - log exceptions to DB
+        - Order -> ProductQuantity <- Product
+                - https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/
+
 [ ] Plumbing in header metrics and tidy up
-[ ] Order spreadsheets ingestion from Dropbox
-[ ] Dockerizing / github actions deployment
+        - borders etc. Formatting on input sheet
+[ ] Order spreadsheets ingestion from cloud storage
+[ ] Getting it on the web: Dockerizing / github actions deployment
+        - SECRETS/env_vars
+[ ] Bug tracking/analytics
+        - Sentry
+        - GA
 [ ] Customer/Receipt sheets generation
-
-[ ] Delivery management
-[ ] Collection management
-
-[ ] Separate customer model
-[ ] State Machine
-[ ] Order form generation from product model
-[ ] Web Order Form
-
+        - Order number system
+        - Use in actual VG operation!
 [ ] Invoice/Costing calculation
-[ ] Stripe integration
 
+## Bugs
+- no registration/login.html template for deeplink/?next 
+
+==========================================
+Phase 2
+==========================================
+[ ] Web Order Form
+[ ] Stripe integration
+        [ ] Delivery management
+        [ ] Customer Collection management
+        [ ] Separate customer model
+        [ ] State Machine
+        [ ] Order form generation from product model
+
+==========================================
+Phase 3
+==========================================
 [ ] Mobile app for picking management / updating order
 ```
 

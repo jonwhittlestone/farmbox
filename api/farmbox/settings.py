@@ -39,8 +39,8 @@ INSTALLED_APPS = [
 
     # user apps
     'shared',
-    'order',
     'product',
+    'order',
     'sheets',
 
     # moved django

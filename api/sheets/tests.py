@@ -1,5 +1,8 @@
 import pytest
 from datetime import datetime
+from datetime import date
+from order.models import FulfillmentEvent
+from order.models import FulfillmentEvent
 from product.models import Product
 from sheets.reader import collect_files_for_reading, OrderSheet as OrderSheetReader
 
@@ -13,6 +16,7 @@ def test_first_cell_in_sample_order_form_is_read_by_openpyxl():
     excel_data = r.read()
     assert str(type(r.excel_data[0][0])) == "<class 'openpyxl.cell.read_only.ReadOnlyCell'>"
 
+from sheets.reader import collect_files_for_reading
 def test_order_details_are_captured_to_instance_variable():
     expected_actual = (
         ('customer_name','Nigel Samplestock'),
@@ -25,7 +29,7 @@ def test_order_details_are_captured_to_instance_variable():
         ('fulfillment_event__target_date', datetime(2020,4,24,0,0))
     )
     r = OrderSheetReader()
-    excel_data = r.read()
+    excel_data = r.read(collect_files_for_reading()[0])
     expected = r.order_details
     for expected_idx,actual in expected_actual:
         assert expected.get(expected_idx,'') == actual
@@ -61,3 +65,15 @@ def test_order_sheet_products_count():
                 assert False
 
 
+@pytest.mark.django_db
+def test_create_a_new_fulfillment_event_from_order_sheet():
+    mocked_date_in_order_details = {
+        # openpxyl returns a datetime.datetime vs. target_date field is datetime.date
+        'fulfillment_event__target_date': datetime(2020,12,1,0,0)
+    }
+    r = OrderSheetReader()
+    # scenario 1: There are no fevents in DB, so create one for the mocked event
+    f_event = r.get_or_create_fulfillment_event(mocked_date_in_order_details)
+    f_event_target_date_to_dt = datetime.combine(f_event.target_date, datetime.min.time())
+    assert f_event_target_date_to_dt == mocked_date_in_order_details.get(
+        'fulfillment_event__target_date')
