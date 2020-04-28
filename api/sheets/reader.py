@@ -69,7 +69,7 @@ class OrderSheet():
         f_event_obj.target_date = converted_date
         f_event_obj.save()
 
-        self.obj.fulfillment_event = self.obj.save()
+        self.obj.fulfillment_event = f_event_obj
         return f_event_obj
 
     def read(self, xlsx_file = None):

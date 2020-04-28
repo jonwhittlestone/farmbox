@@ -30,12 +30,15 @@ def add_default(apps, schema_editor):
 
     
     # add sample products
-    # for ord in Order.objects.all():
-    #     valid_products_ids = Product.objects.all().values_list('id', flat=True)
-    #     ids = list(valid_products_ids)
-    #     random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
-    #     qs = Product.objects.filter(id__in=random_products_ids)
-    #     for p in qs:
+    for ord in Order.objects.all():
+        valid_products_ids = Product.objects.all().values_list('id', flat=True)
+        ids = list(valid_products_ids)
+        random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
+
+        qs = Product.objects.filter(id__in=random_products_ids)
+        for p in qs:
+            from order.models import ProductQuantity
+            ProductQuantity.objects.create(order=ord, product=p, quantity=random.randint(1,3))
     #         ord.products.add(p)
 
 

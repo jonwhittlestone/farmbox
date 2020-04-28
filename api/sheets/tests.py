@@ -16,7 +16,8 @@ def test_first_cell_in_sample_order_form_is_read_by_openpyxl():
     excel_data = r.read()
     assert str(type(r.excel_data[0][0])) == "<class 'openpyxl.cell.read_only.ReadOnlyCell'>"
 
-from sheets.reader import collect_files_for_reading
+
+@pytest.mark.django_db
 def test_order_details_are_captured_to_instance_variable():
     expected_actual = (
         ('customer_name','Nigel Samplestock'),
@@ -73,6 +74,7 @@ def test_create_a_new_fulfillment_event_from_order_sheet():
     }
     r = OrderSheetReader()
     # scenario 1: There are no fevents in DB, so create one for the mocked event
+    r.read()
     f_event = r.get_or_create_fulfillment_event(mocked_date_in_order_details)
     f_event_target_date_to_dt = datetime.combine(f_event.target_date, datetime.min.time())
     assert f_event_target_date_to_dt == mocked_date_in_order_details.get(

@@ -17,7 +17,7 @@ class Product(models.Model):
     category = models.CharField(choices=Category.choices, max_length=16)
     
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 

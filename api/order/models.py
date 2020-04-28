@@ -101,8 +101,12 @@ class Order(models.Model):
     #         self.created_at = timezone.now()
     #         self.modified_at = timezone.now()
 
-    def product_count(self, id):
-        return self.products.filter(id=id).count()
+    def product_count(self, product_id):
+        qs = self.product_quantities.filter(product_id=product_id).first()
+        if qs:
+            return qs.quantity
+        return 0
+
 
     # from django.db.models.loading import get_model
     # ProductMdl = get_model('product', 'Product')

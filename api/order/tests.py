@@ -103,8 +103,10 @@ class TestGeneratingInputSheet:
             ids = list(p.id for p in products)
             random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
             qs = Product.objects.filter(id__in=random_products_ids)
+
             for p in qs:
-                ord.products.add(p)
+                from order.models import ProductQuantity
+                ProductQuantity.objects.create(order=ord, product=p, quantity=random.randint(1,3))
         
         debug=True
         return {
