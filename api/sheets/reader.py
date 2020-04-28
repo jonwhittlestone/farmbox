@@ -5,7 +5,7 @@ from pathlib import Path
 from django.utils import timezone
 from openpyxl import load_workbook
 from product.models import Product
-from order.models import OrderForm, FulfillmentEvent, Order
+from order.models import OrderForm, FulfillmentEvent, Order, ProductQuantity
 from django.conf import settings
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
 
@@ -44,8 +44,7 @@ class OrderSheet():
         for p_name, count in product_counts.items():
             if count != None:
                 p = Product.objects.filter(name=p_name).first()
-                order_products = [self._order.products.add(p) for n in range(0,count)]
-                # self._order.products.add()
+                ProductQuantity.objects.create(order=self._order, product=p, quantity=count)
         return self._order
 
     def read_to_model(self, file = None) -> Order:

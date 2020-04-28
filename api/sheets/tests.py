@@ -11,6 +11,8 @@ def test_collect_files():
     assert type(xlsx_files) == list
     assert len(xlsx_files) > 0
 
+
+@pytest.mark.django_db
 def test_first_cell_in_sample_order_form_is_read_by_openpyxl():
     r = OrderSheetReader()
     excel_data = r.read()
@@ -55,7 +57,6 @@ def test_order_sheet_products_count():
     actual = r.product_counts
     for exp_p_name, exp_count in expected.items():
         if exp_p_name in list(actual.keys()):
-            debug = True
             assert exp_count == actual.get(exp_p_name)
     
     # loop through actual, where product counts are None, assert that an entry does not exist in expected

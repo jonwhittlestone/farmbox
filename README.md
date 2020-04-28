@@ -19,13 +19,13 @@ This repo is to contain code for both `api` and `client`
 Phase 1
 ==========================================
 [ ] Creating the order from the sheet
-        - Don't overwrite duplicates by identifying common key eg {surname}-{email}-{date}-{product_count}
+        - Don't overwrite duplicates where key: {name}-{email}-{date}-{product_count}
         - log exceptions to DB
-        - Order -> ProductQuantity <- Product
-                - https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/
-
+[ ] JW testing enhancements
+        - permission to reset to fixtures
 [ ] Plumbing in header metrics and tidy up
         - borders etc. Formatting on input sheet
+        - fevent listing, 'Order Count' to view all orders
 [ ] Order spreadsheets ingestion from cloud storage
 [ ] Getting it on the web: Dockerizing / github actions deployment
         - SECRETS/env_vars
