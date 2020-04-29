@@ -7,6 +7,8 @@ from openpyxl import load_workbook
 from product.models import Product
 from order.models import OrderForm, FulfillmentEvent, Order, ProductQuantity
 from django.conf import settings
+from django.db.utils import IntegrityError
+from order.exceptions import OrderFormReaderException
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
 
 FILENAME = 'sample-order-v070420.xlsx'
@@ -53,8 +55,17 @@ class OrderSheet():
         self.order_details
         self.product_counts
         f_event = self.get_or_create_fulfillment_event()
-        self.create_order(f_event)
-        return self._order
+
+        try:
+            self.create_order(f_event)
+        except IntegrityError as e:
+            raise OrderFormReaderException(
+                f'Problem saving the Order Model: {e}')
+        else:
+            self.obj.fulfillment_event = f_event
+            self.obj.order = self._order
+            self.obj.save()
+            return self._order
 
     def get_or_create_fulfillment_event(self, order_details = None):
         '''

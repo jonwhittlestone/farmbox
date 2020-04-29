@@ -20,7 +20,6 @@ Phase 1
 ==========================================
 [ ] Creating the order from the sheet
         - Don't overwrite duplicates where key: {name}-{email}-{date}-{product_count}
-        - log exceptions to DB
 [ ] JW testing enhancements
         - permission to reset to fixtures
 [ ] Plumbing in header metrics and tidy up

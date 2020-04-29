@@ -1,0 +1,2 @@
+class OrderFormReaderException(Exception):
+    pass

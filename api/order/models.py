@@ -1,6 +1,6 @@
+import os
 from django.db import models
 from django.conf import settings
-# from product.models import Product
 from django.utils import timezone
 
 
@@ -26,11 +26,21 @@ class OrderForm(models.Model):
     created_at = models.DateTimeField()
 
     def __str__(self):
-        return f'{self.filename} uploaded at {self.created_at}'
+        return f'{os.path.basename(self.filename)} uploaded at {self.created_at}'
 
-    # @classmethod
-    # def count_cell_parser
-    
+class OrderFormFailure(models.Model):
+    reason = models.TextField()
+
+    form = models.ForeignKey(
+        OrderForm,
+        on_delete=models.CASCADE,
+        null=False,
+        verbose_name='Order Form'
+    )
+
+    class Meta:
+        ordering = ['-id']
+
 
 class FulfillmentEvent(models.Model):
     target_date = models.DateField()

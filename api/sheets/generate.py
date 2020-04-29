@@ -3,6 +3,7 @@ from typing import List
 from product.models import Product
 from order.models import Order
 from django.db.models import QuerySet
+from sheets.input_cleansing import zero_product_count
 import pandas as pd
 import xlsxwriter
 
@@ -51,7 +52,8 @@ class InputSheet:
         fields = orders.values_list(*settings.INPUT_SHEET.get('ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS',[]))
 
         for cust_order_fields,obj in zip(fields,orders):
-            customer_order_product_counts = tuple([obj.product_count(p_id) for p_id in self._product_ids])
+            customer_order_product_counts = tuple(
+                [zero_product_count(obj.product_count(p_id)) for p_id in self._product_ids])
             cols.append(cust_order_fields + customer_order_product_counts)
 
         self._cols = cols

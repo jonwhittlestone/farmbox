@@ -132,7 +132,6 @@ class TestGeneratingInputSheet:
         # get customer order columns
         cols = maker.order_cols(event_orders_products['f_event'].id)
 
-
         # assert cols count matches filter
         # the count of orders for the event
         product_start_idx = len(maker.customer_headers) - 1
