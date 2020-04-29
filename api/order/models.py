@@ -25,6 +25,7 @@ class OrderForm(models.Model):
 
     created_at = models.DateTimeField()
 
+
     def __str__(self):
         return f'{os.path.basename(self.filename)} uploaded at {self.created_at}'
 
@@ -97,8 +98,6 @@ class Order(models.Model):
         blank=False,
         null=False
     )
-    # products = models.ManyToManyField(
-    #     Product,)
 
     products = models.ManyToManyField(
         'product.Product', through='ProductQuantity', related_name='products')

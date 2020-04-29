@@ -7,6 +7,7 @@ from openpyxl import load_workbook
 from product.models import Product
 from order.models import OrderForm, FulfillmentEvent, Order, ProductQuantity
 from django.conf import settings
+from django.forms import ValidationError
 from django.db.utils import IntegrityError
 from order.exceptions import OrderFormReaderException
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
@@ -42,7 +43,12 @@ class OrderSheet():
         order_details['fulfillment_event_id'] =  f_event.id
         order_details['created_at'] = timezone.now()
         order_details['modified_at'] = timezone.now()
-        self._order = Order.objects.create(**order_details)
+        self._order = Order(**order_details)
+        # validate for uniqueness
+        customer_email_exists_for_event = Order.objects.filter(fulfillment_event_id = f_event.id, customer_email=order_details['customer_email']).exists()
+        if customer_email_exists_for_event:
+            raise ValidationError(f'Order with email: {order_details["customer_email"]} already exists for event {f_event}.')
+        self._order.save()
         for p_name, count in product_counts.items():
             if count != None:
                 p = Product.objects.filter(name=p_name).first()
@@ -58,7 +64,8 @@ class OrderSheet():
 
         try:
             self.create_order(f_event)
-        except IntegrityError as e:
+        # except django.forms.ValidationEerrorkkll
+        except (IntegrityError,ValidationError) as e:
             raise OrderFormReaderException(
                 f'Problem saving the Order Model: {e}')
         else:
