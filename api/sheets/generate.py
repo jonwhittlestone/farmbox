@@ -75,5 +75,13 @@ class InputSheet:
         df_output = self.to_df(f_event_id)
 
         writer = pd.ExcelWriter(path, engine='xlsxwriter')
-        df_output.to_excel(writer, sheet_name=f'{INPUT-dd-mm-yy}')
+        sheet_name=f'{INPUT-dd-mm-yy}'
+        df_output.to_excel(writer, sheet_name=sheet_name)
+
+        workbook = writer.book
+        worksheet = writer.sheets[sheet_name]
+        worksheet.set_zoom(60)
+        # Add a format. Green fill with dark green text.
+        format2 = workbook.add_format({'bg_color': '#C6EFCE',
+                                    'font_color': '#006100'})
         writer.save()
