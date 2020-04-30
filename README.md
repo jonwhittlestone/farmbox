@@ -19,7 +19,7 @@ This repo is to contain code for both `api` and `client`
 Phase 1
 ==========================================
 [x] Creating the order from the sheet
-[ ] Plumbing in header metrics and tidy up
+[x] Plumbing in header metrics and tidy up
 [ ] Order spreadsheets ingestion from cloud storage
 [ ] Getting it on the web: Dockerizing / github actions deployment
         - SECRETS/env_vars

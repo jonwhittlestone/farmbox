@@ -49,9 +49,9 @@ class FulfillmentEvent(models.Model):
     def __str__(self):
         return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT)
 
-    # @property
-    # def most_recent(self):
-    #     return self.
+    @classmethod
+    def newest_event(cls):
+        return cls.objects.order_by('target_date').last()
 
     @property
     def orders_count(self):
@@ -60,6 +60,19 @@ class FulfillmentEvent(models.Model):
         if count is None:
             count = self.order_set.count()
         return count
+
+    @property
+    def orders_count_delivery(self):
+        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_DELIVERY).count()
+
+    @property
+    def orders_count_collection_denbies(self):
+        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION,collection_location=settings.COLLECTION_LOCATIONS_DENBIES).count()
+
+    @property
+    def orders_count_collection_ockley(self):
+        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION, collection_location=settings.COLLECTION_LOCATIONS_OCKLEY).count()
+
 
 class Order(models.Model):
     DEFAULT_USER_ID = 1
