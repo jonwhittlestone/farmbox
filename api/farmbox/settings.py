@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product',
     'order',
     'sheets',
+    'tutorial',
 
     # moved django
     'django.contrib.admin',

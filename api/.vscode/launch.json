@@ -61,7 +61,18 @@
             "request": "launch",
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
-                "sheets/tests.py"
+                "sheets/tests.py::TestConnection"
+            ],
+            "django": true
+        },
+
+        {
+            "name": "Test - MSGraph Connection",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "msgraph/tests.py"
             ],
             "django": true
         },

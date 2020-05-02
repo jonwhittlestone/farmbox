@@ -14,7 +14,7 @@ def fetch(request):
     try:
         order = r.read_to_model(files[0])
         messages.add_message(request,
-                            messages.SUCCESS, 'X orders fetched and processed.')
+                            messages.SUCCESS, 'Orders fetched and processed.')
         return redirect(f'/admin/order/fulfillmentevent/')
     except OrderFormReaderException as e:
         # f = files[0]

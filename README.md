@@ -1,6 +1,6 @@
 # farmbox
 
-A Django 3 app (Python 3.8) for better workflow for farm shops that take in orders by xlsx. Currently, it aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
+A Django 3 app for better workflow for farm shops that take in orders by xlsx. Currently, it aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
 
 This repo is to contain code for both `api` and `client`
 
@@ -55,7 +55,7 @@ Phase 3
 
 Prerequisites
 
-* Python3 virtual environment
+* Python==3.6  (for Microsoft Graph SDK)
 
 Quickstart
 
