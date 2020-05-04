@@ -18,9 +18,6 @@ class TestDropboxFileOperations:
                 subfolders.append(c.name)
         assert subfolders == list(settings.CLOUD_SUBFOLDERS)
 
-    # def upload_sample_file_to_dropbox(local_path):
-    #     pass
-
 
     def test_i_can_store_a_file_in_the_dropbox(self):
         t = DropboxApp()
@@ -62,7 +59,7 @@ class TestDropboxFileOperations:
 
     def test_downloaded_new_orders_match_downloaded_file_metadata(self):
         # To replace test_i_can_download_new_orders_zip
-        pass
+        assert True
 
     # @pytest.mark.skip(reason="todo")
     # def test_orderform_model_has_reference_for_dropbox_file(self):
