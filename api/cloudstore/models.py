@@ -1,8 +1,9 @@
 import os
+from typing import List
 from django.conf import settings
 from django.db import models
 from dropbox.dropbox import Dropbox as DropboxService
-from dropbox.files import FolderMetadata
+from dropbox.files import FileMetadata, FolderMetadata
 
 def create_media_dir():
     if not os.path.exists(settings.MEDIA_ROOT):
@@ -22,7 +23,6 @@ class DropboxApp():
         self.svc = DropboxService(settings.FARMBOX_DROPBOX_ACCESS_TOKEN)
         create_media_dir()
         self.create_remote_folders()
-        debug=True
 
     def create_remote_folders(self):
         '''Create root subfolders if they don't exist.'''
@@ -56,10 +56,10 @@ class DropboxApp():
         """
         return self.svc.files_list_folder(path).entries
 
-    def download_all_as_zip(self, local_path, remote_path):
+    def download_all_as_zip(self, local_path, remote_path) -> List[FileMetadata]:
         '''Downloads all files to instance storage'''
         res = self.svc.files_download_zip_to_file(local_path, remote_path)
-        debug=True
+        return self.list_contents(remote_path)
 
     def remove(self, path: str):
         self.svc.files_delete_v2(path)

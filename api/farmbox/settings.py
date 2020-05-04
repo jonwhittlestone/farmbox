@@ -195,7 +195,16 @@ ORDER_SHEET = {
     }
 }
 
+SAMPLE_ORDER_SHEET_DIR = os.path.join(
+    PROJECT_DIR, 'order')
+
+SAMPLE_ORDER_SHEET_PATH= os.path.join(
+    SAMPLE_ORDER_SHEET_DIR, 'sample-order-v070420.xlsx')
+
 # Cloud store
+# Remote folder names
 NEW_ORDERS_FOLDER = 'new-orders'
 PROCESSED_ORDERS_FOLDER = 'processed-orders'
 CLOUD_SUBFOLDERS = (NEW_ORDERS_FOLDER, PROCESSED_ORDERS_FOLDER)
+TESTING_ORDERS_DIRNAME = 'testing'
+TESTING_ORDERS_REMOTE_PATH = f'/{os.path.join(NEW_ORDERS_FOLDER,TESTING_ORDERS_DIRNAME)}'

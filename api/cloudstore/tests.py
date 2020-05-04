@@ -1,4 +1,7 @@
 import os
+from zipfile import ZipFile
+import shutil
+from pathlib import Path
 import pytest
 from django.conf import settings
 from django.utils import timezone
@@ -19,6 +22,8 @@ class TestDropboxFileOperations:
         assert subfolders == list(settings.CLOUD_SUBFOLDERS)
 
 
+
+    # @pytest.mark.skip(reason="surpress during dev")
     def test_i_can_store_a_file_in_the_dropbox(self):
         t = DropboxApp()
 
@@ -47,19 +52,38 @@ class TestDropboxFileOperations:
         found = [entry for entry in contents if entry.name == filename]
         assert len(found) == 0, 'The contents should be empty'
 
+    def clean_up(self):
+        t = DropboxApp()
+        t.remove(settings.TESTING_ORDERS_REMOTE_PATH)
 
-    # def test_i_can_download_new_orders_zip(self):
-    #     '''Tests downloading contents to local zip'''
-    #     t = DropboxApp()
-    #     dest_filename = f'test_dbx_{timezone.now()}.zip'
-    #     path = os.path.join(settings.MEDIA_ROOT,dest_filename)
-    #     remote_path = f'/{settings.NEW_ORDERS_FOLDER}'
-    #     t.download_all_as_zip(path,remote_path)
-    #     assert False
+    @pytest.fixture
+    def test_orders(self):
+        t = DropboxApp()
+        t.svc.files_create_folder_v2(settings.TESTING_ORDERS_REMOTE_PATH)
+        t.upload(settings.SAMPLE_ORDER_SHEET_PATH,
+                 settings.TESTING_ORDERS_REMOTE_PATH)
 
-    def test_downloaded_new_orders_match_downloaded_file_metadata(self):
-        # To replace test_i_can_download_new_orders_zip
-        assert True
+    def test_downloaded_orders_match_file_metadata(self, test_orders):
+        t = DropboxApp()
+        dest_filename = f'test_dbx_{timezone.now()}.zip'
+        path = os.path.join(settings.MEDIA_ROOT,dest_filename)
+        remote_path = settings.TESTING_ORDERS_REMOTE_PATH
+        contents = t.download_all_as_zip(path,remote_path)
+
+        # unzip and assert contents of zip matches contents
+        with ZipFile(path, 'r') as zipObj:
+            zipObj.extractall(settings.MEDIA_ROOT)
+
+        self.clean_up()
+        extracted_dir = os.path.join(settings.MEDIA_ROOT,settings.TESTING_ORDERS_DIRNAME)
+        xlsx_files = Path(extracted_dir).glob("*.xlsx")
+        xlsx_files = sorted([f.name for f in list(xlsx_files)])
+        dropbox_contents = sorted([f.name for f in contents])
+        assert len(xlsx_files) == len(dropbox_contents)
+        assert xlsx_files == dropbox_contents
+
+        os.remove(path)
+        shutil.rmtree(extracted_dir)
 
     # @pytest.mark.skip(reason="todo")
     # def test_orderform_model_has_reference_for_dropbox_file(self):

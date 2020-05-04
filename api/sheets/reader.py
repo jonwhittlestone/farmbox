@@ -12,11 +12,11 @@ from django.db.utils import IntegrityError
 from order.exceptions import OrderFormReaderException
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
 
-FILENAME = 'sample-order-v070420.xlsx'
+FILENAME = os.path.basename(settings.SAMPLE_ORDER_SHEET_PATH)
 
 def collect_files_for_reading(path = None) -> list:
     if not path:
-        path = os.path.join(settings.PROJECT_DIR,'order')
+        path = settings.SAMPLE_ORDER_SHEET_DIR
     xlsx_files = Path(path).glob("*.xlsx")
     return list(xlsx_files)
 
