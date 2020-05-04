@@ -4,4 +4,4 @@
 * Unsuccesful processed orders will not be moved.
 * Please do not create any additional subfolders except 'new-orders' and 'processed-orders'
 
-Have a nice day :)
+Have a nice day :-)
