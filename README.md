@@ -20,20 +20,24 @@ Phase 1
 ==========================================
 [x] Creating the order from the sheet
 [x] Plumbing in header metrics and tidy up
-[ ] Order spreadsheets ingestion from cloud storage
-[ ] Getting it on the web: Dockerizing / github actions deployment
-        - SECRETS/env_vars
-[ ] Bug tracking/analytics
+[ ] Order spreadsheets ingestion from dropbox
+[ ] Deployment
+        - Dockerizing
+        - CI: GitHub actions
+[ ] Bug tracking/analytics/precommit
         - Sentry
         - GA
+[ ] Updated order sheet 02/05/19
 [ ] Customer/Receipt sheets generation
         - Order number system
         - Use in actual VG operation!
 [ ] Invoice/Costing calculation
+[ ] Repeat orders
 
 ## Bugs
-- no registration/login.html template for deeplink/?next 
+- no registration/login.html template for deeplink/?next
 
+[ ] Polishing with precommit hook for docstrings, tests and ReadTheDocs
 ==========================================
 Phase 2
 ==========================================
@@ -55,7 +59,12 @@ Phase 3
 
 Prerequisites
 
-* Python==3.6  (for Microsoft Graph SDK)
+* Python==3.6
+* Environment variables:
+
+        export FARMBOX_DROPBOX_ACCESS_TOKEN=CHANGEME
+        export DEFAULT_SUPERUSER_EMAIL=CHANGEME
+        export DEFAULT_SUPERUSER_PASSWORD=CHANGEME
 
 Quickstart
 
@@ -76,16 +85,15 @@ Quickstart
         http://localhost:8000/admin/
 
 5. There are a few tests scattered around.
-        
-        (venv) ➜  api git:(master) ✗ ../venv/bin/pytest order/tests.py
+
+        (venv) ➜  api git:(master) ✗ ../venv/bin/pytest .
         ============================================================== test session starts ==============================================================
         platform linux -- Python 3.8.0, pytest-5.4.1, py-1.8.1, pluggy-0.13.1
         django: settings: farmbox.settings (from ini)
         rootdir: /home/jon/code/playground/farmbox/api, inifile: pytest.ini
         plugins: factoryboy-2.0.3, django-3.9.0
-        collected 7 items                                                                                                                               
+        collected 7 items
 
         order/tests.py .......                                                                                                                    [100%]
 
         =============================================================== 7 passed in 0.94s ===============================================================
-        

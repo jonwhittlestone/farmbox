@@ -31,9 +31,6 @@ register(OrderFactory)
 register(ProductFactory)
 register(FulfillmentEventFactory)
 
-def test_pytest_can_be_run_from_vscode_by_ensuring_the_workspace_is_api_and_hit_f5():
-    assert True == True
-
 
 @pytest.mark.django_db
 def test_factory_boy_integrated():
@@ -94,11 +91,11 @@ class TestGeneratingInputSheet:
             order = OrderFactory(**sample)
             order.id = i+1
             order.save()
-            orders.append(order) 
+            orders.append(order)
 
         # add X number of products to order
         for ord in orders:
-            NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5           
+            NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5
             valid_products_ids = Product.objects.all().values_list('id', flat=True)
             ids = list(p.id for p in products)
             random_products_ids = random.sample(ids, min(len(ids), NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER))
@@ -107,7 +104,7 @@ class TestGeneratingInputSheet:
             for p in qs:
                 from order.models import ProductQuantity
                 ProductQuantity.objects.create(order=ord, product=p, quantity=random.randint(1,3))
-        
+
         debug=True
         return {
             'f_event': f_event,
@@ -180,7 +177,7 @@ class TestGeneratingInputSheet:
         pass
         # clean up saved file
 
-        # assert contents of product counts, matches 
+        # assert contents of product counts, matches
         # the order's product count held in the database
         # find_a_product_row_containing_a_non_zero
 

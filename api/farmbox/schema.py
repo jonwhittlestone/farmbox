@@ -1,6 +1,6 @@
 import graphene
 import order.schema
-import product.schema 
+import product.schema
 
 class Query(order.schema.Query, product.schema.Query, graphene.ObjectType):
     pass

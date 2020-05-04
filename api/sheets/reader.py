@@ -25,7 +25,7 @@ class OrderSheet():
     excel_data: []
     _order: Order
     obj: OrderForm
-    cell_cleanser: OrderSheetCleanser 
+    cell_cleanser: OrderSheetCleanser
     _order_details: {}
     _product_counts: {}
 
@@ -97,7 +97,7 @@ class OrderSheet():
         worksheet = workbook.active
         self.excel_data = list(worksheet.rows)
         return self.excel_data
-    
+
     @property
     def order_details(self):
         self._order_details = {}
@@ -111,7 +111,7 @@ class OrderSheet():
                     pass
         del self._order_details['']
         return self._order_details
-    
+
     @property
     def product_counts(self):
         self._product_counts = {}
@@ -127,7 +127,7 @@ class OrderSheet():
                     break
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_NAME_COL', '') and cell.internal_value in products:
                     products_rows.append(row)
-        
+
         for row in products_rows:
             for cell in row:
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_NAME_COL'):

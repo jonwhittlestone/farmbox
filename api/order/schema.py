@@ -19,7 +19,7 @@ class Query(graphene.ObjectType):
 
 #     class Arguments:
 #         customer_name = graphene.String()
-        
+
     # def mutate(self, info, **kwargs):
         '''Resolver function for mutation'''
         # order = Order.create(**kwargs)

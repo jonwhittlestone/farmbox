@@ -67,12 +67,12 @@
         },
 
         {
-            "name": "Test - MSGraph Connection",
+            "name": "Test - Dropbox file operations",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
-                "msgraph/tests.py"
+                "cloudstore/tests.py"
             ],
             "django": true
         },

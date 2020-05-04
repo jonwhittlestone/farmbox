@@ -8,8 +8,8 @@ def reverse_migration(apps, schema_editor):
 
 
 def add_default(apps, schema_editor):
-    from django.contrib.auth import get_user_model; 
-    User = get_user_model(); 
+    from django.contrib.auth import get_user_model;
+    User = get_user_model();
     User.objects.create_superuser(settings.DEFAULT_SUPERUSER.get(
         'username', ''), settings.DEFAULT_SUPERUSER.get(
         'email', ''), settings.DEFAULT_SUPERUSER.get(

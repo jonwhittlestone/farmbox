@@ -22,6 +22,3 @@ def fetch(request):
         messages.add_message(request,
                             messages.ERROR, '0 orders fetched and processed. 1 Failure(s). Please check reason and try again.')
         return redirect(f'/admin/order/orderformfailure/')
-
-    
-

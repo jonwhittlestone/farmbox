@@ -48,7 +48,7 @@ def test_order_sheet_products_count():
         'Lemon': 1,
         'Raspberries':1,
         'Strawberries':2,
-        '1 L Skimmed': 1 
+        '1 L Skimmed': 1
     }
     # product names
     products = list(Product.objects.values_list('name', flat=True))
@@ -58,7 +58,7 @@ def test_order_sheet_products_count():
     for exp_p_name, exp_count in expected.items():
         if exp_p_name in list(actual.keys()):
             assert exp_count == actual.get(exp_p_name)
-    
+
     # loop through actual, where product counts are None, assert that an entry does not exist in expected
     for actual_p_name, count in actual.items():
         if count == None:

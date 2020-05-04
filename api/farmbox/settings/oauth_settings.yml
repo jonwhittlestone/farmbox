@@ -1,7 +1,0 @@
-app_id: "557e0522-a0d9-4660-8c15-e3052a5b0cf0"
-app_secret: "mpwPHLX03}^^incqNZG702|"
-redirect: "http://localhost:8000/callback"
-scopes: "openid profile offline_access user.read calendars.read Files.ReadWrite"
-authority: "https://login.microsoftonline.com/common"
-authorize_endpoint: "/oauth2/v2.0/authorize"
-token_endpoint: "/oauth2/v2.0/token"

@@ -58,7 +58,7 @@ class InputSheet:
 
         self._cols = cols
         return self._cols
-    
+
     def prepare(self, f_event_id:int):
         self.customer_headers
         self.product_headers
@@ -66,7 +66,7 @@ class InputSheet:
 
     def to_df(self, f_event_id:int):
         self.prepare(f_event_id)
-        df = pd.DataFrame(self.headers + self._cols) 
+        df = pd.DataFrame(self.headers + self._cols)
         output = df.transpose()
 
         return output

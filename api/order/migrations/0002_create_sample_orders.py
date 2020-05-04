@@ -28,7 +28,7 @@ def add_default(apps, schema_editor):
         ord = Order_Model(**order)
         ord.save()
 
-    
+
     # add sample products
     for ord in Order.objects.all():
         valid_products_ids = Product.objects.all().values_list('id', flat=True)

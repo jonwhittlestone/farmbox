@@ -15,7 +15,7 @@ class Product(models.Model):
     published = models.BooleanField(default=True)
     sequence = models.IntegerField()
     category = models.CharField(choices=Category.choices, max_length=16)
-    
+
     def __str__(self):
         return f'{self.name}'
 
