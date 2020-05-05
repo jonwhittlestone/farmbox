@@ -21,6 +21,7 @@ Phase 1
 [x] Creating the order from the sheet
 [x] Plumbing in header metrics and tidy up
 [ ] Order spreadsheets ingestion from dropbox
+- cleanup: remove media zips
 [ ] Deployment
         - Dockerizing
         - CI: GitHub actions

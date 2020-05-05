@@ -15,4 +15,4 @@ repos:
         entry: pytest api -v
         language: system
         types: [python]
-        stages: [commit]
+        stages: [push]

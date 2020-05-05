@@ -49,6 +49,10 @@ class FulfillmentEvent(models.Model):
     def __str__(self):
         return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT)
 
+    @property
+    def remote_folder_name(self):
+        return self.target_date.strftime(settings.DISPLAY_DATE_FORMAT).replace(' ','-').replace('/','-')
+
     @classmethod
     def newest_event(cls):
         return cls.objects.order_by('target_date').last()
