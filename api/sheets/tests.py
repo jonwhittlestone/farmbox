@@ -33,9 +33,9 @@ def test_order_details_are_captured_to_instance_variable():
     )
     r = OrderSheetReader()
     excel_data = r.read(collect_files_for_reading()[0])
-    expected = r.order_details
-    for expected_idx,actual in expected_actual:
-        assert expected.get(expected_idx,'') == actual
+    actual = r.order_details
+    for expected_idx,expected in expected_actual:
+        assert actual.get(expected_idx,'') == expected
 
 
 @pytest.mark.django_db

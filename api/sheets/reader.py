@@ -98,17 +98,24 @@ class OrderSheet():
         self.excel_data = list(worksheet.rows)
         return self.excel_data
 
+    def cell_cleaner(self, value, field = ''):
+        if field == 'fulfillment_method' or field == 'collection_location':
+            return value.title()
+        return value
+
     @property
     def order_details(self):
         self._order_details = {}
         cell_map = settings.ORDER_SHEET.get('DETAILS_CELL_MAP',{})
-        # self._order_details = ret
         for row in self.excel_data:
             for cell in row:
                 try:
-                    self._order_details[cell_map.get(cell.coordinate,'')] = cell.internal_value
+                    field = cell_map.get(cell.coordinate,'')
+                    cleaned_value = self.cell_cleaner(cell.internal_value, field)
+                    self._order_details[field] = cleaned_value
                 except Exception as e:
                     pass
+                    # print(f'[111] {e}')
         del self._order_details['']
         return self._order_details
 

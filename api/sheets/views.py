@@ -10,7 +10,6 @@ from cloudstore.models import cloud_fetcher, remove_remote_form_after_fetch_succ
 
 def fetch(request):
     containing_dir, zip_path, files_meta = cloud_fetcher()
-    # collect_files
     for count, f in enumerate(collect_files_for_reading(containing_dir)):
         r = OrderSheetReader()
         try:
