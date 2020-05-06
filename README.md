@@ -13,6 +13,7 @@ This repo is to contain code for both `api` and `client`
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
+
 ## What's next ..
 ```
 ==========================================
@@ -20,14 +21,16 @@ Phase 1
 ==========================================
 [x] Creating the order from the sheet
 [x] Plumbing in header metrics and tidy up
-[ ] Order spreadsheets ingestion from dropbox
-- cleanup: remove media zips
+[x] Order spreadsheets ingestion from dropbox
 [ ] Deployment
         - Dockerizing
         - CI: GitHub actions
-[ ] Bug tracking/analytics/precommit
-        - Sentry
-        - GA
+[ ] Dev Quality Tools
+        [x] precommit - hooks for pytest and PEP8
+        - Sentry: bug tracking
+        - interrogate: docstring coverage
+        - mypi: type checking
+
 [ ] Updated order sheet 02/05/19
 [ ] Customer/Receipt sheets generation
         - Order number system

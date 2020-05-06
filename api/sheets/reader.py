@@ -91,7 +91,7 @@ class OrderSheet():
 
     def read(self, xlsx_file = None):
         if not xlsx_file:
-            xlsx_file = os.path.join(settings.PROJECT_DIR,'order',FILENAME)
+            xlsx_file = os.path.join(settings.SAMPLE_ORDER_SHEET_DIR,FILENAME)
         self.obj = OrderForm.objects.create(filename=xlsx_file, created_at=timezone.now())
         workbook = load_workbook(filename=xlsx_file, read_only=True)
         worksheet = workbook.active

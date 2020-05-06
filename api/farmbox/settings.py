@@ -196,7 +196,7 @@ ORDER_SHEET = {
 }
 
 SAMPLE_ORDER_SHEET_DIR = os.path.join(
-    PROJECT_DIR, 'order')
+    PROJECT_DIR, 'order','sample_sheets')
 
 SAMPLE_ORDER_SHEET_PATH= os.path.join(
     SAMPLE_ORDER_SHEET_DIR, 'sample-order-v070420.xlsx')
