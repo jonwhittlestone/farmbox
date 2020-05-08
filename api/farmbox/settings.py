@@ -5,16 +5,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r%kt5z+g%(zwz8t2(hu5k=4hj74-tcwluanc0n6q9%6)fm6hzu'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('SECRET_KEY','asd')
+DEBUG = os.environ.get('DEBUG',False)
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
 
 
 # Application definition
@@ -43,6 +36,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -123,7 +117,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 FARMBOX_DROPBOX_ACCESS_TOKEN = os.environ.get('FARMBOX_DROPBOX_ACCESS_TOKEN', '')
@@ -131,7 +126,7 @@ FARMBOX_DROPBOX_ACCESS_TOKEN = os.environ.get('FARMBOX_DROPBOX_ACCESS_TOKEN', ''
 DEFAULT_SUPERUSER = {
     'username': 'admin',
     'email': os.environ.get('DEFAULT_SUPERUSER_EMAIL', 'dev@howapped.com'),
-    'password': os.environ.get('DEFAULT_SUPERUSER_PASSWORD', 'Evoke-Enduring8-Figurine')
+    'password': os.environ.get('DEFAULT_SUPERUSER_PASSWORD')
 }
 
 FULFILLMENT_METHODS_DELIVERY = 'Delivery'
@@ -199,7 +194,7 @@ SAMPLE_ORDER_SHEET_DIR = os.path.join(
     PROJECT_DIR, 'order','sample_sheets')
 
 SAMPLE_ORDER_SHEET_PATH= os.path.join(
-    SAMPLE_ORDER_SHEET_DIR, 'sample-order-v070420.xlsx')
+    SAMPLE_ORDER_SHEET_DIR, 'Village Greens Order Form May (1).xlsx')
 
 # Cloud store
 # Remote folder names

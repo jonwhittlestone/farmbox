@@ -32,6 +32,8 @@ Phase 1
 [x] Creating the order from the sheet
 [x] Plumbing in header metrics and tidy up
 [x] Order spreadsheets ingestion from dropbox
+[x] New product selection / May order form
+        - remove ability to update/save products for now
 [ ] Deployment
         - Dockerizing
         - CI: GitHub actions
@@ -41,7 +43,7 @@ Phase 1
         - interrogate: docstring coverage
         - mypi: type checking
 
-[ ] Updated order sheet 02/05/19
+[x] Updated order sheet 02/05/19
 [ ] Customer/Receipt sheets generation
         - Order number system
         - Use in actual VG operation!

@@ -44,11 +44,13 @@ def test_order_sheet_products_count():
         'Village Greens Veg Bag : Large' : 1,
         'Butternut Squash' : 1,
         'Avocado : Ripe ready to eat': 1,
-        'Lettuce :Romaine':1,
+        'Lettuce :Romaine':3,
         'Lemon': 1,
         'Raspberries':1,
         'Strawberries':2,
-        '1 L Skimmed': 1
+        '1 L Skimmed': 1,
+        'Moores Biscuits 150g : Chocolate Chip':2,
+        'Ringdon Apple Juice 1L - Cox Bramley Med Sweet':1
     }
     # product names
     products = list(Product.objects.values_list('name', flat=True))

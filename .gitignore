@@ -1,2 +1,4 @@
 venv
 design/
+.env.dev
+.env.prod
