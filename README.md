@@ -57,7 +57,6 @@ Phase 1
 - cleanup of /mediafiles if there is an uncaught reader exception
 - fulfillment target date validation if in past
 
-[ ] Polishing with precommit hook for docstrings, tests and ReadTheDocs
 ==========================================
 Phase 2
 ==========================================
