@@ -74,6 +74,7 @@ Phase 3
 [ ] Mobile app for picking management / updating order
 ```
 
+---
 ## API
 
 Prerequisites
