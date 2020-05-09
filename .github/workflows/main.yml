@@ -15,8 +15,9 @@ jobs:
       - name: Checkout master
         uses: actions/checkout@v1
       - name: Add environment variables to .env
+      - name: Add environment variables to .env
         run: |
-          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+          echo DEBUG=0 >> .env
       - name: Set environment variables
         run: |
           echo ::set-env name=WEB_IMAGE::${{ env.WEB_IMAGE }}
