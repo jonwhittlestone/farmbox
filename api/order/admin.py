@@ -10,6 +10,9 @@ class OrderFormAdmin(admin.ModelAdmin):
 
     list_filter = ('fulfillment_event',)
 
+    def has_add_permission(self, request):
+        return False
+
 class OrderFormFailureAdmin(admin.ModelAdmin):
     list_display = ('id', '_form_created_at', 'reason', '_show_form')
 

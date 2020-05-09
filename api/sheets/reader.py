@@ -60,11 +60,10 @@ class OrderSheet():
         self.read(file)
         self.order_details
         self.product_counts
-        f_event = self.get_or_create_fulfillment_event()
 
         try:
+            f_event = self.get_or_create_fulfillment_event()
             self.create_order(f_event)
-        # except django.forms.ValidationEerrorkkll
         except (IntegrityError,ValidationError) as e:
             raise OrderFormReaderException(
                 f'Problem saving the Order Model: {e}')
@@ -81,6 +80,10 @@ class OrderSheet():
         '''
         if not order_details:
             order_details = self._order_details
+
+        if not order_details.get('fulfillment_event__target_date'):
+            raise ValidationError(f'The form is missing a fulfillment event target date.')
+
         converted_date = order_details.get('fulfillment_event__target_date').date()
         f_event_obj, created = FulfillmentEvent.objects.get_or_create(target_date=converted_date)
         f_event_obj.target_date = converted_date

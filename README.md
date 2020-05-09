@@ -33,9 +33,10 @@ Phase 1
 [x] Plumbing in header metrics and tidy up
 [x] Order spreadsheets ingestion from dropbox
 [x] New product selection / May order form
-        - remove ability to update/save products for now
 [ ] Deployment
         - Dockerizing
+        - Rebuild docker container needs to pull live sqlite DB and then reinclude
+        - Fabric: Retrieve live version of database to local
         - CI: GitHub actions
 [ ] Dev Quality Tools
         [x] precommit - hooks for pytest and PEP8
@@ -52,6 +53,10 @@ Phase 1
 
 ## Bugs
 - no registration/login.html template for deeplink/?next
+- catch if order form date is empty
+- validation for email format
+- validation if no products are selected
+- fulfillment target date validation if in past
 
 [ ] Polishing with precommit hook for docstrings, tests and ReadTheDocs
 ==========================================
