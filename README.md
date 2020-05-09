@@ -6,7 +6,6 @@ A Django 3 app for better workflow for farm shops that take in orders by xlsx. C
 
 The user uploads new order spreadsheets (xlsx) to the `new-orders` dropbox and initiates a `Fetch` operation in the Django Admin interface. They are ingested by the system according to fulfillment event target date. For example, if the xlsx cell has a _Deliver / Collection Date_ of 21st December 2020, the desired product quantities are read and the fulfillment event for 21/12/2020 is created.
 
-
 This code repository can contain code for both `api` and `client`
 
 ![admin](screenshot.png)
