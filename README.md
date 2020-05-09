@@ -52,10 +52,9 @@ Phase 1
 [ ] Repeat orders
 
 ## Bugs
-- no registration/login.html template for deeplink/?next
-- catch if order form date is empty
 - validation for email format
 - validation if no products are selected
+- cleanup of /mediafiles if there is an uncaught reader exception
 - fulfillment target date validation if in past
 
 [ ] Polishing with precommit hook for docstrings, tests and ReadTheDocs

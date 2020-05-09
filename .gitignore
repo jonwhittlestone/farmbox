@@ -2,3 +2,4 @@ venv
 design/
 .env.dev
 .env.prod
+api/staticfiles
