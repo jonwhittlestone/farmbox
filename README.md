@@ -35,10 +35,8 @@ Phase 1
 [x] Order spreadsheets ingestion from dropbox
 [x] New product selection / May order form
 [ ] Deployment
-        - Dockerizing
         - Rebuild docker container needs to pull live sqlite DB and then reinclude
         - Fabric: Retrieve live version of database to local
-        - CI: GitHub actions
 [ ] Dev Quality Tools
         [x] precommit - hooks for pytest and PEP8
         - Sentry: bug tracking
