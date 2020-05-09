@@ -3,12 +3,12 @@ version: "3.7"
 services:
   web:
     build:
-      context: ./app
+      context: ./api
       dockerfile: Dockerfile.prod
       cache_from:
         - "${WEB_IMAGE}"
     image: "${WEB_IMAGE}"
-    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn farmbox.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/usr/src/app/staticfiles
       - media_volume:/usr/src/app/mediafiles
