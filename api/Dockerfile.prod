@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.8.0-alpine as builder
+FROM nickgryg/alpine-pandas as builder
 
 # set work directory
 WORKDIR /usr/src/app
@@ -31,7 +31,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 
 # pull official base image
-FROM python:3.8.0-alpine
+FROM nickgryg/alpine-pandas
 
 # create directory for the app user
 RUN mkdir -p /home/app
