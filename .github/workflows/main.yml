@@ -69,7 +69,7 @@ jobs:
             ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
               cd /farmbox
               source .env
-              docker login docker.pkg.github.com -u jonwhittlestone -p b3477cecfcbdbd638a556c4ab6d1a011dc5e3c1f
+              docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
               echo $WEB_IMAGE
               echo $NGINX_IMAGE
               docker pull $WEB_IMAGE
