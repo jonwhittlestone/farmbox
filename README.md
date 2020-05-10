@@ -77,7 +77,7 @@ Phase 3
 
 Prerequisites
 
-* Python==3.6
+* Python==3.8
 * Environment variables:
 
         export FARMBOX_DROPBOX_ACCESS_TOKEN=CHANGEME
