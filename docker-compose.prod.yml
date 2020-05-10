@@ -4,8 +4,10 @@ services:
   web:
     image: "${WEB_IMAGE}"
     command: >
-      sh -c """echo "from django.contrib.auth.models import User; u = User.objects.get(username='admin'); u.set_password('${DEFAULT_SUPERUSER_PASSWORD}'); u.save()" | python manage.py shell
-      && gunicorn farmbox.wsgi:application --bind 0.0.0.0:8000"""
+      sh -c : <<'END_COMMENT'
+      echo "from django.contrib.auth.models import User; u = User.objects.get(username='admin'); u.set_password('${DEFAULT_SUPERUSER_PASSWORD}'); u.save()" | python manage.py shell
+      && gunicorn farmbox.wsgi:application --bind 0.0.0.0:8000
+      ENDCOMMENT
     volumes:
       - static_volume:/usr/src/app/staticfiles
       - media_volume:/usr/src/app/mediafiles
