@@ -49,7 +49,6 @@ Phase 1
 [ ] Repeat orders
 
 ## Bugs
-- superuser password is changed when new deployment
 - validation if no products are selected
 - cleanup of /mediafiles if there is an uncaught reader exception
 - fulfillment target date validation if in past
