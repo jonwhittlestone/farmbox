@@ -38,7 +38,6 @@ Phase 1
         - Rebuild docker container needs to pull live sqlite DB and then reinclude
         - Fabric: Retrieve live version of database to local
 [ ] Dev Quality Tools
-        [x] precommit - hooks for pytest and PEP8
         - Sentry: bug tracking
         - interrogate: docstring coverage
         - mypi: type checking
