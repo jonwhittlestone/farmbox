@@ -24,7 +24,6 @@ This code repository can contain code for both `api` and `client`
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
-
 ## What's next ..
 ```
 ==========================================
