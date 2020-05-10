@@ -1,9 +1,9 @@
 <p style='margin-top:10px'>
     <a href='{% url 'admin:order_fulfillmentevent_changelist' %}' title='View All Events'>All Events</a> / NEWEST EVENT: <strong>{{newest_event.f_event}}</strong>:
 </p>
-{% if f_event %}
+{% comment %} {% if f_event. %} {% endcomment %}
 <p style='margin-top:10px'>
 <a href='{{newest_event.order_changelist_filtered_url}}' title='View Orders for the event'>NEWEST EVENT ORDERS:</a>
     <strong>{{newest_event.f_event.orders_count}}</strong> Delivery: ({{newest_event.f_event.orders_count_delivery}}) Collection - Denbies ({{newest_event.f_event.orders_count_collection_denbies}}) | Collection - Ockley ({{newest_event.f_event.orders_count_collection_ockley}})
 </p>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}

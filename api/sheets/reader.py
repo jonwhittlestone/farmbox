@@ -2,6 +2,7 @@ import os
 import json
 import sys
 from pathlib import Path
+from datetime import datetime
 from django.utils import timezone
 from openpyxl import load_workbook
 from product.models import Product
@@ -85,9 +86,12 @@ class OrderSheet():
             raise ValidationError(f'The form is missing a fulfillment event target date.')
 
         try:
-            converted_date = order_details.get('fulfillment_event__target_date').date()
-        except AttributeError as e:
-            raise ValidationError(f"The form's fulfillment event target date should be in the format dd/mm/yyyy.")
+            converted_date = order_details.get('fulfillment_event__target_date')
+            if not isinstance(converted_date, datetime):
+                format_string = '%d/%m/%Y'
+                converted_date = datetime.strptime(converted_date, format_string)
+        except Exception as e:
+            raise ValidationError(f"Date Issues: {e}")
 
         f_event_obj, created = FulfillmentEvent.objects.get_or_create(target_date=converted_date)
         f_event_obj.target_date = converted_date

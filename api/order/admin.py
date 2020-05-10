@@ -1,5 +1,6 @@
 import os
 from django.contrib import admin
+from django.contrib.auth.models import User
 from django.conf import settings
 from order.models import Order, OrderForm, FulfillmentEvent, OrderFormFailure
 from django.utils.safestring import mark_safe
