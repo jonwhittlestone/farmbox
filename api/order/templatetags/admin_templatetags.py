@@ -6,9 +6,11 @@ register = template.Library()
 
 def newest_event():
     '''Helper function to get forthcoming f_event & its link'''
+    url = None
     f_event = FulfillmentEvent.newest_event()
-    url = reverse('admin:order_order_changelist')
-    url = f'{url}?fulfillment_event__id__exact={f_event.id}'
+    if f_event:
+        url = reverse('admin:order_order_changelist')
+        url = f'{url}?fulfillment_event__id__exact={f_event.id}'
 
     return {
         'f_event': f_event,

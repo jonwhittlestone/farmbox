@@ -3,3 +3,5 @@ design/
 .env.dev
 .env.prod
 api/staticfiles
+api/mediafiles
+.github_secrets

@@ -66,7 +66,7 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
         return ''
 
     def _input_sheet(self,obj):
-        if obj:
+        if obj.id:
             url = reverse('download_input_xlsx',args=(obj.id,))
             return (mark_safe(f'<a href="{url}">Download</a>'))
         return ''

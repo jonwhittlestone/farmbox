@@ -84,7 +84,11 @@ class OrderSheet():
         if not order_details.get('fulfillment_event__target_date'):
             raise ValidationError(f'The form is missing a fulfillment event target date.')
 
-        converted_date = order_details.get('fulfillment_event__target_date').date()
+        try:
+            converted_date = order_details.get('fulfillment_event__target_date').date()
+        except AttributeError as e:
+            raise ValidationError(f"The form's fulfillment event target date should be in the format dd/mm/yyyy.")
+
         f_event_obj, created = FulfillmentEvent.objects.get_or_create(target_date=converted_date)
         f_event_obj.target_date = converted_date
         f_event_obj.save()

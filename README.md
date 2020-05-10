@@ -20,7 +20,7 @@ This code repository can contain code for both `api` and `client`
 ## Current Limitations
 - Fixed product listing
 
-- Fixed XLSX order form (see [order/current.xlsx](order/current.xlsx))
+- Fixed XLSX order form (see [api/order/sample_sheets/current.xlsx](api/order/sample_sheets/current.xlsx))
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
@@ -49,7 +49,7 @@ Phase 1
 [ ] Repeat orders
 
 ## Bugs
-- validation for email format
+- superuser password is changed when new deployment
 - validation if no products are selected
 - cleanup of /mediafiles if there is an uncaught reader exception
 - fulfillment target date validation if in past

@@ -20,9 +20,13 @@ def fetch(request):
         except OrderFormReaderException as e:
             OrderFormFailure.objects.create(reason=e, form=r.obj)
             messages.add_message(request,
-                                messages.ERROR, f'{count-1} orders fetched and processed but see failure(s). Please check reason and try again.')
+                                messages.ERROR, f'{count} orders fetched and processed but see failure(s). Please check reason and try again.')
 
             os.remove(zip_path)
+
+            extracted_dir = os.path.join(settings.MEDIA_ROOT,settings.NEW_ORDERS_FOLDER)
+            shutil.rmtree(extracted_dir)
+
             return redirect(f'/admin/order/orderformfailure/')
 
         os.remove(zip_path)
