@@ -20,7 +20,7 @@ This code repository can contain code for both `api` and `client`
 ## Current Limitations
 - Fixed product listing
 
-- Fixed XLSX order form (see [order/sample-order-v070420.xlsx](order/current.xlsx))
+- Fixed XLSX order form (see [order/current.xlsx](order/current.xlsx))
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
