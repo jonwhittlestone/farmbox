@@ -8,17 +8,17 @@ services:
       - static_volume:/usr/src/app/staticfiles
       - media_volume:/usr/src/app/mediafiles
     ports:
-      - 8000:8000
+      - 80:8000
     env_file: .env
-  nginx:
-    image: "${NGINX_IMAGE}"
-    volumes:
-      - static_volume:/usr/src/app/staticfiles
-      - media_volume:/usr/src/app/mediafiles
-    ports:
-      - 80:80
-    depends_on:
-      - web
+  # nginx:
+  #   image: "${NGINX_IMAGE}"
+  #   volumes:
+  #     - static_volume:/usr/src/app/staticfiles
+  #     - media_volume:/usr/src/app/mediafiles
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - web
 
 volumes:
   static_volume:
