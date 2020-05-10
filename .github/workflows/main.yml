@@ -71,8 +71,8 @@ jobs:
               source .env
               docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
               echo $WEB_IMAGE
-              echo $NGINX_IMAGE
+              # echo $NGINX_IMAGE
               docker pull $WEB_IMAGE
-              docker pull $NGINX_IMAGE
+              # docker pull $NGINX_IMAGE
               docker-compose -f docker-compose.prod.yml up -d
             ENDSSH
