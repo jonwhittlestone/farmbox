@@ -29,6 +29,7 @@ def cloud_fetcher():
         zipObj.extractall(settings.MEDIA_ROOT)
     return extracted_dir, path_to_store_local_zip, files_meta
 
+
 def remove_remote_form_after_fetch_success(path):
     d = DropboxApp()
     d.remove(f'/{os.path.join(settings.NEW_ORDERS_FOLDER,os.path.basename(path))}')
@@ -72,6 +73,17 @@ class DropboxApp():
             if not v:
                 self.svc.files_create_folder_v2(f'/{k}')
 
+    def backup_db(self):
+        '''Backup local db dump.'''
+        src = settings.DATABASES['default']['NAME']
+        dest = f'/{settings.BACKUP_DB_FOLDER}'
+        self.upload(src, dest)
+
+    def restore_db(self):
+        '''Restore remote db dump'''
+        dest = settings.DATABASES['default']['NAME']
+        src = f'/{os.path.join(settings.BACKUP_DB_FOLDER,os.path.basename(dest))}'
+        self.svc.files_download_to_file(dest, src, rev=None)
 
     def upload(self, src, dest = ''):
         '''Upload bytes to dropbox.'''
