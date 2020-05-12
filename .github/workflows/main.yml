@@ -25,7 +25,7 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
-            docker exec -it "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py backup_db"
+            docker exec -it "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py backup_db"; exit
           ENDSSH
   build:
     name: Build Docker Images
