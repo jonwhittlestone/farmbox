@@ -33,9 +33,7 @@ Phase 1
 [x] Plumbing in header metrics and tidy up
 [x] Order spreadsheets ingestion from dropbox
 [x] New product selection / May order form
-[ ] Deployment
-        - Rebuild docker container needs to pull live sqlite DB and then reinclude
-        - Fabric: Retrieve live version of database to local
+[x] Deployment
 [ ] Dev Quality Tools
         - Sentry: bug tracking
         - interrogate: docstring coverage
