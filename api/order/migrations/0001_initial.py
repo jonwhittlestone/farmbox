@@ -40,6 +40,11 @@ class Migration(migrations.Migration):
                 ('fulfillment_event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='order.FulfillmentEvent')),
             ],
         ),
+        migrations.AddField(
+            model_name='order',
+            name='code',
+            field=models.CharField(default='todo', max_length=64),
+        ),
         migrations.CreateModel(
             name='ProductQuantity',
             fields=[

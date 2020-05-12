@@ -43,11 +43,12 @@ class ProductQuantityInline(admin.TabularInline):
     extra=1
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer_name', 'customer_email', 'customer_phone',
+    list_display = ('code', 'customer_name', 'customer_email', 'customer_phone',
                     'customer_postcode', 'fulfillment_event', 'fulfillment_method', 'created_at')
 
-    search_fields = ('customer_name','customer_postcode', 'customer_email')
+    search_fields = ('code', 'customer_name','customer_postcode', 'customer_email')
     list_filter = ('fulfillment_event','fulfillment_method',)
+    readonly_fields = ('code',)
     inlines = (ProductQuantityInline,)
 
 

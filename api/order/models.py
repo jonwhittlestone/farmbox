@@ -89,6 +89,8 @@ class Order(models.Model):
         DENBIES = settings.COLLECTION_LOCATIONS_DENBIES
         OCKLEY = settings.COLLECTION_LOCATIONS_OCKLEY
 
+
+    code = models.CharField(max_length=64, blank=False, default='todo')
     customer_name = models.CharField(max_length=512, verbose_name='Name')
     customer_address = models.CharField(max_length=512, verbose_name='Address')
     customer_postcode = models.CharField(max_length=8, verbose_name='Postcode')
@@ -122,10 +124,14 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
 
-    # def save(self, *args, **kwargs):
-    #     if not self.id:
-    #         self.created_at = timezone.now()
-    #         self.modified_at = timezone.now()
+    @property
+    def new_code(self):
+        return 'new_code'
+
+    def save(self, *args, **kwargs):
+        self.code = self.new_code
+        super().save(*args, **kwargs)
+
 
     def product_count(self, product_id):
         qs = self.product_quantities.filter(product_id=product_id).first()

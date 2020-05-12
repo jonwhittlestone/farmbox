@@ -186,3 +186,39 @@ class TestGeneratingInputSheet:
 
 
         self.clean_up()
+
+
+
+class OrderCodeTests:
+
+    def test_existing_orders_have_their_code_replaced_from_todo_to_the_actual_code(self):
+        '''Integration test with use of factory'''
+        assert True
+
+    def test_correct_code_generated_based_on_criteria(self):
+        '''
+            Series 1 to eg 60 :
+            These are deliveries arranged in post code order.
+            I 'cleanse' the list, ie retype RH55SS or RH 55SS etc to RH5 5SS and then simply sort.
+            Therefore when the drivers arrive at 9am / 9:30am / 10am they can
+            simply load the first available orders and they will be in
+            similar locations.
+            I don't divide the orders into rounds any more as the drivers can
+            take a different number of orders depending on the size of the
+            orders and the size of their cars.
+            They load the first 8 or whatever, and the next driver loads the next lot etc.
+
+            Series 100+ : these are the collect from Ockley.
+            There is no arrangement within this group.
+            If there are a lot then I divide them into two pick up times,
+            ie 3-4pm and 4-5pm. eg 101 - 122 first hour,
+            123 - 145 second hour.
+
+            They all get picked up from Denbies at 2pm, in a large van, and
+            taken down to Ockley.
+
+            Series 200+ : these are the collect from Denbies.
+            There is no arrangement within this group, but again if there
+            are a lot I divide them into two groups for 3-4pm and 4-5pm pick up.
+        '''
+        pass

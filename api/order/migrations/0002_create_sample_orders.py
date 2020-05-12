@@ -22,10 +22,11 @@ def add_default(apps, schema_editor):
         new_evt.save()
 
     Order_Model = apps.get_model('order', 'Order')
+
     for order in sample_orders:
         order['user_id'] = 1
         order['fulfillment_event_id'] = new_evt.id
-        ord = Order_Model(**order)
+        ord = Order(**order)
         ord.save()
 
 
