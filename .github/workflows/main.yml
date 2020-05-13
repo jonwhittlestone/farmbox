@@ -12,7 +12,7 @@ jobs:
     name: Backup Production SQLite DB to Dropbox
     runs-on: ubuntu-latest
     steps:
-      - name: Exec into the running web container
+      - name: Add SSH key
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
@@ -20,7 +20,15 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
-      - name: Run the management command for backing up
+
+      - name: Run Django management command for removing online backup
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
+            docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py remove_remote_db"
+          ENDSSH
+      - name: Run Django management command for backing up
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
