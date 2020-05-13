@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
             name='Order',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('f_number', models.CharField(null=True, max_length=64, verbose_name='F-Number',help_text='An event-unique number assigned at order creation to aid in Fulfillment sequencing' )),
                 ('customer_name', models.CharField(max_length=512, verbose_name='Name')),
                 ('customer_address', models.CharField(max_length=512, verbose_name='Address')),
                 ('customer_postcode', models.CharField(max_length=8, verbose_name='Postcode')),
@@ -40,10 +41,9 @@ class Migration(migrations.Migration):
                 ('fulfillment_event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='order.FulfillmentEvent')),
             ],
         ),
-        migrations.AddField(
+        migrations.AddConstraint(
             model_name='order',
-            name='code',
-            field=models.CharField(default='todo', max_length=64),
+            constraint=models.UniqueConstraint(fields=('fulfillment_event_id', 'f_number'), name='unique_f_number_per_event'),
         ),
         migrations.CreateModel(
             name='ProductQuantity',

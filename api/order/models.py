@@ -90,7 +90,7 @@ class Order(models.Model):
         OCKLEY = settings.COLLECTION_LOCATIONS_OCKLEY
 
 
-    code = models.CharField(max_length=64, blank=False, default='todo')
+    f_number = models.CharField(max_length=64, null=True, verbose_name='F-Number', help_text='An event-unique number assigned at order creation to aid in Fulfillment sequencing')
     customer_name = models.CharField(max_length=512, verbose_name='Name')
     customer_address = models.CharField(max_length=512, verbose_name='Address')
     customer_postcode = models.CharField(max_length=8, verbose_name='Postcode')
@@ -125,11 +125,12 @@ class Order(models.Model):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
 
     @property
-    def new_code(self):
-        return 'new_code'
+    def new_f_number(self):
+        return f'{self.fulfillment_event_id}-XX{self.id}'
 
     def save(self, *args, **kwargs):
-        self.code = self.new_code
+        super().save(*args, **kwargs)
+        self.f_number = self.new_f_number
         super().save(*args, **kwargs)
 
 
@@ -140,8 +141,12 @@ class Order(models.Model):
         return 0
 
 
-    # from django.db.models.loading import get_model
-    # ProductMdl = get_model('product', 'Product')
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['fulfillment_event_id', 'f_number'], name='unique_f_number_per_event')
+        ]
+        ordering = ['f_number']
+
 
 class ProductQuantity(models.Model):
 
