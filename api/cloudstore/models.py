@@ -45,6 +45,18 @@ def upload_form_to_processed_folder(f:PosixPath, order:Order):
     dest_path = f'/{os.path.join(settings.PROCESSED_ORDERS_FOLDER, order.fulfillment_event.remote_folder_name)}'
     d.upload(f, dest_path)
 
+def remove_remote_db():
+    '''Check it's there before attempting removal'''
+    d = DropboxApp()
+    db_backup_exists = False
+    # check it's there
+    for c in d.list_contents(f'/{settings.BACKUP_DB_FOLDER}'):
+        if isinstance(c,FileMetadata) and c.name == os.path.basename(settings.DATABASES['default']['NAME']):
+            db_backup_exists = True
+    if db_backup_exists:
+        res = d.remove_remote_db()
+
+    return db_backup_exists
 
 class DropboxApp():
     '''
@@ -72,6 +84,12 @@ class DropboxApp():
         for k,v in subfolder_exists.items():
             if not v:
                 self.svc.files_create_folder_v2(f'/{k}')
+
+    def remove_remote_db(self) -> bool:
+        path = settings.DATABASES['default']['NAME']
+        dest = f'/{os.path.join(settings.BACKUP_DB_FOLDER,os.path.basename(path))}'
+        self.remove(dest)
+        return True
 
     def backup_db(self):
         '''Backup local db dump.'''
