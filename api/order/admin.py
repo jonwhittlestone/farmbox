@@ -51,6 +51,10 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('f_number',)
     inlines = (ProductQuantityInline,)
 
+    def save_model(self, request, obj, form, change):
+        obj.save()
+        super(OrderAdmin, self).save_model(request, obj, form, change)
+
 
 class FulfillmentEventAdmin(admin.ModelAdmin):
 

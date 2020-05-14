@@ -41,7 +41,9 @@ Phase 1
 
 [x] Updated order sheet 02/05/19
 [ ] Customer/Receipt sheets generation
-        - Order number system
+        - Reassign order numbers when sheet parse
+        - Reassign order numbers when django admin add
+        - Reassign order numbers when django admin remove
         - Use in actual VG operation!
 [ ] Invoice/Costing calculation
 [ ] Repeat orders

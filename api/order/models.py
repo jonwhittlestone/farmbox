@@ -1,8 +1,10 @@
 import os
+import random
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-
+from django.db import transaction
+from django.db.utils import IntegrityError
 
 class OrderForm(models.Model):
     filename = models.CharField(max_length=512)
@@ -124,14 +126,35 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
 
+    def reassign_f_numbers(self):
+        '''F-numbers for all Deliveries are reassigned in postcode order'''
+        F_NUMBER_SERIES_DELIVERIES = 0
+        if self.fulfillment_method == Order.FulfillmentMethod.DELIVERY:
+            qs = Order.objects.filter(fulfillment_event_id=self.fulfillment_event_id,
+                                      fulfillment_method=Order.FulfillmentMethod.DELIVERY).order_by('customer_postcode')
+
+            for count, ord in enumerate(qs):
+                f_number = f'{self.fulfillment_event_id}-{F_NUMBER_SERIES_DELIVERIES}-{count+1:03}'
+                # print(f'New F-number for {ord}: {ord.f_number}')
+                ord.f_number = f_number
+                ord.reassign_save()
+
+    @property
+    def next_available_f_number(self):
+        return f'{self.fulfillment_event_id}-{random.randint(1,1000)}'
+
     @property
     def new_f_number(self):
-        return f'{self.fulfillment_event_id}-XX{self.id}'
+        return self.next_available_f_number
+
+    def reassign_save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.f_number = self.new_f_number
-        super().save(*args, **kwargs)
+        self.reassign_f_numbers()
 
 
     def product_count(self, product_id):
@@ -143,7 +166,7 @@ class Order(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['fulfillment_event_id', 'f_number'], name='unique_f_number_per_event')
+            # models.UniqueConstraint(fields=['fulfillment_event_id', 'f_number'], name='unique_f_number_per_event')
         ]
         ordering = ['f_number']
 

@@ -23,6 +23,8 @@ class OrderFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Order
 
+        # django_get_or_create = ('customer_name',)
+
 class FulfillmentEventFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = FulfillmentEvent
@@ -45,12 +47,7 @@ def test_factory_boy_integrated():
 
     count_of_orders_in_db_before_factory = Order.objects.all().count()
     ord = OrderFactory(**sample)
-    order_qs = Order.objects.all().last()
-
-    assert Order.objects.all().count() == count_of_orders_in_db_before_factory + 1
-    assert order_qs.id != None
-    assert order_qs.customer_name == 'Jon Whittlestone'
-    assert order_qs.fulfillment_event_id == f_event.id
+    assert ord.customer_name == sample.get('customer_name')
 
 
 @pytest.mark.django_db
@@ -75,10 +72,7 @@ class TestGeneratingInputSheet:
 
     @pytest.fixture
     def event_orders_products(self):
-        # self.clean_up()
         orders, products = [],[]
-        # f_event = FulfillmentEvent.objects.first()
-        # create sample fulfillment event
         f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
 
         # no need to create sample products
@@ -105,7 +99,6 @@ class TestGeneratingInputSheet:
                 from order.models import ProductQuantity
                 ProductQuantity.objects.create(order=ord, product=p, quantity=random.randint(1,3))
 
-        debug=True
         return {
             'f_event': f_event,
             'orders': orders,
@@ -142,7 +135,6 @@ class TestGeneratingInputSheet:
                 db_ord = Order.objects.get(customer_email=output_ord_col[email_idx])
                 assert output_ord_col[product_count] == db_ord.products.filter(id=product_id).count()
 
-        debug = True
         self.clean_up()
 
     def test_for_input_sheet_headers_i_can_generate_a_list_of_customer_details(self, settings):
@@ -188,25 +180,66 @@ class TestGeneratingInputSheet:
         self.clean_up()
 
 
+@pytest.mark.django_db
+class TestOrderFNumber:
 
-class OrderCodeTests:
+    @pytest.fixture
+    def order(self):
 
-    def test_existing_orders_have_their_code_replaced_from_todo_to_the_actual_code(self):
-        '''Integration test with use of factory'''
-        assert True
+        f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
+        sample = {
+            'customer_name':'Jon Mickelsson',
+            'customer_postcode': 'RH3 2KL',
+            'customer_address': '14, High Street',
+            'customer_email': 'jon+test@demon.co.uk',
+            'customer_phone': '07889 4932222',
+            'user_id':1,
+            'fulfillment_event_id': f_event.id,
+            'fulfillment_method': settings.FULFILLMENT_METHODS_DELIVERY,
+            'created_at': timezone.now(),
+            'modified_at': timezone.now(),
+        }
 
-    def test_correct_code_generated_based_on_criteria(self):
+        return Order.objects.create(**sample)
+
+
+    @pytest.mark.django_db(transaction=True)
+    def test_delivery_orders_have_correct_f_numbers_reassigned(self, order):
         '''
-            Series 1 to eg 60 :
-            These are deliveries arranged in post code order.
-            I 'cleanse' the list, ie retype RH55SS or RH 55SS etc to RH5 5SS and then simply sort.
-            Therefore when the drivers arrive at 9am / 9:30am / 10am they can
-            simply load the first available orders and they will be in
-            similar locations.
-            I don't divide the orders into rounds any more as the drivers can
-            take a different number of orders depending on the size of the
-            orders and the size of their cars.
-            They load the first 8 or whatever, and the next driver loads the next lot etc.
+            Test f-number reassignment to delivery order f_numbers as new orders in
+            different postcodes are added.
+
+            > Series 1 to eg 60 :
+            > These are deliveries arranged in post code order.
+            > I 'cleanse' the list, ie retype RH55SS or RH 55SS etc to RH5 5SS and then simply sort.
+            > Therefore when the drivers arrive at 9am / 9:30am / 10am they can
+            > simply load the first available orders and they will be in
+            > similar locations.
+            > I don't divide the orders into rounds any more as the drivers can
+            > take a different number of orders depending on the size of the
+            > orders and the size of their cars.
+            > They load the first 8 or whatever, and the next driver loads the next lot etc.
+        '''
+        keyed = {}
+        # Test migrated orders have correct f_numbers
+        for ord in Order.objects.all():
+            keyed[ord.customer_email] = {
+                'customer_email': ord.customer_email,
+                'customer_postcode': ord.customer_postcode,
+                'fulfillment_event_id': ord.fulfillment_event_id,
+                'fulfillment_method': ord.fulfillment_method,
+                'f_number': ord.f_number
+            }
+
+        assert keyed['dev+chriskoliba@howapped.com'].get('f_number') == f'2-0-002'
+        assert keyed['dev+chriskoliba@howapped.com'].get('customer_postcode') == 'RH4 2WJ'
+
+        assert keyed['dev+mavisharton@howapped.com'].get('f_number') == '2-0-003'
+        assert keyed['dev+mavisharton@howapped.com'].get('customer_postcode') == 'RH5 4QX'
+
+    @pytest.mark.skip()
+    def test_f_number_generated_based_on_criteria(self):
+        '''
 
             Series 100+ : these are the collect from Ockley.
             There is no arrangement within this group.

@@ -41,10 +41,10 @@ class Migration(migrations.Migration):
                 ('fulfillment_event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='order.FulfillmentEvent')),
             ],
         ),
-        migrations.AddConstraint(
-            model_name='order',
-            constraint=models.UniqueConstraint(fields=('fulfillment_event_id', 'f_number'), name='unique_f_number_per_event'),
-        ),
+        # migrations.AddConstraint(
+        #     model_name='order',
+        #     constraint=models.UniqueConstraint(fields=('fulfillment_event_id', 'f_number'), name='unique_f_number_per_event'),
+        # ),
         migrations.CreateModel(
             name='ProductQuantity',
             fields=[

@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "DEV",
             "type": "python",
@@ -73,6 +74,29 @@
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
                 "cloudstore/tests.py"
+            ],
+            "django": true
+        },
+
+        {
+            "name": "Test - FNumbers",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "order/tests.py::TestOrderFNumber",
+                "--create-db"
+            ],
+            "django": true
+        },
+
+        {
+            "name": "Migrate",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "migrate",
             ],
             "django": true
         },
