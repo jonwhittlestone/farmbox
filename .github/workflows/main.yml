@@ -53,6 +53,7 @@ jobs:
         run: |
           echo ::set-env name=WEB_IMAGE::${{ env.WEB_IMAGE }}
           echo ::set-env name=NGINX_IMAGE::${{ env.NGINX_IMAGE }}
+          echo ::set-env name=FARMBOX_DROPBOX_ACCESS_TOKEN::${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
