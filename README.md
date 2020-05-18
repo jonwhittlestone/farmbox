@@ -39,10 +39,10 @@ Phase 1
         - interrogate: docstring coverage
         - mypi: type checking
 
-[ ] Refactor Order model to first/last name
-[ ] Refactor for amalgamated cell 'Collect from Denbies Shop' etc
+[x] Refactor Order model to first/last name
+[x] Refactor for amalgamated cell 'Collect from Denbies Shop' etc
 [ ] Updated order sheet product name fixtures 17/05/19
-[ ] Date input parsing/validation 'Fri 22 May' not '22/05/2020'
+[x] Date input parsing/validation 'Fri 22 May' not '22/05/2020'
 [ ] Fetching file from dropbox needs to be done in bulk not one at a time
 [ ] Customer/Receipt sheets generation
         - Reassign order numbers when sheet parse
