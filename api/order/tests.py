@@ -39,7 +39,8 @@ def test_factory_boy_integrated():
 
     f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
     sample = {
-        'customer_name':'Jon Whittlestone',
+        'customer_first_name':'Jon',
+        'customer_last_name':'Whittlestone',
         'fulfillment_event_id': f_event.id,
         'created_at': timezone.now(),
         'modified_at': timezone.now(),
@@ -47,7 +48,8 @@ def test_factory_boy_integrated():
 
     count_of_orders_in_db_before_factory = Order.objects.all().count()
     ord = OrderFactory(**sample)
-    assert ord.customer_name == sample.get('customer_name')
+    full_name = f"{sample.get('customer_first_name')} {sample.get('customer_last_name')}"
+    assert ord.customer_name == full_name
 
 
 @pytest.mark.django_db
@@ -188,7 +190,8 @@ class TestOrderFNumber:
 
         f_event = FulfillmentEventFactory(**sample_fulfillment_events[0])
         sample = {
-            'customer_name':'Jon Mickelsson',
+            'customer_first_name':'Jon ',
+            'customer_last_name':'Mickelsson ',
             'customer_postcode': 'RH3 2KL',
             'customer_address': '14, High Street',
             'customer_email': 'jon+test@demon.co.uk',

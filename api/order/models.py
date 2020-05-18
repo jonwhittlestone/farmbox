@@ -73,11 +73,11 @@ class FulfillmentEvent(models.Model):
 
     @property
     def orders_count_collection_denbies(self):
-        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION,collection_location=settings.COLLECTION_LOCATIONS_DENBIES).count()
+        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION_DENBIES).count()
 
     @property
     def orders_count_collection_ockley(self):
-        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION, collection_location=settings.COLLECTION_LOCATIONS_OCKLEY).count()
+        return self.order_set.filter(fulfillment_method=settings.FULFILLMENT_METHODS_COLLECTION_OCKLEY).count()
 
 
 class Order(models.Model):
@@ -85,7 +85,8 @@ class Order(models.Model):
 
     class FulfillmentMethod(models.TextChoices):
         DELIVERY = settings.FULFILLMENT_METHODS_DELIVERY
-        COLLECTION = settings.FULFILLMENT_METHODS_COLLECTION
+        COLLECTION_OCKLEY = settings.FULFILLMENT_METHODS_COLLECTION_OCKLEY
+        COLLECTION_DENBIES = settings.FULFILLMENT_METHODS_COLLECTION_DENBIES
 
     class CollectionLocation(models.TextChoices):
         DENBIES = settings.COLLECTION_LOCATIONS_DENBIES
@@ -93,12 +94,13 @@ class Order(models.Model):
 
 
     f_number = models.CharField(max_length=64, null=True, verbose_name='F-Number', help_text='An event-unique number assigned at order creation to aid in Fulfillment sequencing')
-    customer_name = models.CharField(max_length=512, verbose_name='Name')
+    customer_first_name = models.CharField(max_length=512, verbose_name='First Name')
+    customer_last_name = models.CharField(max_length=512, verbose_name='Last Name')
     customer_address = models.CharField(max_length=512, verbose_name='Address')
     customer_postcode = models.CharField(max_length=8, verbose_name='Postcode')
     customer_email = models.EmailField(max_length=64, verbose_name='Email')
     customer_phone = models.CharField(max_length=64, verbose_name='Phone')
-    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=16, verbose_name='DELIVERY / COLLECTION')
+    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=30, verbose_name='Delivery / Collect from Ockley Shop /  Collect from Denbies Shop')
     collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A', verbose_name='If collection, which shop?')
     notes = models.TextField(blank=True, verbose_name='NOTES')
     archived = models.BooleanField(default=False)
@@ -124,7 +126,11 @@ class Order(models.Model):
         'product.Product', through='ProductQuantity', related_name='products')
 
     def __str__(self):
-        return f'{self.customer_name}: {self.customer_postcode} by {self.fulfillment_method}'
+        return f'{self.customer_first_name} {self.customer_last_name}: {self.customer_postcode} by {self.fulfillment_method}'
+
+    @property
+    def customer_name(self):
+        return f'{self.customer_first_name} {self.customer_last_name}'
 
     def reassign_f_numbers(self):
         '''F-numbers for all Deliveries are reassigned in postcode order'''

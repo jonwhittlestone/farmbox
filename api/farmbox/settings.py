@@ -131,7 +131,8 @@ DEFAULT_SUPERUSER = {
 }
 
 FULFILLMENT_METHODS_DELIVERY = 'Delivery'
-FULFILLMENT_METHODS_COLLECTION = 'Collection'
+FULFILLMENT_METHODS_COLLECTION_OCKLEY = 'Collect from Ockley Shop'
+FULFILLMENT_METHODS_COLLECTION_DENBIES = 'Collect from Denbies Shop'
 
 COLLECTION_LOCATIONS_DENBIES = 'Denbies'
 COLLECTION_LOCATIONS_OCKLEY = 'Ockley'
@@ -152,7 +153,7 @@ PRODUCT_PICKING_PACKING_SURCHARGE = {
     PRODUCT_CATEGORIES_ITEM:[
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['<',10],'surcharge':1},
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['>',10], 'surcharge':2},
-        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION,'grand_total_condition':['<',10], 'surcharge':1},
+        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION_DENBIES,'grand_total_condition':['<',10], 'surcharge':1},
     ]
 }
 
@@ -164,13 +165,13 @@ PICKING_PACKING_SURCHARGE = {
     PRODUCT_CATEGORIES_ITEM:[
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['<',10], 'surcharge':2},
         {'fulfillment_method': FULFILLMENT_METHODS_DELIVERY,'grand_total_condition':['>',10], 'surcharge':2},
-        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION,'grand_total_condition':['<',10], 'surcharge':1},
+        {'fulfillment_method': FULFILLMENT_METHODS_COLLECTION_DENBIES,'grand_total_condition':['<',10], 'surcharge':1},
     ]
 }
 
 INPUT_SHEET = {
     'ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS': [
-        'customer_name', 'customer_address', 'customer_postcode',
+        'customer_first_name', 'customer_last_name', 'customer_address', 'customer_postcode',
         'customer_email', 'customer_phone',
         'fulfillment_method', 'collection_location', 'notes'
     ]
@@ -180,7 +181,8 @@ ORDER_SHEET = {
     'PRODUCT_NAME_COL': 'A',
     'PRODUCT_COUNT_COL': 'C',
     'DETAILS_CELL_MAP': {
-        'C2' : 'customer_name',
+        'C1' : 'customer_first_name',
+        'C2' : 'customer_last_name',
         'C3': 'customer_address',
         'C4': 'customer_postcode',
         'C5': 'customer_email',

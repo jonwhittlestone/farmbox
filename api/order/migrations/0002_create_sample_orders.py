@@ -5,6 +5,7 @@ from django.utils import timezone
 from product.models import Product
 from order.models import Order, FulfillmentEvent
 from order.fixtures import sample_fulfillment_events, sample_orders
+from django.core.exceptions import ValidationError
 
 NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5
 
@@ -27,6 +28,11 @@ def add_default(apps, schema_editor):
         order['user_id'] = 1
         order['fulfillment_event_id'] = new_evt.id
         ord = Order(**order)
+        try:
+            ord.full_clean()
+        except ValidationError as e:
+            print(f'THE MODEL INSTANCE DID NOT PASS VALIDATION. SKIPPING .. {e}')
+            pass
         ord.save()
 
 

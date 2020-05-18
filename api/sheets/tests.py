@@ -1,6 +1,8 @@
 import pytest
+import os
 from datetime import datetime
 from datetime import date
+from django.conf import settings
 from order.models import FulfillmentEvent
 from order.models import FulfillmentEvent
 from product.models import Product
@@ -22,17 +24,17 @@ def test_first_cell_in_sample_order_form_is_read_by_openpyxl():
 @pytest.mark.django_db
 def test_order_details_are_captured_to_instance_variable():
     expected_actual = (
-        ('customer_name','Nigel Samplestock'),
+        ('customer_first_name','Nigel'),
+        ('customer_last_name','Samplestock'),
         ('customer_address', '107, Fairfield Drive'),
         ('customer_postcode','rh4 1jj'),
         ('customer_email','Dev+farmbox99@howapped.com'),
         ('customer_phone','0789 449 542'),
-        ('fulfillment_method','Collection'),
-        ('collection_location','Denbies'),
-        ('fulfillment_event__target_date', datetime(2020,4,24,0,0))
+        ('fulfillment_method','Collect From Denbies Shop'),
+        ('fulfillment_event__target_date', datetime(2020,5,12,0,0))
     )
     r = OrderSheetReader()
-    excel_data = r.read(collect_files_for_reading()[0])
+    excel_data = r.read(os.path.join(settings.SAMPLE_ORDER_SHEET_DIR,'current.xlsx'))
     actual = r.order_details
     for expected_idx,expected in expected_actual:
         assert actual.get(expected_idx,'') == expected
