@@ -65,41 +65,41 @@ jobs:
         run: |
           docker push ${{ env.WEB_IMAGE }}
 
-  deploy:
-      name: Deploy to DigitalOcean
-      runs-on: ubuntu-latest
-      needs: build
-      if: github.ref == 'refs/heads/master'
-      steps:
-        - name: Checkout master
-          uses: actions/checkout@v1
-        - name: Add environment variables to .env
-          run: |
-            echo DEBUG=1 >> .env
-            echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> .env
-            echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env
-            echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> .env
-            echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env
-        - name: Add the private SSH key to the ssh-agent
-          env:
-            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          run: |
-            mkdir -p ~/.ssh
-            ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
-        - name: Build and deploy images on DigitalOcean
-          env:
-            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          run: |
-            scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/farmbox
-            ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
-              cd /farmbox
-              source .env
-              docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
-              echo $WEB_IMAGE
-              # echo $NGINX_IMAGE
-              docker pull $WEB_IMAGE
-              # docker pull $NGINX_IMAGE
-              docker-compose -f docker-compose.prod.yml up -d
-            ENDSSH
+  # deploy:
+  #     name: Deploy to DigitalOcean
+  #     runs-on: ubuntu-latest
+  #     needs: build
+  #     if: github.ref == 'refs/heads/master'
+  #     steps:
+  #       - name: Checkout master
+  #         uses: actions/checkout@v1
+  #       - name: Add environment variables to .env
+  #         run: |
+  #           echo DEBUG=1 >> .env
+  #           echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> .env
+  #           echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env
+  #           echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> .env
+  #           echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env
+  #       - name: Add the private SSH key to the ssh-agent
+  #         env:
+  #           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  #         run: |
+  #           mkdir -p ~/.ssh
+  #           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+  #           ssh-keyscan github.com >> ~/.ssh/known_hosts
+  #           ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+  #       - name: Build and deploy images on DigitalOcean
+  #         env:
+  #           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  #         run: |
+  #           scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/farmbox
+  #           ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
+  #             cd /farmbox
+  #             source .env
+  #             docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
+  #             echo $WEB_IMAGE
+  #             # echo $NGINX_IMAGE
+  #             docker pull $WEB_IMAGE
+  #             # docker pull $NGINX_IMAGE
+  #             docker-compose -f docker-compose.prod.yml up -d
+  #           ENDSSH
