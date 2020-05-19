@@ -9,7 +9,7 @@ class Product(models.Model):
         ITEM = settings.PRODUCT_CATEGORIES_ITEM
 
     name = models.CharField(max_length=256)
-    slug = models.CharField(max_length=64)
+    code = models.CharField(max_length=64, unique=True)
     pack_size = models.CharField(max_length=256)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency=settings.DEFAULT_CURRENCY)
     published = models.BooleanField(default=True)

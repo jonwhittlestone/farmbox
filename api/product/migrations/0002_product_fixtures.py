@@ -1,3 +1,4 @@
+import re
 from django.db import migrations
 from django.conf import settings
 from django.utils import timezone
@@ -15,8 +16,12 @@ def add_default(apps, schema_editor):
     # version than this migration expects. We use the historical version.
     Product_Model = apps.get_model('product', 'Product')
     for product in initial_products:
-        p = Product_Model(**product)
-        p.save()
+        try:
+            p = Product_Model(**product)
+            p.code = re.findall('[A-Z]{2}[0-9]*$',p.name)[0]
+            p.save()
+        except Exception as e:
+            print(p.code)
 
 class Migration(migrations.Migration):
 
