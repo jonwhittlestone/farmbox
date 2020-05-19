@@ -47,6 +47,9 @@ class OrderSheet():
         self._order = Order(**order_details)
         # validate for uniqueness
         customer_email_exists_for_event = Order.objects.filter(fulfillment_event_id = f_event.id, customer_email=order_details['customer_email']).exists()
+        if  not order_details.get('customer_first_name', False):
+            raise ValidationError(f'The customer_first_name cell should not be empty.')
+
         if customer_email_exists_for_event:
             raise ValidationError(f'Order with email: {order_details["customer_email"]} already exists for event {f_event}.')
         self._order.save()

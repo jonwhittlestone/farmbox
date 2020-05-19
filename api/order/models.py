@@ -94,11 +94,11 @@ class Order(models.Model):
 
 
     f_number = models.CharField(max_length=64, null=True, verbose_name='F-Number', help_text='An event-unique number assigned at order creation to aid in Fulfillment sequencing')
-    customer_first_name = models.CharField(max_length=512, verbose_name='First Name')
-    customer_last_name = models.CharField(max_length=512, verbose_name='Last Name')
-    customer_address = models.CharField(max_length=512, verbose_name='Address')
-    customer_postcode = models.CharField(max_length=8, verbose_name='Postcode')
-    customer_email = models.EmailField(max_length=64, verbose_name='Email')
+    customer_first_name = models.CharField(max_length=512, verbose_name='First Name', blank=False)
+    customer_last_name = models.CharField(max_length=512, verbose_name='Last Name', blank=False)
+    customer_address = models.CharField(max_length=512, verbose_name='Address', blank=False)
+    customer_postcode = models.CharField(max_length=8, verbose_name='Postcode', blank=False)
+    customer_email = models.EmailField(max_length=64, verbose_name='Email', blank=False)
     customer_phone = models.CharField(max_length=64, verbose_name='Phone')
     fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=30, verbose_name='Delivery / Collect from Ockley Shop /  Collect from Denbies Shop')
     collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A', verbose_name='If collection, which shop?')
