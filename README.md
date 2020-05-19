@@ -41,14 +41,14 @@ Phase 1
 
 [x] Refactor Order model to first/last name
 [x] Refactor for amalgamated cell 'Collect from Denbies Shop' etc
-[ ] Updated order sheet product name fixtures 17/05/19 with codes
+[x] Updated order sheet product name fixtures 17/05/19 with codes
 [x] Date input parsing/validation 'Fri 22 May' not '22/05/2020'
 [ ] Fetching file from dropbox needs to be done in bulk not one at a time
 [ ] Sheet Input Validation
         - C1 Cell must contain value 'First Name'
         - Don't allow parsed sheet to not have any products
         - fulfillment target date validation if in past
-        
+
 [ ] Customer/Receipt sheets generation
         - Reassign order numbers when sheet parse
         - Reassign order numbers when django admin add
