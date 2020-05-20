@@ -3,6 +3,7 @@ import random
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Q
 from django.db import transaction
 from django.db.utils import IntegrityError
 
@@ -46,6 +47,7 @@ class OrderFormFailure(models.Model):
 
 
 class FulfillmentEvent(models.Model):
+
     target_date = models.DateField()
 
     def __str__(self):
@@ -132,9 +134,40 @@ class Order(models.Model):
     def customer_name(self):
         return f'{self.customer_first_name} {self.customer_last_name}'
 
-    def reassign_f_numbers(self):
-        '''F-numbers for all Deliveries are reassigned in postcode order'''
+
+    @classmethod
+    def reassign_future_f_numbers(cls):
         F_NUMBER_SERIES_DELIVERIES = 0
+        F_NUMBER_SERIES_COLLECTION_OCKLEY = 1
+        F_NUMBER_SERIES_COLLECTION_DENBIES = 2
+
+        qs = FulfillmentEvent.objects.filter(Q(target_date__gte=timezone.now()))
+        for evt in qs:
+            # reassign deliveries for this event
+            deliveries = evt.order_set.filter(fulfillment_method=Order.FulfillmentMethod.DELIVERY).order_by('customer_postcode')
+            for count, ord in enumerate(deliveries):
+                f_number = f'{ord.fulfillment_event_id}-{F_NUMBER_SERIES_DELIVERIES}-{count+1:03}'
+                ord.f_number = f_number
+                ord.reassign_save()
+            # reassign Ockley collections
+            ock_coll = evt.order_set.filter(fulfillment_method=Order.FulfillmentMethod.COLLECTION_OCKLEY).order_by('customer_postcode')
+            for count, ord in enumerate(ock_coll):
+                f_number = f'{ord.fulfillment_event_id}-{F_NUMBER_SERIES_COLLECTION_OCKLEY}-{count+1:03}'
+                ord.f_number = f_number
+                ord.reassign_save()
+            # reassign Denbies collections
+            denb_coll = evt.order_set.filter(fulfillment_method=Order.FulfillmentMethod.COLLECTION_DENBIES).order_by('customer_postcode')
+            for count, ord in enumerate(ock_coll):
+                f_number = f'{ord.fulfillment_event_id}-{F_NUMBER_SERIES_COLLECTION_DENBIES}-{count+1:03}'
+                ord.f_number = f_number
+                ord.reassign_save()
+
+    def reassign_f_numbers(self):
+        '''F-numbers for orders are reassigned in postcode order'''
+        F_NUMBER_SERIES_DELIVERIES = 0
+        F_NUMBER_SERIES_COLLECTION_OCKLEY = 1
+        F_NUMBER_SERIES_COLLECTION_DENBIES = 2
+
         if self.fulfillment_method == Order.FulfillmentMethod.DELIVERY:
             qs = Order.objects.filter(fulfillment_event_id=self.fulfillment_event_id,
                                       fulfillment_method=Order.FulfillmentMethod.DELIVERY).order_by('customer_postcode')
@@ -144,6 +177,27 @@ class Order(models.Model):
                 # print(f'New F-number for {ord}: {ord.f_number}')
                 ord.f_number = f_number
                 ord.reassign_save()
+
+        elif self.fulfillment_method == Order.FulfillmentMethod.COLLECTION_OCKLEY:
+            qs = Order.objects.filter(fulfillment_event_id=self.fulfillment_event_id,
+                                      fulfillment_method=Order.FulfillmentMethod.COLLECTION_OCKLEY).order_by('customer_postcode')
+
+            for count, ord in enumerate(qs):
+                f_number = f'{self.fulfillment_event_id}-{F_NUMBER_SERIES_COLLECTION_OCKLEY}-{count+1:03}'
+                # print(f'New F-number for {ord}: {ord.f_number}')
+                ord.f_number = f_number
+                ord.reassign_save()
+
+        elif self.fulfillment_method == Order.FulfillmentMethod.COLLECTION_DENBIES:
+            qs = Order.objects.filter(fulfillment_event_id=self.fulfillment_event_id,
+                                      fulfillment_method=Order.FulfillmentMethod.COLLECTION_DENBIES).order_by('customer_postcode')
+
+            for count, ord in enumerate(qs):
+                f_number = f'{self.fulfillment_event_id}-{F_NUMBER_SERIES_COLLECTION_DENBIES}-{count+1:03}'
+                # print(f'New F-number for {ord}: {ord.f_number}')
+                ord.f_number = f_number
+                ord.reassign_save()
+
 
     @property
     def next_available_f_number(self):
@@ -175,7 +229,6 @@ class Order(models.Model):
             # models.UniqueConstraint(fields=['fulfillment_event_id', 'f_number'], name='unique_f_number_per_event')
         ]
         ordering = ['f_number']
-
 
 class ProductQuantity(models.Model):
 

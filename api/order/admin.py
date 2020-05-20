@@ -8,7 +8,6 @@ from django.urls import reverse
 
 class OrderFormAdmin(admin.ModelAdmin):
     list_display = ('filename', 'created_at', 'fulfillment_event', 'order')
-
     list_filter = ('fulfillment_event',)
 
     def has_add_permission(self, request):
@@ -30,7 +29,6 @@ class OrderFormFailureAdmin(admin.ModelAdmin):
             return obj.form.created_at
 
 
-    # _show_form.short_description = "Form"
     def has_add_permission(self, request):
         return False
 
@@ -45,17 +43,24 @@ class ProductQuantityInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('f_number', 'customer_first_name', 'customer_last_name', 'customer_email', 'customer_phone',
                     'customer_postcode', 'fulfillment_event', 'fulfillment_method', 'created_at')
-
     search_fields = ('code', 'customer_first_name','customer_last_name','customer_postcode', 'customer_email')
     list_filter = ('fulfillment_event','fulfillment_method',)
     readonly_fields = ('f_number',)
     inlines = (ProductQuantityInline,)
-
-
+    exclude = ('collection_location',)
 
     def save_model(self, request, obj, form, change):
         obj.save()
         super(OrderAdmin, self).save_model(request, obj, form, change)
+
+    def delete_model(self, request, obj):
+        obj.delete()
+        obj.reassign_f_numbers()
+
+    def delete_queryset(self, request, queryset):
+        for obj in queryset:
+            obj.delete()
+        Order.reassign_future_f_numbers()
 
 
 class FulfillmentEventAdmin(admin.ModelAdmin):

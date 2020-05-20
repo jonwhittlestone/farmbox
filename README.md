@@ -53,11 +53,11 @@ Phase 1
 [x] Fetching file from dropbox needs to be done in bulk not one at a time
 [ ] Sheet Input Validation
         - Don't allow parsed sheet to not have any products
+        - Don't try to parse non-xlsx
+        - validate postcode
         - fulfillment target date validation if in past
 
 [ ] Customer/Receipt sheets generation
-        - Reassign order numbers when sheet parse
-        - Reassign order numbers when django admin add
         - Reassign order numbers when django admin remove
         - Use in actual VG operation!
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule

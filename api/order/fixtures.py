@@ -77,5 +77,19 @@ sample_orders = [
         'notes': 'Fri weekly until further notice please',
         'created_at': timezone.now(),
         'modified_at': timezone.now(),
+    },
+
+    {
+        'f_number': '6',
+        'customer_first_name': '[NotARealOrder] Johann',
+        'customer_last_name': 'Wastaro',
+        'customer_address': '12, Pine Street',
+        'customer_postcode': 'Rh1 4SX',
+        'customer_email': 'dev+wastero@howapped.com',
+        'customer_phone': '0789 449 54341',
+        'fulfillment_method': 'Collect from Ockley Shop',
+        'notes': 'Fri weekly please',
+        'created_at': timezone.now(),
+        'modified_at': timezone.now(),
     }
 ]
