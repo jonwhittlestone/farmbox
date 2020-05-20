@@ -2,9 +2,16 @@
 
 ![Continuous Integration and Delivery](https://github.com/jonwhittlestone/farmbox/workflows/Continuous%20Integration%20and%20Delivery/badge.svg)
 
-A Django 3 app for better workflow for farm shops that take in orders by xlsx. Currently, it aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
+A Django 3 app for a more efficient workflow for food delivery organisations.
 
-The user uploads new order spreadsheets (xlsx) to the `new-orders` dropbox and initiates a `Fetch` operation in the Django Admin interface. They are ingested by the system according to fulfillment event target date. For example, if the xlsx cell has a _Deliver / Collection Date_ of 21st December 2020, the desired product quantities are read and the fulfillment event for 21/12/2020 is created.
+Currently supports order systems that take in orders by xlsx. It aids fulfillment by producing a generated xlsx to better enable staff to pick and pack the produce.
+
+Example Workflow
+
+1. The user uploads new order spreadsheets (xlsx) to the `new-orders` dropbox and initiates a `Fetch` operation in the Django Admin interface.
+
+2. They are ingested by the system according to fulfillment event target date.
+        - For example, if the xlsx cell has a _Deliver / Collection Date_ of 21st December 2020, the desired product quantities are read and the fulfillment event for 21/12/2020 is created.
 
 This code repository can contain code for both `api` and `client`
 
@@ -60,7 +67,6 @@ Phase 1
 ## Bugs
 - cleanup of /mediafiles if there is an uncaught reader exception
 
-
 ==========================================
 Phase 2
 ==========================================
@@ -78,7 +84,6 @@ Phase 3
 ==========================================
 [ ] Mobile app for picking management / updating order
 ```
-
 ---
 ## API
 
@@ -99,7 +104,6 @@ Quickstart
 1. Clone this repo
 2. `cd api`
 3. With the virtual environment activated, install the API dependencies
-
         pip install -r requirements.txt
 4. Run the migrations
 
