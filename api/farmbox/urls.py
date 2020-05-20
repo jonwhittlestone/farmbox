@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from order import api as order_api
 from sheets.views import fetch as order_sheet_fetcher
 from cloudstore.views import dropbox_example
+from shared.views import factory_reset
 
 admin.site.site_header = 'Village Greens'
 admin.site.site_title = 'Village Greens Admin'
@@ -20,6 +21,7 @@ urlpatterns = [
     path(r'api/order/input-sheet/<int:f_event_id>/',
         login_required(order_api.download_input_xlsx), name='download_input_xlsx'),
     path(r'sheets/fetch/', login_required(order_sheet_fetcher), name='order_sheet_fetcher'),
+    path('shared/factory-reset',login_required(factory_reset), name='factory_reset'),
     path('dropbox-example', dropbox_example, name='dropbox_example' ),
     path('', admin.site.urls),
 ]

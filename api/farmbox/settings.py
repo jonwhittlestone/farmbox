@@ -129,7 +129,7 @@ DEFAULT_SUPERUSER = {
     'email': os.environ.get('DEFAULT_SUPERUSER_EMAIL', 'dev@howapped.com'),
     'password': os.environ.get('DEFAULT_SUPERUSER_PASSWORD')
 }
-
+NUMBER_PRODUCTS_TO_ADD_TO_A_SAMPLE_ORDER = 5
 FULFILLMENT_METHODS_DELIVERY = 'Delivery'
 FULFILLMENT_METHODS_COLLECTION_OCKLEY = 'Collect from Ockley Shop'
 FULFILLMENT_METHODS_COLLECTION_DENBIES = 'Collect from Denbies Shop'

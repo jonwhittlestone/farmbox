@@ -70,6 +70,7 @@ Phase 1
 ==========================================
 Phase 2
 ==========================================
+[ ] User groups
 [ ] Multi-tenancy
 [ ] Web Order Form
 [ ] Stripe integration
