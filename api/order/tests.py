@@ -1,6 +1,7 @@
 import random
 import factory
 import pytest
+from decimal import Decimal
 from djmoney.money import Money
 from django.test import TestCase
 from django.conf import settings
@@ -59,6 +60,14 @@ def test_download_input_xlsx_returns_byte_stream(client):
     user,client = user_allowed(client)
     res = client.get('/api/order/input-sheet/1/')
     assert res.status_code == 200
+
+
+@pytest.mark.django_db
+def test_i_can_get_the_total_for_an_orders_products():
+    ord = Order.objects.first()
+    actual = ord.products_total
+    assert isinstance(actual, Decimal)
+    assert actual != Decimal(0)
 
 from django.utils import timezone
 from sheets.generate import InputSheet
@@ -180,6 +189,7 @@ class TestGeneratingInputSheet:
 
 
         self.clean_up()
+
 
 
 @pytest.mark.django_db

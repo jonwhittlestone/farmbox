@@ -57,9 +57,11 @@ Phase 1
         - validate postcode
         - fulfillment target date validation if in past
 
-[ ] Customer/Receipt sheets generation
-        - Reassign order numbers when django admin remove
-        - Use in actual VG operation!
+[ ] Customer sheets generation
+        - Total Cost to Client is final row
+        - Contains F-Number on first row
+        - On new tab of input sheet
+
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule
 [ ] Invoice/Costing calculation
 [ ] Repeat orders

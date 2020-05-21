@@ -1,10 +1,12 @@
 import os
 import random
+from decimal import Decimal
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.db.models import Q
 from django.db import transaction
+from django.db.models import Sum
 from django.db.utils import IntegrityError
 
 class OrderForm(models.Model):
@@ -133,6 +135,14 @@ class Order(models.Model):
     @property
     def customer_name(self):
         return f'{self.customer_first_name} {self.customer_last_name}'
+
+    @property
+    def products_total(self) -> Decimal:
+        try:
+            return self.products.all().aggregate(Sum('price'))['price__sum']
+        except Exception as e:
+            print(f"[143] Could not return sum of product price")
+            return Decimal(0)
 
 
     @classmethod
