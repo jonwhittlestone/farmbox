@@ -42,7 +42,8 @@ def upload_form_to_processed_folder(f:PosixPath, order:Order):
             fevent_folder_exists = True
     if not fevent_folder_exists:
         d.svc.files_create_folder_v2(f'/{os.path.join(settings.PROCESSED_ORDERS_FOLDER, order.fulfillment_event.remote_folder_name)}')
-    dest_path = f'/{os.path.join(settings.PROCESSED_ORDERS_FOLDER, order.fulfillment_event.remote_folder_name)}'
+    unique_filename = f'{order.id}_{os.path.split(f)[-1]}'
+    dest_path = f'/{os.path.join(settings.PROCESSED_ORDERS_FOLDER, order.fulfillment_event.remote_folder_name, unique_filename)}'
     d.upload(f, dest_path)
 
 def remove_remote_db():
