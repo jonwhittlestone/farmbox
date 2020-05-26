@@ -7,6 +7,7 @@ from sheets.input_cleansing import zero_product_count
 import pandas as pd
 import xlsxwriter
 
+SPACER = ('',)
 class CustomerSheet:
     '''Responsible for generating a customer sheet for an order.'''
 
@@ -19,7 +20,11 @@ class CustomerSheet:
 
     @property
     def customer_headers(self) -> tuple:
-        return settings.CUSTOMER_SHEET['CUSTOMER_HEADERS']
+        fields = settings.CUSTOMER_SHEET['ORDER_FIELDS'][0:-1]
+        field_names = [self.order._meta.get_field(
+            f).verbose_name for f in fields]
+        field_names.append('Event Date')
+        return tuple(field_names)
 
     @property
     def product_headers(self) -> tuple:
@@ -29,26 +34,37 @@ class CustomerSheet:
     @property
     def headers(self) -> tuple:
         '''Sheet vertical column of headers comprising Order details and product names'''
-        SPACER = ('',)
         TOTAL_HEADER = ('TOTAL',)
         headers = (self.customer_headers + SPACER + self.product_headers + TOTAL_HEADER)
         return headers
 
     @property
     def pack_sizes(self) -> tuple:
-        '''Horizontal row of packsizes'''
-        return ('','','','','','','','Std Pack Size', '1','1','1',''),
+        '''vertical column of packsizes'''
+        pack_sizes_empty_cells = (SPACER * len(self.customer_headers))
+        pack_sizes = tuple(self.order.products.values_list('pack_size',flat=True))
+        return  pack_sizes_empty_cells + ('Std Pack Size',) + pack_sizes + SPACER
 
+    @property
+    def product_prices(self) -> tuple:
+        '''Vertical column of product prices (with the header)'''
+        product_prices_empty_cells = (SPACER * len(self.customer_headers))
+        product_prices = tuple(self.order.products.values_list('price',flat=True))
+        return product_prices_empty_cells + ('Current Price',) + product_prices + SPACER
+
+    @property
+    def order_details(self):
+        '''Vertical column that consists of order details, and quantities.'''
+        HEADER = 'Quantity'
+
+        return ('20-1-001', 'Jon', 'Whittler', '92, Long Acre, Dorking. Surrey.', 'RH4 1LD', 'DELIVERY', 'Fri 8 Jun 2020', 'Quantity', '1', '2', '1', '5')
 
     def to_df(self):
         df = pd.DataFrame([
             self.headers,
-            # Pack size row
             self.pack_sizes,
-            # Current Price row
-            ('','','','','','','','Current Price', '£1.00','£1.30','£11.00',''),
-            ('20-1-001','Jon','Whittler','92, Long Acre, Dorking. Surrey.','RH4 1LD','DELIVERY','Fri 8 Jun 2020','Quantity', '1','2','1','5'),
-            # Pad out rows to force next output to new page
+            self.product_prices,
+            self.order_details,
             ('','','','','','', '','Cost','£1.00','£2.60','£11.00','£14.60'),
             ('','','','','','', '','','','','',''),
             ('','','','','','', '','','','','',''),

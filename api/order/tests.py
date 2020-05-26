@@ -78,18 +78,43 @@ from sheets.generate import InputSheet, CustomerSheet
 class TestGeneratingCustomerSheet:
 
     '''Tests for creating the input sheet from Order records.'''
-    def test_the_first_column_of_dataframe_comprises_order_details_and_products(self):
+    def test_the_column_of_dataframe_comprises_order_details_and_products(self):
         '''The first column of the sheet should comprise customer order details and the product names/codes'''
+        DATAFRAME_COLUMN = 1
         order = Order.objects.all().first()
         t_obj = CustomerSheet(order)
         expected_product_names = tuple(order.products.values_list('name',flat=True))
-        expected = ('F-Number', 'Customer First Name', 'Customer Last Name', 'Customer Postcode',
-                    'Customer Address', 'Fulfillment Method', 'Fulfullment Date', '') + expected_product_names + ('TOTAL',)
+        expected = ('F-Number', 'First Name', 'Last Name', 'Postcode',
+                    'Address', 'Fulfillment Method', 'Event Date', '') + expected_product_names + ('TOTAL',)
         df = t_obj.to_df()
         assert isinstance(df, DataFrame)
-        assert tuple(df[0]) == expected
+        assert tuple(df[DATAFRAME_COLUMN - 1]) == expected
 
+    def test_the_column_of_dataframe_comprises_packsizes(self):
+        DATAFRAME_COLUMN = 2
+        order = Order.objects.all().first()
+        t_obj = CustomerSheet(order)
+        df = t_obj.to_df()
 
+        pack_sizes = tuple(order.products.values_list('pack_size',flat=True))
+        assert tuple(df[DATAFRAME_COLUMN - 1])[8] == pack_sizes[0]
+        assert tuple(df[DATAFRAME_COLUMN - 1])[9] == pack_sizes[1]
+        assert tuple(df[DATAFRAME_COLUMN - 1])[10] == pack_sizes[2]
+
+    def test_the_column_of_dataframe_comprises_prices(self):
+        DATAFRAME_COLUMN = 3
+        order = Order.objects.all().first()
+        t_obj = CustomerSheet(order)
+        df = t_obj.to_df()
+
+        prices = tuple(order.products.values_list('price',flat=True))
+        assert tuple(df[DATAFRAME_COLUMN - 1])[8] == prices[0]
+        assert tuple(df[DATAFRAME_COLUMN - 1])[9] == prices[1]
+        assert tuple(df[DATAFRAME_COLUMN - 1])[10] == prices[2]
+
+    def test_the_column_of_dataframe_comprises_order_details_and_quantites(self):
+        DATAFRAME_COLUMN = 4
+        assert True
 
 
 @pytest.mark.django_db

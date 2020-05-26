@@ -104,7 +104,7 @@ class Order(models.Model):
     customer_postcode = models.CharField(max_length=8, verbose_name='Postcode', blank=False)
     customer_email = models.EmailField(max_length=64, verbose_name='Email', blank=False)
     customer_phone = models.CharField(max_length=64, verbose_name='Phone')
-    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=30, verbose_name='Delivery / Collect from Ockley Shop /  Collect from Denbies Shop')
+    fulfillment_method = models.CharField(choices=FulfillmentMethod.choices, max_length=30, verbose_name='Fulfillment Method')
     collection_location = models.CharField(choices=CollectionLocation.choices, max_length=16, blank='N/A', verbose_name='If collection, which shop?')
     notes = models.TextField(blank=True, verbose_name='NOTES')
     archived = models.BooleanField(default=False)
