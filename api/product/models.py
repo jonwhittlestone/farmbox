@@ -19,5 +19,22 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    @classmethod
+    def published_names(cls):
+        qs = cls.objects.filter(published=True)
+        product_names = list(qs.values_list('name', flat=True))
+        product_ids = list(qs.values_list('id', flat=True))
+        ids_names = list(qs.values('id','name'))
+        return [p.get('name') for p in ids_names], [p.get('id') for p in ids_names]
+
+    def quantity(self):
+
+        qs = self.product_quantities.filter(product_id=product_id).first()
+        if qs:
+            return qs.quantity
+        return 0
+        # fromO
+        # return self.
+
     class Meta:
         ordering = ('sequence',)

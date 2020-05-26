@@ -177,6 +177,10 @@ INPUT_SHEET = {
     ]
 }
 
+CUSTOMER_SHEET = {
+    'CUSTOMER_HEADERS': ('F-Number','Customer First Name','Customer Last Name','Customer Postcode','Customer Address','Fulfillment Method','Fulfullment Date',)
+}
+
 ORDER_SHEET = {
     'PRODUCT_NAME_COL': 'A',
     'PRODUCT_COUNT_COL': 'C',

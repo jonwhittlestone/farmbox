@@ -1,0 +1,36 @@
+table tr th {
+    display:none
+}
+
+/* tbody td { padding: 10px 5px 10px 5px } */
+
+
+
+table tr td:nth-child(2) {
+    font-weight: bold
+}
+
+tbody tr:nth-child(even) td,
+tbody tr.even td  {
+	background: #e5fdfd;
+}
+
+/* Border on customer details and quantities column */
+tbody tr:nth-child(1) td:nth-child(5) {
+    border-top:2px solid darkgrey;
+    border-left:2px solid darkgrey;
+    border-right:2px solid darkgrey;
+}
+
+tbody td:nth-child(5) {
+    border-left:2px solid darkgrey;
+    border-right:2px solid darkgrey;
+}
+
+tbody tr:last-child td:nth-child(5) {
+    border-bottom:2px solid darkgrey;
+    border-left:2px solid darkgrey;
+    border-right:2px solid darkgrey;
+}
+
+/* /Border on customer details and quantities column */

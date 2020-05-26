@@ -58,8 +58,8 @@ Phase 1
         - fulfillment target date validation if in past
 
 [ ] Customer sheets generation
-        - Total Cost to Client is final row
-        - Contains F-Number on first row
+        - Create dataframe per order and convert to pdf
+        - So, can print out one sheet per order
         - On new tab of input sheet
 
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule

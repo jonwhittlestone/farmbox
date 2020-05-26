@@ -3,6 +3,7 @@ import factory
 import pytest
 from decimal import Decimal
 from djmoney.money import Money
+from pandas.core.frame import DataFrame
 from django.test import TestCase
 from django.conf import settings
 from product.models import Product
@@ -70,11 +71,29 @@ def test_i_can_get_the_total_for_an_orders_products():
     assert actual != Decimal(0)
 
 from django.utils import timezone
-from sheets.generate import InputSheet
+from sheets.generate import InputSheet, CustomerSheet
+
+
+@pytest.mark.django_db
+class TestGeneratingCustomerSheet:
+
+    '''Tests for creating the input sheet from Order records.'''
+    def test_the_first_column_of_dataframe_comprises_order_details_and_products(self):
+        '''The first column of the sheet should comprise customer order details and the product names/codes'''
+        order = Order.objects.all().first()
+        t_obj = CustomerSheet(order)
+        expected_product_names = tuple(order.products.values_list('name',flat=True))
+        expected = ('F-Number', 'Customer First Name', 'Customer Last Name', 'Customer Postcode',
+                    'Customer Address', 'Fulfillment Method', 'Fulfullment Date', '') + expected_product_names + ('TOTAL',)
+        df = t_obj.to_df()
+        assert isinstance(df, DataFrame)
+        assert tuple(df[0]) == expected
+
+
+
 
 @pytest.mark.django_db
 class TestGeneratingInputSheet:
-    '''Tests for creating the input sheet from Order records.'''
 
     def clean_up(self):
         Order.objects.all().delete()
