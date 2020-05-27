@@ -137,7 +137,8 @@ class Order(models.Model):
         return f'{self.customer_first_name} {self.customer_last_name}'
 
     @property
-    def products_total(self) -> Decimal:
+    def products_price_total(self) -> Decimal:
+        '''The total price of an orders products.'''
         try:
             return self.products.all().aggregate(Sum('price'))['price__sum']
         except Exception as e:

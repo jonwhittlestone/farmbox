@@ -178,7 +178,7 @@ INPUT_SHEET = {
 }
 
 CUSTOMER_SHEET = {
-    'ORDER_FIELDS': ('f_number','customer_first_name','customer_last_name','customer_postcode','customer_address','fulfillment_method','fulfillment_event__target_date',)
+    'ORDER_FIELDS': ('f_number','customer_first_name','customer_last_name','customer_postcode','customer_address','fulfillment_method','fulfillment_event',)
 }
 
 ORDER_SHEET = {

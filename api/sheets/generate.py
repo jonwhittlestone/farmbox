@@ -13,10 +13,12 @@ class CustomerSheet:
 
     _customer_headers: []
     _product_headers: []
+    totals: {}
     order: Order
 
     def __init__(self, order:Order):
         self.order = order
+        self.totals = {'quantity':0}
 
     @property
     def customer_headers(self) -> tuple:
@@ -56,8 +58,18 @@ class CustomerSheet:
     def order_details(self):
         '''Vertical column that consists of order details, and quantities.'''
         HEADER = 'Quantity'
+        self.totals['quantity'] = sum(self.product_quantities)
+        details = (self.customer_details + (HEADER,) + self.product_quantities + (self.totals['quantity'],))
+        return details
 
-        return ('20-1-001', 'Jon', 'Whittler', '92, Long Acre, Dorking. Surrey.', 'RH4 1LD', 'DELIVERY', 'Fri 8 Jun 2020', 'Quantity', '1', '2', '1', '5')
+    @property
+    def customer_details(self) -> tuple:
+        return tuple([getattr(self.order,f) for f in settings.CUSTOMER_SHEET['ORDER_FIELDS']])
+        # return tuple(Order.objects.filter(id=self.order.id).values_list(*settings.CUSTOMER_SHEET['ORDER_FIELDS'])[0])
+
+    @property
+    def product_quantities(self):
+        return tuple([1,2,3,4,5])
 
     def to_df(self):
         df = pd.DataFrame([

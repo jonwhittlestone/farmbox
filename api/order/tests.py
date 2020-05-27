@@ -64,9 +64,9 @@ def test_download_input_xlsx_returns_byte_stream(client):
 
 
 @pytest.mark.django_db
-def test_i_can_get_the_total_for_an_orders_products():
+def test_i_can_get_the_total_price_for_an_orders_products():
     ord = Order.objects.first()
-    actual = ord.products_total
+    actual = ord.products_price_total
     assert isinstance(actual, Decimal)
     assert actual != Decimal(0)
 
@@ -114,7 +114,32 @@ class TestGeneratingCustomerSheet:
 
     def test_the_column_of_dataframe_comprises_order_details_and_quantites(self):
         DATAFRAME_COLUMN = 4
-        assert True
+        order = Order.objects.all().first()
+        t_obj = CustomerSheet(order)
+        df = t_obj.to_df()
+        df_col = df[DATAFRAME_COLUMN - 1]
+
+        # assert the first N indices contain the customer_details
+        # as per the settings
+        expected = ('20-1-001', 'Jon', 'Whittler', '92, Long Acre, Dorking. Surrey.', 'RH4 1LD', 'DELIVERY', 'Fri 8 Jun 2020', 'Quantity', '1', '2', '3', '4','5','')
+        # coerce fulfillment event date into the expected fields
+        expected_customer_details = list(Order.objects.filter(id=order.id).values_list(*settings.CUSTOMER_SHEET['ORDER_FIELDS'])[0])
+        expected_customer_details[-1] = FulfillmentEvent.objects.get(id=expected_customer_details[-1])
+        expected_customer_details = tuple(expected_customer_details)
+
+        assert tuple(expected_customer_details) == tuple(df_col[0:len(settings.CUSTOMER_SHEET['ORDER_FIELDS'])])
+
+        # assert position 7 contains the header 'Quantity'
+        expected_header = 'Quantity'
+        assert expected_header == df_col[len(settings.CUSTOMER_SHEET['ORDER_FIELDS'])]
+
+
+
+        # assert the last cell values is equal to model instance
+        # calculated total quantity
+
+        # assert remaining cells contain product quantities
+        # assert tuple(df[DATAFRAME_COLUMN - 1]) == expected
 
 
 @pytest.mark.django_db

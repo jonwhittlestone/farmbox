@@ -2,6 +2,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "DEV",
             "type": "python",
@@ -42,6 +43,17 @@
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
                 "order/tests.py::TestGeneratingInputSheet"
+            ],
+            "django": true
+        },
+        {
+            "name": "Test - Generating Customer Sheet",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "-vv",
+                "order/tests.py::TestGeneratingCustomerSheet"
             ],
             "django": true
         },
