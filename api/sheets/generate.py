@@ -69,7 +69,8 @@ class CustomerSheet:
 
     @property
     def product_quantities(self):
-        return tuple([1,2,3,4,5])
+        '''For each product header, what are the quantities'''
+        return tuple(self.order.product_quantities.all().values_list('quantity',flat=True))
 
     def to_df(self):
         df = pd.DataFrame([

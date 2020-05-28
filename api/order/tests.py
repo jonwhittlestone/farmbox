@@ -3,11 +3,12 @@ import factory
 import pytest
 from decimal import Decimal
 from djmoney.money import Money
+from collections import OrderedDict
 from pandas.core.frame import DataFrame
 from django.test import TestCase
 from django.conf import settings
 from product.models import Product
-from order.models import Order, FulfillmentEvent
+from order.models import Order, FulfillmentEvent, ProductQuantity
 from shared.tests import user_allowed, create_user, login_user
 from pytest_factoryboy import register
 from order.fixtures import sample_fulfillment_events, sample_orders
@@ -121,7 +122,6 @@ class TestGeneratingCustomerSheet:
 
         # assert the first N indices contain the customer_details
         # as per the settings
-        expected = ('20-1-001', 'Jon', 'Whittler', '92, Long Acre, Dorking. Surrey.', 'RH4 1LD', 'DELIVERY', 'Fri 8 Jun 2020', 'Quantity', '1', '2', '3', '4','5','')
         # coerce fulfillment event date into the expected fields
         expected_customer_details = list(Order.objects.filter(id=order.id).values_list(*settings.CUSTOMER_SHEET['ORDER_FIELDS'])[0])
         expected_customer_details[-1] = FulfillmentEvent.objects.get(id=expected_customer_details[-1])
@@ -133,10 +133,14 @@ class TestGeneratingCustomerSheet:
         expected_header = 'Quantity'
         assert expected_header == df_col[len(settings.CUSTOMER_SHEET['ORDER_FIELDS'])]
 
-
-
         # assert the last cell values is equal to model instance
         # calculated total quantity
+        last_cell = -1
+        pq = OrderedDict({})
+        for p in order.products.all():
+            pq[p.name] = ProductQuantity.objects.get(order_id=order.id,product_id=p.id).quantity
+        expected_quant_sum =sum(list(pq.values()))
+        assert tuple(df_col)[last_cell] == expected_quant_sum
 
         # assert remaining cells contain product quantities
         # assert tuple(df[DATAFRAME_COLUMN - 1]) == expected
