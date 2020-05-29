@@ -72,13 +72,20 @@ class CustomerSheet:
         '''For each product header, what are the quantities'''
         return tuple(self.order.product_quantities.all().values_list('quantity',flat=True))
 
+    @property
+    def quantity_costs(self):
+        net_total = ('£14.60',)
+        # return ('','','','','','', '','Cost','£1.00','£2.60','£11.00' +  net_total))
+
+        return ('','','','','','', '','Cost','£1.00','£2.60','£11.00','£14.56')
+
     def to_df(self):
         df = pd.DataFrame([
             self.headers,
             self.pack_sizes,
             self.product_prices,
             self.order_details,
-            ('','','','','','', '','Cost','£1.00','£2.60','£11.00','£14.60'),
+            self.quantity_costs,
             ('','','','','','', '','','','','',''),
             ('','','','','','', '','','','','',''),
             ('','','','','','', '','','','','',''),

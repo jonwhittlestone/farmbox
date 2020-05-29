@@ -144,6 +144,20 @@ class TestGeneratingCustomerSheet:
 
         # assert remaining cells contain product quantities
         # assert tuple(df[DATAFRAME_COLUMN - 1]) == expected
+        start = len(expected_customer_details)+1
+        stop = last_cell
+        expected_quantities = tuple(pq.values())
+        assert expected_quantities == tuple(df_col[start:stop])
+
+    def test_the_data_frame_column_contains_quanitity_costs(self):
+
+        DATAFRAME_COLUMN = 5
+        order = Order.objects.all().first()
+        t_obj = CustomerSheet(order)
+        df = t_obj.to_df()
+        df_col = df[DATAFRAME_COLUMN - 1]
+        # test last column is net total cost
+        assert True
 
 
 @pytest.mark.django_db
