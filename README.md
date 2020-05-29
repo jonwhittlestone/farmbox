@@ -62,9 +62,31 @@ Phase 1
         - So, can print out one sheet per order
         - On new tab of input sheet
 
+[ ] Repeat orders
+        -  There is a dropbox folder called 'repeat-orders' in which reside spreadsheets
+        that get ingested to the app, but do not get removed
+
+        - The order spreadsheet date column includes the options. If a new order sheet has one
+        of these options, it will be ingested and moved to the '/repeat-orders' dropbox folder.
+
+                - Repeat weekly every Tue until further notice
+                - Repeat weekly every Fri until further notice
+                - Repeat fornightly every Tue until further notice
+                - Repeat fornightly every Wed until further notice
+
+        The administrator can also manually move the order form to the folder
+
+        - When a new repeat order is ingested, the system will mark an order as a repeat and there is a separate section in the user interface to show all repeat orders. The contents of which should match the dropbox folder contents.
+
+        - On each *Fetch* operation, the system will ensure that one instance of the repeat order
+        (when applicable) has been added to the relevant forthcoming *Fulfillment Event* orders
+
+        - On *Fetch* operation, the `/repeat-orders` dropbox folder is synced
+        so the section mentioned above is updated. If a spreadsheet from the dropbox folder is removed, the system will remove any orders that are related to the removed spreadsheet.
+
+
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule
 [ ] Invoice/Costing calculation
-[ ] Repeat orders
 
 ## Bugs
 - cleanup of /mediafiles if there is an uncaught reader exception
