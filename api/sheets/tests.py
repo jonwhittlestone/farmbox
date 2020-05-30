@@ -39,20 +39,24 @@ def test_order_details_are_captured_to_instance_variable():
     for expected_idx,expected in expected_actual:
         assert actual.get(expected_idx,'') == expected
 
+@pytest.mark.django_db
+@pytest.mark.skip(reason="Only for real-world debugging on local")
+def test_i_can_read_a_locally_stored_sheet_to_an_order():
+
+    r = OrderSheetReader()
+    filename = 'Garrood 2.xlsx'
+    path = os.path.join(settings.LOCAL_FETCH_SHEETS_DIR,filename)
+
+    excel_data = r.read(path)
+
+    order_details = r.order_details
+    assert True
+
 
 @pytest.mark.django_db
 def test_order_sheet_products_count():
     expected = {
-        'Village Greens Veg Bag : Large' : 1,
-        'Butternut Squash' : 1,
-        'Avocado : Ripe ready to eat': 1,
-        'Lettuce :Romaine':3,
-        'Lemon': 1,
-        'Raspberries':1,
-        'Strawberries':2,
-        '1 L Skimmed': 1,
-        'Moores Biscuits 150g : Chocolate Chip':2,
-        'Ringdon Apple Juice 1L - Cox Bramley Med Sweet':1
+        'Butternut Squash FV0013' : 1,
     }
     # product names
     products = list(Product.objects.values_list('name', flat=True))
