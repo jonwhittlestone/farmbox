@@ -39,6 +39,7 @@ def fetch(request):
         'processed': 0,
         'failure': 0
     }
+    containing_dir, zip_path, files_meta = cloud_fetcher()
     for count, f in enumerate(collect_files_for_reading(containing_dir)):
         r = OrderSheetReader()
         try:
