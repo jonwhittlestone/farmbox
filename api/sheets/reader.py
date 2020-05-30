@@ -62,10 +62,11 @@ class OrderSheet():
     def read_to_model(self, file = None) -> Order:
         '''Creates an Order model instance from an Order Sheet.'''
         self.read(file)
-        self.order_details
-        self.product_counts
 
         try:
+            self.order_details
+            self.product_counts
+
             f_event = self.get_or_create_fulfillment_event()
             self.create_order(f_event)
         except (IntegrityError,ValidationError) as e:
@@ -149,8 +150,15 @@ class OrderSheet():
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_NAME_COL', '') and cell.internal_value in products:
                     products_rows.append(row)
 
+        if len(products_rows) == 0:
+            raise ValidationError(
+                f'[152] The products on the customer sheet did not match product listing. Does this spreadsheet conform to the layout in "current.xlsx"?')
+
         for row in products_rows:
+            print(row)
             for cell in row:
+                if not hasattr(cell, 'column_letter'):
+                    break
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_NAME_COL'):
                     key = cell.internal_value
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_COUNT_COL'):

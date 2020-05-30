@@ -112,5 +112,16 @@
             ],
             "django": true
         },
+
+        {
+            "name": "Test - i_can_read_a_locally_stored_sheet_to_an_order",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "sheets/tests.py::test_i_can_read_a_locally_stored_sheet_to_an_order"
+            ],
+            "django": true
+        },
     ]
 }
