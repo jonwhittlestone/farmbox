@@ -160,7 +160,7 @@ class Order(models.Model):
         return product_costs
 
     @property
-    def net_total(self):
+    def gross_total(self):
         product_costs = self.product_costs
         return '£14.60'
 

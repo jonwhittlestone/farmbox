@@ -149,6 +149,8 @@ class TestGeneratingCustomerSheet:
         expected_quantities = tuple(pq.values())
         assert expected_quantities == tuple(df_col[start:stop])
 
+
+    @pytest.mark.skip(reason="todo")
     def test_the_data_frame_column_contains_quanitity_costs(self):
 
         DATAFRAME_COLUMN = 5
@@ -157,7 +159,9 @@ class TestGeneratingCustomerSheet:
         df = t_obj.to_df()
         df_col = df[DATAFRAME_COLUMN - 1]
         # test last column is net total cost
-        assert True
+        expected_total_cost = '£14.60'
+        expected_costs =    ('','','','','','', '','Cost','£1.00','£2.60','£11.00','£3.00','£2.50',expected_total_cost)
+        assert expected_costs == tuple(df_col)
 
 
 @pytest.mark.django_db

@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from typing import List
 from product.models import Product
@@ -6,6 +7,8 @@ from django.db.models import QuerySet
 from sheets.input_cleansing import zero_product_count
 import pandas as pd
 import xlsxwriter
+from jinja2 import Environment, FileSystemLoader
+from weasyprint import HTML
 
 SPACER = ('',)
 class CustomerSheet:
@@ -74,25 +77,46 @@ class CustomerSheet:
 
     @property
     def quantity_costs(self):
-        net_total = ('£14.60',)
-        # return ('','','','','','', '','Cost','£1.00','£2.60','£11.00' +  net_total))
+        HEADER = 'Cost'
 
-        return ('','','','','','', '','Cost','£1.00','£2.60','£11.00','£14.56')
+        costs_empty_cells = (SPACER * len(self.customer_headers))
+        # product_prices = tuple(self.order.products.values_list('price',flat=True))
+        product_costs = self.order.products.values_list('price',flat=True)
+        quantity_costs = []
+        product_prices = tuple(self.order.products.values_list('price',flat=True))
+        for p,q in zip(product_prices, self.product_quantities):
+            quantity_costs.append(p*q)
+
+        gross_total = (f'£{sum(list(quantity_costs))}',)
+
+        converted_product_costs = [str(f'£{c}') for c in quantity_costs]
+        product_costs = tuple(converted_product_costs)
+        return costs_empty_cells + (HEADER,) + product_costs + gross_total
+
+        return ('','','','','','', '',HEADER,'£1.00','£2.60','£11.00','£3.00','£2.50',) + gross_total
 
     def to_df(self):
+        SPACER_COLUMN = ('','','','','','','','', '','','','','','')
         df = pd.DataFrame([
             self.headers,
             self.pack_sizes,
             self.product_prices,
             self.order_details,
             self.quantity_costs,
-            ('','','','','','', '','','','','',''),
-            ('','','','','','', '','','','','',''),
-            ('','','','','','', '','','','','',''),
-            ('','','','','','', '','','','','',''),
         ])
-        df_transposed = df.transpose()
-        return df_transposed
+        self._df_transposed = df.transpose()
+        return self._df_transposed
+
+    def to_pdf(self) -> str:
+        dest_filename = f"customer_sheet_{self.order.f_number}.pdf"
+        dest_path = os.path.join(settings.MEDIA_ROOT,dest_filename)
+        env = Environment(loader=FileSystemLoader('.'))
+        template = env.get_template("customer_sheet.html")
+        template_vars = {"title" : "Farmbox Customer Sheet",
+                        "customer_sheet": self._df_transposed.to_html()}
+        html_out = template.render(template_vars)
+        HTML(string=html_out).write_pdf(dest_path, stylesheets=["style.css", "customer_sheet.css"])
+        return dest_path
 
 
 
