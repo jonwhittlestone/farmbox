@@ -144,6 +144,25 @@ class Order(models.Model):
         except Exception as e:
             print(f"[143] Could not return sum of product price")
             return Decimal(0)
+    @property
+    def product_costs(self) -> list:
+        '''
+        {
+            products = [{
+                        quantity:{QUANTITY}, price:{PRICE}, product_cost{QUANTITY * PRICE},
+                        ...
+            }],
+        }
+        '''
+        product_costs = []
+        for q in self.product_quantities.all():
+            debug=True
+        return product_costs
+
+    @property
+    def gross_total(self):
+        product_costs = self.product_costs
+        return '£14.60'
 
 
     @classmethod
