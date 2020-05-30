@@ -155,7 +155,10 @@ class OrderSheet():
                 f'[152] The products on the customer sheet did not match product listing. Does this spreadsheet conform to the layout in "current.xlsx"?')
 
         for row in products_rows:
+            print(row)
             for cell in row:
+                if not hasattr(cell, 'column_letter'):
+                    break
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_NAME_COL'):
                     key = cell.internal_value
                 if cell.column_letter == settings.ORDER_SHEET.get('PRODUCT_COUNT_COL'):
