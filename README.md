@@ -42,25 +42,15 @@ Phase 1
 [x] New product selection / May order form
 [x] Deployment
 [ ] Dev Quality Tools
-        - Sentry: bug tracking
         - interrogate: docstring coverage
         - mypi: type checking
 
-[x] Refactor Order model to first/last name
-[x] Refactor for amalgamated cell 'Collect from Denbies Shop' etc
-[x] Updated order sheet product name fixtures 17/05/19 with codes
-[x] Date input parsing/validation 'Fri 22 May' not '22/05/2020'
-[x] Fetching file from dropbox needs to be done in bulk not one at a time
 [ ] Sheet Input Validation
         - Don't allow parsed sheet to not have any products
-        - Don't try to parse non-xlsx
         - validate postcode
         - fulfillment target date validation if in past
 
-[ ] Customer sheets generation
-        - Create dataframe per order and convert to pdf
-        - So, can print out one sheet per order
-        - On new tab of input sheet
+[x] Customer sheets generation
 
 [ ] Repeat orders
         -  There is a dropbox folder called 'repeat-orders' in which reside spreadsheets

@@ -14,7 +14,6 @@ admin.site.site_header = 'Village Greens'
 admin.site.site_title = 'Village Greens Admin'
 admin.site.index_title = 'Village Greens Admin'
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),

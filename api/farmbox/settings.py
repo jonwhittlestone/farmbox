@@ -219,3 +219,15 @@ CLOUD_SUBFOLDERS = (NEW_ORDERS_FOLDER, PROCESSED_ORDERS_FOLDER, BACKUP_DB_FOLDER
 TESTING_ORDERS_DIRNAME = 'testing'
 NEW_ORDERS_REMOTE_PATH = f'/{NEW_ORDERS_FOLDER}'
 TESTING_ORDERS_REMOTE_PATH = f'/{os.path.join(NEW_ORDERS_FOLDER,TESTING_ORDERS_DIRNAME)}'
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://ad8f8ff44e804b90835d6c3a63d02ef8@o389188.ingest.sentry.io/5227023",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
