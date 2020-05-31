@@ -19,8 +19,8 @@ def local_fetch(request):
         r = OrderSheetReader()
         try:
             order = r.read_to_model(f)
-            remove_remote_form_after_fetch_success(r.obj.filename)
-            upload_form_to_processed_folder(f,order)
+            # remove_remote_form_after_fetch_success(r.obj.filename)
+            # upload_form_to_processed_folder(f,order)
             forms_status['processed'] += 1
             messages.add_message(request,
                             messages.SUCCESS, f'{r.obj.filename} processed.')

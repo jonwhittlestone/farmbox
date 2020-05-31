@@ -114,7 +114,9 @@ class OrderSheet():
         return self.excel_data
 
     def cell_cleaner(self, value, field = ''):
-        if field == 'fulfillment_method' or field == 'collection_location':
+        # Commenting out because value should be 'Collect from Ockley Shop'
+        # not, 'Collection From Ockley Shop'
+        if field == 'collection_location':
             return value.title()
         return value
 
