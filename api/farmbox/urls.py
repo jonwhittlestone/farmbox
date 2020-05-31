@@ -23,6 +23,9 @@ urlpatterns = [
         login_required(order_api.download_input_xlsx), name='download_input_xlsx'),
     path(r'api/order/customer-sheet/<int:order_id>/',
         login_required(order_api.download_customer_sheet), name='download_customer_sheet'),
+
+    path(r'api/order/customer-sheet/fulfillment-event/<int:f_event_id>/',
+        login_required(order_api.download_event_customer_sheet), name='download_event_customer_sheet'),
     path(r'sheets/local-fetch/', login_required(local_order_sheet_fetcher), name='local_order_sheet_fetcher'),
     path(r'sheets/fetch/', login_required(order_sheet_fetcher), name='order_sheet_fetcher'),
     path('shared/factory-reset',login_required(factory_reset), name='factory_reset'),

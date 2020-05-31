@@ -144,6 +144,7 @@ class Order(models.Model):
         except Exception as e:
             print(f"[143] Could not return sum of product price")
             return Decimal(0)
+
     @property
     def product_costs(self) -> list:
         '''

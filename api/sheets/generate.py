@@ -5,12 +5,42 @@ from product.models import Product
 from order.models import Order
 from django.db.models import QuerySet
 from sheets.input_cleansing import zero_product_count
+from shared.files import empty_directory
 import pandas as pd
+import PyPDF2
 import xlsxwriter
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 
 SPACER = ('',)
+def event_customer_sheets(f_event_id) -> str:
+    '''Generate customer sheets for an event
+       Return: path to file
+    '''
+    empty_directory(settings.CUSTOMER_SHEETS_PATH)
+    DEST_FILENAME = f'{f_event_id}_customer_sheets.pdf'
+    DEST_PATH = os.path.join(settings.CUSTOMER_SHEETS_PATH, DEST_FILENAME)
+
+    pdfWriter = PyPDF2.PdfFileWriter()
+    # Generate all events PDFs individually
+    for ord in Order.objects.filter(fulfillment_event_id=f_event_id):
+        g = CustomerSheet(ord)
+        g.to_pdf()
+
+    # Then merge/concatenate
+    for filename in sorted(os.listdir(settings.CUSTOMER_SHEETS_PATH)):
+        if (filename != DEST_FILENAME):
+            pdfFileObj = open(os.path.join(settings.CUSTOMER_SHEETS_PATH,filename),'rb')
+            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            for pageNum in range(pdfReader.numPages):
+                pageObj = pdfReader.getPage(pageNum)
+                pdfWriter.addPage(pageObj)
+                pdfOutput = open(DEST_PATH, 'wb')
+                pdfWriter.write(pdfOutput)
+                pdfOutput.close()
+
+    return DEST_PATH
+
 class CustomerSheet:
     '''Responsible for generating a customer sheet for an order.'''
 
@@ -108,8 +138,13 @@ class CustomerSheet:
         return self._df_transposed
 
     def to_pdf(self) -> str:
-        dest_filename = f"customer_sheet_{self.order.f_number}.pdf"
-        dest_path = os.path.join(settings.MEDIA_ROOT,dest_filename)
+        '''
+            Generate PDF, save to CUSTOMER_SHEETS_PATH
+            return path Path to file
+        '''
+        self.to_df()
+        dest_filename = f"{self.order.f_number}_customer_sheet.pdf"
+        dest_path = os.path.join(settings.CUSTOMER_SHEETS_PATH,dest_filename)
         env = Environment(loader=FileSystemLoader('.'))
         template = env.get_template("customer_sheet.html")
         template_vars = {"title" : "Farmbox Customer Sheet",

@@ -75,6 +75,7 @@ pycodestyle==2.5.0
 pycparser==2.20
 Pygments==2.6.1
 pyparsing==2.4.7
+PyPDF2==1.26.0
 Pyphen==0.9.5
 pyrsistent==0.16.0
 pytest==5.4.1

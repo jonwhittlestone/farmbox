@@ -122,6 +122,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = "/mediafiles/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
+
 FARMBOX_DROPBOX_ACCESS_TOKEN = os.environ.get('FARMBOX_DROPBOX_ACCESS_TOKEN', '')
 
 DEFAULT_SUPERUSER = {
@@ -171,7 +172,7 @@ PICKING_PACKING_SURCHARGE = {
 
 INPUT_SHEET = {
     'ORDER_MODEL_CUSTOMER_DETAILS_HEADER_FIELDS': [
-        'customer_first_name', 'customer_last_name', 'customer_address', 'customer_postcode',
+        'f_number', 'customer_first_name', 'customer_last_name', 'customer_address', 'customer_postcode',
         'customer_email', 'customer_phone',
         'fulfillment_method', 'collection_location', 'notes'
     ]
@@ -180,6 +181,9 @@ INPUT_SHEET = {
 CUSTOMER_SHEET = {
     'ORDER_FIELDS': ('f_number','customer_first_name','customer_last_name','customer_postcode','customer_address','fulfillment_method','fulfillment_event',)
 }
+
+CUSTOMER_SHEETS_DIR = 'customer-sheets'
+CUSTOMER_SHEETS_PATH = os.path.join(MEDIA_ROOT, CUSTOMER_SHEETS_DIR)
 
 ORDER_SHEET = {
     'PRODUCT_NAME_COL': 'A',

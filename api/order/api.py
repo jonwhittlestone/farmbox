@@ -1,14 +1,20 @@
 from django.http import JsonResponse, HttpResponse, FileResponse
 from order.models import Order, FulfillmentEvent
-from sheets.generate import InputSheet, CustomerSheet
+from sheets.generate import InputSheet, CustomerSheet, event_customer_sheets
 
 import pandas as pd
 from io import BytesIO as IO
 import xlsxwriter
 
+def download_event_customer_sheet(request, f_event_id):
+    '''Create customer sheets for all orders in event, and concatenate'''
+    path = event_customer_sheets(f_event_id)
+    pdf = open(path, 'rb')
+    response = FileResponse(pdf)
+    return response
+
 def download_customer_sheet(request, order_id):
     generator = CustomerSheet(Order.objects.get(id=order_id))
-    generator.to_df()
     path = generator.to_pdf()
     pdf = open(path, 'rb')
     response = FileResponse(pdf)

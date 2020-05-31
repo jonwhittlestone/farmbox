@@ -71,8 +71,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 class FulfillmentEventAdmin(admin.ModelAdmin):
 
-    list_display = ('id','target_date','_orders_count', '_input_sheet')
-    readonly_fields = ('_orders_count','_input_sheet',)
+    list_display = ('id','target_date','_orders_count', '_input_sheet', '_customer_sheets')
+    readonly_fields = ('_orders_count','_input_sheet','_customer_sheets')
 
     list_filter = ('id',)
 
@@ -82,6 +82,12 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
             # http://127.0.0.1:8000/admin/order/order/?fulfillment_event__id__exact=2
             # hacky. yep
             return (mark_safe(f'<a href="{url}?fulfillment_event__id__exact={obj.id}">{obj.orders_count}</a>'))
+        return ''
+
+    def _customer_sheets(self, obj):
+        if obj.id:
+            url = reverse('download_event_customer_sheet',args=(obj.id,))
+            return (mark_safe(f'<a href="{url}">Download</a>'))
         return ''
 
     def _input_sheet(self,obj):
