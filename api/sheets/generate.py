@@ -5,7 +5,7 @@ from product.models import Product
 from order.models import Order
 from django.db.models import QuerySet
 from sheets.input_cleansing import zero_product_count
-from shared.files import empty_directory
+from shared.files import empty_directory, create_dir
 import pandas as pd
 import PyPDF2
 import xlsxwriter
@@ -17,6 +17,8 @@ def event_customer_sheets(f_event_id) -> str:
     '''Generate customer sheets for an event
        Return: path to file
     '''
+
+    create_dir(settings.CUSTOMER_SHEETS_PATH)
     empty_directory(settings.CUSTOMER_SHEETS_PATH)
     DEST_FILENAME = f'{f_event_id}_customer_sheets.pdf'
     DEST_PATH = os.path.join(settings.CUSTOMER_SHEETS_PATH, DEST_FILENAME)
@@ -142,6 +144,7 @@ class CustomerSheet:
             Generate PDF, save to CUSTOMER_SHEETS_PATH
             return path Path to file
         '''
+        create_dir(settings.CUSTOMER_SHEETS_PATH)
         self.to_df()
         dest_filename = f"{self.order.f_number}_customer_sheet.pdf"
         dest_path = os.path.join(settings.CUSTOMER_SHEETS_PATH,dest_filename)
