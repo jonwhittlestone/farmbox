@@ -30,7 +30,7 @@ def test_order_details_are_captured_to_instance_variable():
         ('customer_postcode','rh4 1jj'),
         ('customer_email','Dev+farmbox99@howapped.com'),
         ('customer_phone','0789 449 542'),
-        ('fulfillment_method','Collect From Denbies Shop'),
+        ('fulfillment_method','Collect from Denbies Shop'),
         ('fulfillment_event__target_date', datetime(2020,5,12,0,0))
     )
     r = OrderSheetReader()
