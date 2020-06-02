@@ -20,11 +20,14 @@ urlpatterns = [
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path(r'api/order/input-sheet/<int:f_event_id>/',
         login_required(order_api.download_input_xlsx), name='download_input_xlsx'),
-    path(r'api/order/customer-sheet/<int:order_id>/',
-        login_required(order_api.download_customer_sheet), name='download_customer_sheet'),
+    path(r'api/order/customer-sheet-pdf/<int:order_id>/',
+        login_required(order_api.download_customer_sheet_pdf), name='download_customer_sheet_pdf'),
 
-    path(r'api/order/customer-sheet/fulfillment-event/<int:f_event_id>/',
-        login_required(order_api.download_event_customer_sheet), name='download_event_customer_sheet'),
+    path(r'api/order/customer-sheet-pdf/fulfillment-event/<int:f_event_id>/',
+        login_required(order_api.download_event_customer_sheet_pdf), name='download_event_customer_sheet_pdf'),
+
+    path(r'api/order/customer-sheet-xlsx/fulfillment-event/<int:f_event_id>/',
+        login_required(order_api.download_event_customer_sheet_xlsx), name='download_event_customer_sheet_xlsx'),
     path(r'sheets/local-fetch/', login_required(local_order_sheet_fetcher), name='local_order_sheet_fetcher'),
     path(r'sheets/fetch/', login_required(order_sheet_fetcher), name='order_sheet_fetcher'),
     path('shared/factory-reset',login_required(factory_reset), name='factory_reset'),

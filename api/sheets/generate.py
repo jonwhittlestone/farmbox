@@ -13,6 +13,30 @@ from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 
 SPACER = ('',)
+
+def event_customer_sheets_xlsx(f_event_id) -> str:
+    '''Concatenate order dataframes
+       Return: The merged dataframe
+    '''
+
+    DEST_FILENAME = f'{f_event_id}_customer_sheets.xlsx'
+    DEST_PATH = os.path.join(settings.CUSTOMER_SHEETS_PATH, DEST_FILENAME)
+    merged_df = False
+
+    # for each order, create the dataframe
+    for ord in Order.objects.filter(fulfillment_event_id=f_event_id):
+        g = CustomerSheet(ord)
+        df = g.to_df()
+        debug=True
+
+
+    # concetanate it to the last one
+
+    # convert to xlsx and stream to response
+
+
+    return merged_df
+
 def event_customer_sheets(f_event_id) -> str:
     '''Generate customer sheets for an event
        Return: path to file

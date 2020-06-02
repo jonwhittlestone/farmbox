@@ -7,9 +7,13 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('sequence', 'name','code','pack_size','price','published', 'category')
     list_filter = ('category',)
 
+    readonly_fields = ('name','sequence','code', 'published')
     search_fields = ('name',)
 
     def has_add_permission(self, request):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
         return False
 
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):

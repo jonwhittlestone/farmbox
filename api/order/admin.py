@@ -41,20 +41,21 @@ class ProductQuantityInline(admin.TabularInline):
     extra=1
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('f_number', '_customer_sheet', 'customer_first_name', 'customer_last_name', 'customer_email', 'customer_phone',
+    list_display = ('f_number', '_customer_sheet_pdf', 'customer_first_name', 'customer_last_name', 'customer_email', 'customer_phone',
                     'customer_postcode', 'fulfillment_event', 'fulfillment_method', 'created_at')
     search_fields = ('f_number', 'customer_first_name','customer_last_name','customer_postcode', 'customer_email')
     list_filter = ('fulfillment_event','fulfillment_method',)
-    readonly_fields = ('f_number','_customer_sheet')
+    readonly_fields = ('f_number','_customer_sheet_pdf',)
     inlines = (ProductQuantityInline,)
     exclude = ('collection_location',)
 
 
-    def _customer_sheet(self,obj):
+    def _customer_sheet_pdf(self,obj):
         if obj.id:
-            url = reverse('download_customer_sheet',args=(obj.id,))
-            return (mark_safe(f'<a href="{url}">View PDF</a>'))
+            url = reverse('download_customer_sheet_pdf',args=(obj.id,))
+            return (mark_safe(f'<a href="{url}">View</a>'))
         return ''
+
     def save_model(self, request, obj, form, change):
         obj.save()
         super(OrderAdmin, self).save_model(request, obj, form, change)
@@ -71,8 +72,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 class FulfillmentEventAdmin(admin.ModelAdmin):
 
-    list_display = ('id','target_date','_orders_count', '_input_sheet', '_customer_sheets')
-    readonly_fields = ('_orders_count','_input_sheet','_customer_sheets')
+    list_display = ('id','target_date','_orders_count', '_input_sheet', '_customer_sheets_pdf')
+    readonly_fields = ('_orders_count','_input_sheet','_customer_sheets_pdf',)
 
     list_filter = ('id',)
 
@@ -84,9 +85,15 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
             return (mark_safe(f'<a href="{url}?fulfillment_event__id__exact={obj.id}">{obj.orders_count}</a>'))
         return ''
 
-    def _customer_sheets(self, obj):
+    def _customer_sheets_pdf(self, obj):
         if obj.id:
-            url = reverse('download_event_customer_sheet',args=(obj.id,))
+            url = reverse('download_event_customer_sheet_pdf',args=(obj.id,))
+            return (mark_safe(f'<a href="{url}">Download</a>'))
+        return ''
+
+    def _customer_sheets_xlsx(self, obj):
+        if obj.id:
+            url = reverse('download_event_customer_sheet_xlsx',args=(obj.id,))
             return (mark_safe(f'<a href="{url}">Download</a>'))
         return ''
 
