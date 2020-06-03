@@ -109,9 +109,9 @@ class TestGeneratingCustomerSheet:
         df = t_obj.to_df()
 
         prices = tuple(order.products.values_list('price',flat=True))
-        assert tuple(df[DATAFRAME_COLUMN - 1])[8] == prices[0]
-        assert tuple(df[DATAFRAME_COLUMN - 1])[9] == prices[1]
-        assert tuple(df[DATAFRAME_COLUMN - 1])[10] == prices[2]
+        assert tuple(df[DATAFRAME_COLUMN - 1])[8] == f'£{str(prices[0])}'
+        assert tuple(df[DATAFRAME_COLUMN - 1])[9] == f'£{prices[1]}'
+        assert tuple(df[DATAFRAME_COLUMN - 1])[10] == f'£{prices[2]}'
 
     def test_the_column_of_dataframe_comprises_order_details_and_quantites(self):
         DATAFRAME_COLUMN = 4

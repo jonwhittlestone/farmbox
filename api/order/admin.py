@@ -72,8 +72,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 class FulfillmentEventAdmin(admin.ModelAdmin):
 
-    list_display = ('id','target_date','_orders_count', '_input_sheet', '_customer_sheets_pdf')
-    readonly_fields = ('_orders_count','_input_sheet','_customer_sheets_pdf',)
+    list_display = ('id','target_date','_orders_count', '_input_sheet', '_customer_sheets_pdf', '_customer_sheets_xlsx')
+    readonly_fields = ('_orders_count','_input_sheet','_customer_sheets_pdf', '_customer_sheets_xlsx')
 
     list_filter = ('id',)
 
@@ -88,7 +88,7 @@ class FulfillmentEventAdmin(admin.ModelAdmin):
     def _customer_sheets_pdf(self, obj):
         if obj.id:
             url = reverse('download_event_customer_sheet_pdf',args=(obj.id,))
-            return (mark_safe(f'<a href="{url}">Download</a>'))
+            return (mark_safe(f'<a href="{url}">View</a>'))
         return ''
 
     def _customer_sheets_xlsx(self, obj):

@@ -18,24 +18,14 @@ def event_customer_sheets_xlsx(f_event_id) -> str:
     '''Concatenate order dataframes
        Return: The merged dataframe
     '''
-
-    DEST_FILENAME = f'{f_event_id}_customer_sheets.xlsx'
-    DEST_PATH = os.path.join(settings.CUSTOMER_SHEETS_PATH, DEST_FILENAME)
-    merged_df = False
+    dfs = []
 
     # for each order, create the dataframe
     for ord in Order.objects.filter(fulfillment_event_id=f_event_id):
         g = CustomerSheet(ord)
-        df = g.to_df()
-        debug=True
+        dfs.append(g.to_df())
+    return pd.concat(dfs)
 
-
-    # concetanate it to the last one
-
-    # convert to xlsx and stream to response
-
-
-    return merged_df
 
 def event_customer_sheets(f_event_id) -> str:
     '''Generate customer sheets for an event
@@ -111,7 +101,9 @@ class CustomerSheet:
         '''Vertical column of product prices (with the header)'''
         product_prices_empty_cells = (SPACER * len(self.customer_headers))
         product_prices = tuple(self.order.products.values_list('price',flat=True))
-        return product_prices_empty_cells + ('Current Price',) + product_prices + SPACER
+
+        converted_product_prices = tuple([str(f'£{c}') for c in product_prices])
+        return product_prices_empty_cells + ('Current Price',) + converted_product_prices + SPACER
 
     @property
     def order_details(self):
@@ -148,8 +140,6 @@ class CustomerSheet:
         converted_product_costs = [str(f'£{c}') for c in quantity_costs]
         product_costs = tuple(converted_product_costs)
         return costs_empty_cells + (HEADER,) + product_costs + gross_total
-
-        return ('','','','','','', '',HEADER,'£1.00','£2.60','£11.00','£3.00','£2.50',) + gross_total
 
     def to_df(self):
         SPACER_COLUMN = ('','','','','','','','', '','','','','','')
