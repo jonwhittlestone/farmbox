@@ -47,7 +47,7 @@ Phase 1
 
 [ ] Sheet Input Validation
         - Don't allow parsed sheet to not have any products
-        - validate postcode
+        - validate postcode if delivery
         - fulfillment target date validation if in past
 
 [x] Customer sheets generation
@@ -76,7 +76,12 @@ Phase 1
 
 
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule
-[ ] Invoice/Costing calculation
+[ ] Receipts
+        [ ] Invoice/Costing calculation
+[ ] Dynamic Product listing
+        [ ] Allow user to modify product sequence using `adminsortable2` widget
+                - https://github.com/jrief/django-admin-sortable2
+
 
 ## Bugs
 - cleanup of /mediafiles if there is an uncaught reader exception
