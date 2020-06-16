@@ -110,6 +110,13 @@ class Order(models.Model):
     archived = models.BooleanField(default=False)
     created_at = models.DateTimeField()
     modified_at = models.DateTimeField()
+    repeated_order_original = models.ForeignKey(
+        'Order',
+        on_delete=models.SET_NULL,
+        # default=MOST_RECENT_EVENT
+        blank=True,
+        null=True
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,

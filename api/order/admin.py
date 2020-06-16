@@ -1,10 +1,15 @@
 import os
+import datetime
 from django.contrib import admin
+from django.utils.translation import ngettext
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.conf import settings
 from order.models import Order, OrderForm, FulfillmentEvent, OrderFormFailure
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+from django.shortcuts import render, redirect
+
 
 class OrderFormAdmin(admin.ModelAdmin):
     list_display = ('filename', 'created_at', 'fulfillment_event', 'order')
@@ -40,15 +45,55 @@ class ProductQuantityInline(admin.TabularInline):
     model = ProductQuantity
     extra=1
 
+
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('f_number', '_customer_sheet_pdf', 'customer_first_name', 'customer_last_name', 'customer_email', 'customer_phone',
-                    'customer_postcode', 'fulfillment_event', 'fulfillment_method', 'created_at')
+                    'customer_postcode', 'fulfillment_event', 'fulfillment_method', '_repeated_order_original', 'created_at')
     search_fields = ('f_number', 'customer_first_name','customer_last_name','customer_postcode', 'customer_email')
-    list_filter = ('fulfillment_event','fulfillment_method',)
-    readonly_fields = ('f_number','_customer_sheet_pdf',)
+    list_filter = ('fulfillment_event','fulfillment_method', 'created_at')
+    readonly_fields = ('f_number','_customer_sheet_pdf', '_repeated_order_original')
     inlines = (ProductQuantityInline,)
-    exclude = ('collection_location',)
+    exclude = ('collection_location', 'repeated_order_original')
+    actions = ['make_repeat_order']
+    change_list_template = 'admin/order/order/change_list.html'
 
+    def make_repeat_order(self, request, queryset):
+        '''
+            Duplicates orders
+            Reassigns f-numbers
+        '''
+
+        if 'apply' in request.POST:
+            # in: 01/08/2020  # required:  YYYY-MM-DD
+            event_date = request.POST.get('f_event_target_date')
+            fmt_event_date = datetime.datetime.strptime(event_date, '%d/%m/%Y')
+            f_event_obj, created = FulfillmentEvent.objects.get_or_create(target_date=fmt_event_date)
+            for count, obj in enumerate(queryset):
+                original_pk = obj.pk
+                obj.pk = None
+                obj.fulfillment_event = f_event_obj
+                obj.repeated_order_original = Order.objects.get(id=original_pk)
+                obj.save()
+
+            messages.add_message(request,
+                            messages.SUCCESS, f'{count + 1} order(s) duplicated as a repeat order for event {f_event_obj}')
+            url = reverse('admin:order_order_changelist')
+            return redirect(url)
+
+        return render(request,
+                      'admin/order/order/duplicate.html',
+                      context={'orders':queryset})
+
+    make_repeat_order.short_description = "Repeat order(s) to new event"
+
+    def has_add_permission(self, request):
+        return False
+
+    def _repeated_order_original(self,obj):
+        if obj.id and obj.repeated_order_original:
+            url = reverse('admin:order_order_change',args=(obj.repeated_order_original.id,))
+            return (mark_safe(f'<a href="{url}">{obj.repeated_order_original}</a>'))
+        return ''
 
     def _customer_sheet_pdf(self,obj):
         if obj.id:

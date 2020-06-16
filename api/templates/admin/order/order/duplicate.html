@@ -1,0 +1,57 @@
+{% extends "admin/base_site.html" %}
+{% load i18n l10n admin_urls static %}
+
+{% block content %}
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        console.log('loaded');
+    });
+</script>
+<form action="" method="post">
+  {% csrf_token %}
+<p>
+<h1>Duplicate Order(s) to Event</h1>
+
+<p>Please choose a date:</p>
+<div>
+    <input id="datepicker">
+</div>
+
+<p>These orders will be duplicated:</p>
+    <ol>
+    {% for order in orders %}
+        <li>
+        {{ order }}
+        </li>
+        <input type="hidden" name="_selected_action" value="{{ order.pk }}" />
+    {% endfor %}
+    </ol>
+
+  <input type="hidden" name="action" value="make_repeat_order" />
+  <input type="hidden" name="f_event_target_date" value="" />
+  <input type="submit" name="apply" value="Duplicate Order(s) to New Event" disabled/>
+</form>
+
+
+  <!-- Fengyuan Chen's Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
+<script>
+  $(function () {
+    $("#datepicker").datepicker({
+      format:'dd/mm/yyyy',
+    });
+
+
+    $('#datepicker').on('pick.datepicker', function (e) {
+        var $submitButton = $('input[type=submit]');
+        $('input[name=f_event_target_date]').val(e.date.toLocaleDateString());
+        $submitButton.prop('disabled', false);
+    });
+
+  });
+</script>
+{% endblock %}
