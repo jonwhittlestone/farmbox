@@ -85,4 +85,9 @@ class Migration(migrations.Migration):
             name='user',
             field=models.ForeignKey(default=1, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
         ),
+        migrations.AddField(
+            model_name='order',
+            name='repeated_order_original',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='order.Order'),
+        ),
     ]
