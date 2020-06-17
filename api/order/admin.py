@@ -5,7 +5,7 @@ from django.utils.translation import ngettext
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.conf import settings
-from order.models import Order, OrderForm, FulfillmentEvent, OrderFormFailure
+from order.models import Order, OrderForm, FulfillmentEvent, OrderFormFailure, ProductQuantity
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -70,10 +70,17 @@ class OrderAdmin(admin.ModelAdmin):
             f_event_obj, created = FulfillmentEvent.objects.get_or_create(target_date=fmt_event_date)
             for count, obj in enumerate(queryset):
                 original_pk = obj.pk
+                original_products_quantities = obj.product_quantities.all()
+
                 obj.pk = None
                 obj.fulfillment_event = f_event_obj
                 obj.repeated_order_original = Order.objects.get(id=original_pk)
                 obj.save()
+
+                for prod_qty in original_products_quantities:
+                    prod_qty.pk = None
+                    prod_qty.order_id = obj.pk
+                    prod_qty.save()
 
             messages.add_message(request,
                             messages.SUCCESS, f'{count + 1} order(s) duplicated as a repeat order for event {f_event_obj}')
