@@ -24,6 +24,7 @@ Example Workflow
   - Customer order form parsing from Dropbox
   - Customer sheet generation (PDF/XLSX)
   - Static product selection #0 (< June 2020)
+  - Duplicate order to new event as repeat
 
 
 ## Current Limitations
