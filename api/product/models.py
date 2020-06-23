@@ -2,6 +2,7 @@ from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db import models
 
+
 class Product(models.Model):
 
     class Category(models.TextChoices):
@@ -13,7 +14,7 @@ class Product(models.Model):
     pack_size = models.CharField(max_length=256)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency=settings.DEFAULT_CURRENCY)
     published = models.BooleanField(default=True)
-    sequence = models.IntegerField()
+    sequence = models.PositiveSmallIntegerField(default=0, blank=False, null=False)
     category = models.CharField(choices=Category.choices, max_length=16)
 
     def __str__(self):
@@ -33,8 +34,13 @@ class Product(models.Model):
         if qs:
             return qs.quantity
         return 0
-        # fromO
-        # return self.
 
     class Meta:
         ordering = ('sequence',)
+
+class ProductSelection(models.Model):
+
+    name = models.CharField(max_length=256)
+    active = models.BooleanField(default=False)
+    products = models.ForeignKey(Product, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField()

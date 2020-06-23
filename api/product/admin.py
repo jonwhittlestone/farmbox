@@ -1,14 +1,24 @@
+
+# -*- coding: utf-8 -*-
+
+from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 
 from product.models import Product
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
 
-    list_display = ('sequence', 'name','code','pack_size','price','published', 'category')
+    list_display = ('sequence', '_form_sequence', 'name','code','pack_size','price','published',)
+    list_display_links = ('name', )
+
     list_filter = ('category',)
 
     readonly_fields = ('name','sequence','code', 'published')
     search_fields = ('name',)
+
+    def _form_sequence(self, obj):
+        if obj:
+            return str(obj.sequence)
 
     def has_add_permission(self, request):
         return True
