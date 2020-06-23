@@ -20,7 +20,7 @@ Example Workflow
 
 ## Release History
 
-* 1.0.0 - 23/06/20
+* 2020.06.23
   - Customer order form parsing from Dropbox
   - Customer sheet generation (PDF/XLSX)
   - Static product selection #0 (< June 2020)
