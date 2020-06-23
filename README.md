@@ -18,12 +18,13 @@ Example Workflow
 ![](https://i.imgur.com/17kTXnT.gif)
 
 
-## For use, you will need:
+## Release History
 
-* Access to the linked dropbox account
+* 1.0.0 - 23/06/20
+  - Customer order form parsing from Dropbox
+  - Customer sheet generation (PDF/XLSX)
+  - Static product selection #0 (< June 2020)
 
-* To save new order forms to the following dropbox folder:
-        - ![dropbox](dropbox.png)
 
 ## Current Limitations
 - Fixed product listing
@@ -31,6 +32,7 @@ Example Workflow
 - Fixed XLSX order form (see [api/order/sample_sheets/current.xlsx](api/order/sample_sheets/current.xlsx))
 
 - No separate customer model. Cannot see all historical orders for a single customer
+
 
 ## What's next ..
 ```
@@ -85,6 +87,13 @@ Phase 3
 [ ] Mobile app for picking management / updating order
 ```
 ---
+## To start project yourself, you'll need:
+
+* Access to the linked dropbox account
+
+* To save new order forms to the following dropbox folder:
+        - ![dropbox](dropbox.png)
+
 ## API
 
 Prerequisites
@@ -99,7 +108,7 @@ Prerequisites
         DEBUG=1
         DJANGO_ALLOWED_HOSTS='localhost 127.0.0.1 [::1]'
 
-Quickstart
+### Quickstart
 
 1. Clone this repo
 2. `cd api`
