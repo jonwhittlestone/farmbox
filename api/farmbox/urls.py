@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from order import api as order_api
 from sheets.views import fetch as order_sheet_fetcher
 from sheets.views import local_fetch as local_order_sheet_fetcher
-from cloudstore.views import dropbox_example
+from cloudstore.views import dropbox_example, restore_db
 from shared.views import factory_reset
 
 admin.site.site_header = 'Village Greens'
@@ -31,6 +31,7 @@ urlpatterns = [
     path(r'sheets/local-fetch/', login_required(local_order_sheet_fetcher), name='local_order_sheet_fetcher'),
     path(r'sheets/fetch/', login_required(order_sheet_fetcher), name='order_sheet_fetcher'),
     path('shared/factory-reset',login_required(factory_reset), name='factory_reset'),
+    path('cloudstore/restore-db',login_required(restore_db), name='restore_db'),
     path('dropbox-example', dropbox_example, name='dropbox_example' ),
     path('', admin.site.urls),
 ]
