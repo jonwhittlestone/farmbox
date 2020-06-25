@@ -20,6 +20,10 @@ Example Workflow
 
 ## Release History
 
+* 2020.06.26
+  - Restore db backup
+  - Product sequence editing with adminsortable2 widget
+
 * 2020.06.23
   - Customer order form parsing from Dropbox
   - Customer sheet generation (PDF/XLSX)
