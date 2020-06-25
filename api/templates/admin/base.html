@@ -11,6 +11,7 @@
         Fetch Orders
     </a> /
 
+    <a href="{% url 'restore_db' %}" onclick="return confirm('⚡ Are you sure?\n\nThis will restore Orders, Products and Events from a backup made at the last deployment.')" title="Restore data from a DB Backup">Restore from Backup</a> /
     <a href="{% url 'factory_reset' %}" onclick="return confirm('⚡ Are you sure?\n\nThis will replace all Orders, Products and Events with factory settings.')" title="Replace all Order and Event data with Factory settings">Factory Reset</a> /
     {% if user.is_active and user.is_staff %}
         {% url 'django-admindocs-docroot' as docsroot %}

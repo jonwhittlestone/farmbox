@@ -59,7 +59,7 @@ def test_order_sheet_products_count():
         'Butternut Squash FV0013' : 1,
     }
     # product names
-    products = list(Product.objects.values_list('name', flat=True))
+    products = list(Product.objects.filter(published=True).values_list('name', flat=True))
     r = OrderSheetReader()
     r.read()
     actual = r.product_counts

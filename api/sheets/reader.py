@@ -141,7 +141,7 @@ class OrderSheet():
         self._product_counts = {}
 
         # product names
-        products = list(Product.objects.values_list('name', flat=True))
+        products = list(Product.objects.filter(published=True).values_list('name', flat=True))
         products_rows = []
 
         # first pass to capture all cell.row where there are valid products

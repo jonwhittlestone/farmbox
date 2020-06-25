@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'djmoney',
     'django_extensions',
+    'adminsortable2',
 
     # user apps
     'shared',
