@@ -13,7 +13,7 @@ class Product(models.Model):
     pack_size = models.CharField(max_length=256)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency=settings.DEFAULT_CURRENCY)
     published = models.BooleanField(default=True)
-    sequence = models.IntegerField()
+    sequence = models.PositiveSmallIntegerField(default=0, blank=False, null=False)
     category = models.CharField(choices=Category.choices, max_length=16)
 
     def __str__(self):
