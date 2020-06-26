@@ -7,7 +7,7 @@ class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('sequence', '_form_sequence', 'name','code','pack_size','price','published', 'category')
     list_filter = ('category', 'published')
     list_display_links = ('name', )
-    readonly_fields = ('name','code')
+    readonly_fields = ('code',)
     search_fields = ('name',)
 
     def has_add_permission(self, request):
