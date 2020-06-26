@@ -251,10 +251,11 @@ class TestGeneratingInputSheet:
     def test_for_input_sheet_headers_i_can_generate_a_list_of_product_names(self, settings):
         expected = ['Meat', 'Veg']
         Product.objects.all().delete()
-        ProductFactory(name='Meat', sequence=1, price=Money(1.50))
-        ProductFactory(name='Veg', sequence=2, price=Money(1))
+        ProductFactory(name='Meat', sequence=1, price=Money(1.50), published=True)
+        ProductFactory(name='Veg', sequence=2, price=Money(1), published=True)
         maker = InputSheet()
-        assert expected == maker.product_headers
+        headers = maker.product_headers
+        assert expected == headers
 
         # assert the count of product headers matches the count of products that aren't archived
         self.clean_up()

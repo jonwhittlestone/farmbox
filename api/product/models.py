@@ -1,3 +1,4 @@
+import re
 from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db import models
@@ -12,7 +13,7 @@ class Product(models.Model):
     code = models.CharField(max_length=64)
     pack_size = models.CharField(max_length=256)
     price = MoneyField(max_digits=14, decimal_places=2, default_currency=settings.DEFAULT_CURRENCY)
-    published = models.BooleanField(default=True)
+    published = models.BooleanField(default=False)
     sequence = models.PositiveSmallIntegerField(default=0, blank=False, null=False)
     category = models.CharField(choices=Category.choices, max_length=16)
 
@@ -26,6 +27,16 @@ class Product(models.Model):
         product_ids = list(qs.values_list('id', flat=True))
         ids_names = list(qs.values('id','name'))
         return [p.get('name') for p in ids_names], [p.get('id') for p in ids_names]
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        try:
+            self.code = re.findall('[A-Z]{2}[0-9]*$',self.name)[0]
+            super().save(*args, **kwargs)
+        except Exception as e:
+            print(self.code)
+            print(e)
+
 
     def quantity(self):
 
