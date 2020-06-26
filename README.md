@@ -32,11 +32,10 @@ Example Workflow
 
 
 ## Current Limitations
-- Fixed product listing
-
-- Fixed XLSX order form (see [api/order/sample_sheets/current.xlsx](api/order/sample_sheets/current.xlsx))
 
 - No separate customer model. Cannot see all historical orders for a single customer
+
+- Created repeat order forms do not currently take into account unpublished products 
 
 
 ## What's next ..
