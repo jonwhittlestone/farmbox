@@ -116,7 +116,7 @@ class OrderSheet():
     def cell_cleaner(self, value, field = ''):
         # Commenting out because value should be 'Collect from Ockley Shop'
         # not, 'Collection From Ockley Shop'
-        if field == 'collection_location':
+        if field == 'collection_location' or field == 'customer_last_name':
             return value.title()
         return value
 
