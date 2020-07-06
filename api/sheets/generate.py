@@ -79,7 +79,9 @@ class CustomerSheet:
 
     @property
     def product_headers(self) -> tuple:
-        product_names = list(self.order.products.values_list('name',flat=True))
+        qs_pq = self.order.product_quantities.all()
+        product_names = [p_q.product.name for p_q in qs_pq]
+        # product_names = list(self.order.products.values_list('name',flat=True))
         return tuple(product_names)
 
     @property

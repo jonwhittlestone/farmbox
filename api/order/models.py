@@ -273,3 +273,7 @@ class ProductQuantity(models.Model):
     order = models.ForeignKey('order.Order', related_name='product_quantities', on_delete=models.CASCADE)
     product = models.ForeignKey('product.Product', related_name='product_quantities', on_delete=models.CASCADE)
     quantity = models.IntegerField(blank=False)
+
+
+    def __str__(self):
+        return f'{self.quantity} {str(self.product)}'
