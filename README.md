@@ -20,6 +20,10 @@ Example Workflow
 
 ## Release History
 
+* 2020.07.06
+  - Fix: Customer sheet product headers ordering matches quantity
+  - Fix: Parsing all words in last name is Sentence Case
+
 * 2020.06.26
   - Restore db backup
   - Product sequence editing with adminsortable2 widget

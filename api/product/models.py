@@ -2,7 +2,6 @@ import re
 from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db import models
-
 class Product(models.Model):
 
     class Category(models.TextChoices):
