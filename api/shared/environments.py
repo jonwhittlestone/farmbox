@@ -17,7 +17,6 @@ def create_sample_orders():
         new_evt.save()
 
     for order in sample_orders:
-
         customer = Customer.objects.create(
             first_name=order.get("customer_first_name"),
             last_name=order.get("customer_last_name"),

@@ -12,6 +12,7 @@ from django.forms import ValidationError
 from django.db.utils import IntegrityError
 from order.exceptions import OrderFormReaderException
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
+from customer.models import Customer
 
 FILENAME = os.path.basename(settings.SAMPLE_ORDER_SHEET_PATH)
 
@@ -27,6 +28,7 @@ class OrderSheet:
     filename: str
     excel_data: []
     _order: Order
+    _customer: Customer
     obj: OrderForm
     cell_cleanser: OrderSheetCleanser
     _order_details: {}
@@ -36,7 +38,11 @@ class OrderSheet:
         self.cell_cleanser = OrderSheetCleanser()
 
     def create_order(
-        self, f_event: FulfillmentEvent, order_details=None, product_counts=None
+        self,
+        f_event: FulfillmentEvent,
+        customer: Customer,
+        order_details=None,
+        product_counts=None,
     ):
         """Creates the order and then adds the products"""
         if not order_details:
@@ -75,15 +81,15 @@ class OrderSheet:
         self.read(file)
 
         try:
-            self.order_details
+            order_details = self.order_details
             self.product_counts
 
             f_event = self.get_or_create_fulfillment_event()
 
             from customer.models import get_or_create_customer
 
-            customer = get_or_create_customer(self.order_details)
-            self.create_order(f_event, customer)
+            self._customer = get_or_create_customer(order_details)
+            self.create_order(f_event, self._customer)
         except (IntegrityError, ValidationError) as e:
             raise OrderFormReaderException(f"Problem saving the Order Model: {e}")
         else:
@@ -91,6 +97,10 @@ class OrderSheet:
             self.obj.order = self._order
             self.obj.save()
             return self._order
+
+    @property
+    def customer(self):
+        return self._customer
 
     def get_or_create_fulfillment_event(self, order_details=None):
         """

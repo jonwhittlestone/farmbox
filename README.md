@@ -39,7 +39,7 @@ Example Workflow
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
-- Created repeat order forms do not currently take into account unpublished products 
+- Created repeat order forms do not currently take into account unpublished products
 
 
 ## What's next ..
@@ -68,7 +68,7 @@ Phase 1
 [ ] Cloudwatch triggering lambda for turning on/off production server at schedule
 [ ] Receipts
         [ ] Invoice/Costing calculation
-[ ] Dynamic Product listing
+[x] Dynamic Product listing
         [ ] Allow user to modify product sequence using `adminsortable2` widget
                 - https://github.com/jrief/django-admin-sortable2
 

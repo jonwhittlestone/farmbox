@@ -88,6 +88,7 @@
             "args": [
                 "cloudstore/tests.py"
             ],
+            "justMyCode": false,
             "django": true
         },
 

@@ -2,7 +2,19 @@ from django.db import models
 
 
 def get_or_create_customer(order_details):
-    return {"id": 1, "name": "Jon"}
+    qs = Customer.objects.filter(email=order_details.get("customer_email"))
+    if qs:
+        return qs
+
+    order = order_details
+    return Customer.objects.create(
+        first_name=order.get("customer_first_name"),
+        last_name=order.get("customer_last_name"),
+        address=order.get("customer_address"),
+        postcode=order.get("customer_postcode"),
+        email=order.get("customer_email"),
+        phone=order.get("customer_phone"),
+    )
 
 
 # Create your models here.
