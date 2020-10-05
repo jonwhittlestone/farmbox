@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('order', '0002_create_sample_orders'),
+        ("order", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='fulfillment_method',
-            field=models.CharField(choices=[('Delivery', 'Delivery'), ('Collect from Ockley Shop', 'Collection Ockley'), ('Collect from Denbies Shop', 'Collection Denbies')], max_length=30, verbose_name='Fulfillment Method'),
+            model_name="order",
+            name="fulfillment_method",
+            field=models.CharField(
+                choices=[
+                    ("Delivery", "Delivery"),
+                    ("Collect from Ockley Shop", "Collection Ockley"),
+                    ("Collect from Denbies Shop", "Collection Denbies"),
+                ],
+                max_length=30,
+                verbose_name="Fulfillment Method",
+            ),
         ),
     ]

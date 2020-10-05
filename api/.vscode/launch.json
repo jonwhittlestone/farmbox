@@ -3,6 +3,7 @@
     "configurations": [
 
 
+
         {
             "name": "DEV",
             "type": "python",
@@ -74,7 +75,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
-                "sheets/tests.py::TestConnection"
+                "sheets/tests.py"
             ],
             "django": true
         },
@@ -120,6 +121,17 @@
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
                 "sheets/tests.py::test_i_can_read_a_locally_stored_sheet_to_an_order"
+            ],
+            "django": true
+        },
+
+        {
+            "name": "Test - Customer",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "customer/tests.py"
             ],
             "django": true
         },
