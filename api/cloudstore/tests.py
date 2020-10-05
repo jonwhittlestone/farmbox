@@ -19,7 +19,7 @@ class TestDropboxFileOperations:
         for c in t.list_contents():
             if isinstance(c,FolderMetadata):
                 subfolders.append(c.name)
-        assert subfolders == list(settings.CLOUD_SUBFOLDERS)
+        assert sorted(subfolders) == list(settings.CLOUD_SUBFOLDERS)
 
 
 

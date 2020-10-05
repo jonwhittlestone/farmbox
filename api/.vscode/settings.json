@@ -4,5 +4,6 @@
         "titleBar.activeBackground": "#174552",
         "titleBar.activeForeground": "#F7FCFD"
     },
-    "python.pythonPath": "/home/jon/code/playground/farmbox/venv/bin/python"
+    "python.pythonPath": "/home/jon/code/playground/farmbox/venv/bin/python",
+    "python.envFile": "${workspaceFolder}/dev.env"
 }

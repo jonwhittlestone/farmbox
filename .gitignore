@@ -6,3 +6,5 @@ api/staticfiles
 api/mediafiles
 .github_secrets
 api/order/sample_sheets/local_fetch
+*.env
+.vscode/launch.json
