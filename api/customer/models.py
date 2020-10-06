@@ -4,7 +4,7 @@ from django.db import models
 def get_or_create_customer(order_details):
     qs = Customer.objects.filter(email=order_details.get("customer_email"))
     if qs:
-        return qs
+        return qs[0]
 
     order = order_details
     return Customer.objects.create(

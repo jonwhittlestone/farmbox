@@ -6,6 +6,7 @@ from datetime import datetime
 from django.utils import timezone
 from openpyxl import load_workbook
 from product.models import Product
+from customer.models import get_or_create_customer
 from order.models import OrderForm, FulfillmentEvent, Order, ProductQuantity
 from django.conf import settings
 from django.forms import ValidationError
@@ -54,6 +55,7 @@ class OrderSheet:
         order_details["fulfillment_event_id"] = f_event.id
         order_details["created_at"] = timezone.now()
         order_details["modified_at"] = timezone.now()
+        order_details["customer_id"] = customer.id
         self._order = Order(**order_details)
         # validate for uniqueness
         customer_email_exists_for_event = Order.objects.filter(
@@ -83,11 +85,7 @@ class OrderSheet:
         try:
             order_details = self.order_details
             self.product_counts
-
             f_event = self.get_or_create_fulfillment_event()
-
-            from customer.models import get_or_create_customer
-
             self._customer = get_or_create_customer(order_details)
             self.create_order(f_event, self._customer)
         except (IntegrityError, ValidationError) as e:

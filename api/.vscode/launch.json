@@ -1,9 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
-
-
         {
             "name": "DEV",
             "type": "python",
@@ -133,6 +130,16 @@
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
                 "customer/tests.py"
+            ],
+            "django": true
+        },
+        {
+            "name": "cmd - create_customers_from_orders",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "create_customers_from_orders",
             ],
             "django": true
         },
