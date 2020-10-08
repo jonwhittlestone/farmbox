@@ -15,7 +15,7 @@ def add_default(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("order", "0005_order_customer"),
+        ("order", "0006_auto_20201008_0822"),
     ]
 
     operations = [

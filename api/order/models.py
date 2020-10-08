@@ -121,9 +121,11 @@ class Order(models.Model):
         max_length=512, verbose_name="Address", blank=False
     )
     customer_postcode = models.CharField(
-        max_length=8, verbose_name="Postcode", blank=False
+        max_length=8, verbose_name="Postcode", blank=False, db_index=True
     )
-    customer_email = models.EmailField(max_length=64, verbose_name="Email", blank=False)
+    customer_email = models.EmailField(
+        max_length=64, verbose_name="Email", blank=False, db_index=True
+    )
     customer_phone = models.CharField(max_length=64, verbose_name="Phone")
     customer = models.ForeignKey(
         "customer.Customer", on_delete=models.SET_NULL, blank=True, null=True

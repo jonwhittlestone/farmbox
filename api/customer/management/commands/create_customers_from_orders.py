@@ -33,4 +33,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger.info("CALLED: create_customers_from_orders")
         create_customers_from_orders()
-        self.stdout.write(self.style.SUCCESS("create_customers_from_orders Completed."))
+        self.stdout.write(
+            self.style.SUCCESS("\ncreate_customers_from_orders Completed.")
+        )

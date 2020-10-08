@@ -24,8 +24,12 @@ class Customer(models.Model):
         max_length=512, verbose_name="First Name", blank=False
     )
     last_name = models.CharField(max_length=512, verbose_name="Last Name", blank=False)
-    address = models.CharField(max_length=512, verbose_name="Address", blank=False)
+    address = models.CharField(
+        max_length=512, verbose_name="Address", blank=False, db_index=True
+    )
     postcode = models.CharField(max_length=8, verbose_name="Postcode", blank=False)
-    email = models.EmailField(max_length=64, verbose_name="Email", blank=False)
+    email = models.EmailField(
+        max_length=64, verbose_name="Email", blank=False, db_index=True
+    )
     phone = models.CharField(max_length=64, verbose_name="Phone")
     notes = models.TextField(blank=True, verbose_name="Customer Notes")
