@@ -81,7 +81,32 @@ class OrderAdmin(admin.ModelAdmin):
         "created_at",
         "customer_id",
     )
-    readonly_fields = ("f_number", "_customer_sheet_pdf", "_repeated_order_original")
+    readonly_fields = (
+        "customer_first_name",
+        "customer_last_name",
+        "customer_address",
+        "customer_postcode",
+        "customer_email",
+        "customer_phone",
+        "f_number",
+        "_customer_sheet_pdf",
+        "_repeated_order_original",
+    )
+    fields = (
+        "f_number",
+        "customer_first_name",
+        "customer_last_name",
+        "customer_address",
+        "customer_postcode",
+        "customer_email",
+        "customer_phone",
+        "fulfillment_method",
+        "fulfillment_event",
+        "notes",
+        "_customer_sheet_pdf",
+        "created_at",
+    )
+
     inlines = (ProductQuantityInline,)
     exclude = ("collection_location", "repeated_order_original")
     actions = ["make_repeat_order"]

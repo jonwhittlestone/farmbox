@@ -33,3 +33,10 @@ class Customer(models.Model):
     )
     phone = models.CharField(max_length=64, verbose_name="Phone")
     notes = models.TextField(blank=True, verbose_name="Customer Notes")
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return f"{self.name}"
