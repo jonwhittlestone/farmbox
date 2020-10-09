@@ -103,11 +103,11 @@ jobs:
           uses: actions/checkout@v1
         - name: Add environment variables to .env
           run: |
-            echo DEBUG=1 >> .env
-            echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> .env
-            echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env
-            echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> .env
-            echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env
+            echo DEBUG=1 >> ~/farmbox/.env
+            echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> ~/farmbox/.env
+            echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> ~/farmbox/.env
+            echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> ~/farmbox/.env
+            echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> ~/farmbox/.env
         - name: Add the private SSH key to the ssh-agent
           env:
             SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -120,9 +120,9 @@ jobs:
           env:
             SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           run: |
-            scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }}:/farmbox
+            scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }}:/home/jonwhittlestone/farmbox
             ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
-              cd /farmbox
+              cd /home/jonwhittlestone/farmbox
               source .env
               docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
               echo $WEB_IMAGE
