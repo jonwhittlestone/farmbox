@@ -123,7 +123,7 @@ jobs:
             scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }}:/home/jonwhittlestone/farmbox
             ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
               cd /home/jonwhittlestone/farmbox
-              source .env
+              source /home/jonwhittlestone/farmbox/.env
               docker login docker.pkg.github.com -u jonwhittlestone -p {{ secrets.DEPLOY_PAT }}
               echo $WEB_IMAGE
               # echo $NGINX_IMAGE
