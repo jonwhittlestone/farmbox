@@ -104,10 +104,10 @@ jobs:
         - name: Add environment variables to .env
           run: |
             echo DEBUG=1 >> ~/farmbox/.env
-            echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> ~/farmbox/.env
-            echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> ~/farmbox/.env
-            echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> ~/farmbox/.env
-            echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> ~/farmbox/.env
+            echo FARMBOX_DROPBOX_ACCESS_TOKEN=${{ secrets.FARMBOX_DROPBOX_ACCESS_TOKEN }} >> /home/jonwhittlestone/farmbox/.env
+            echo DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> /home/jonwhittlestone/farmbox/.env
+            echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> /home/jonwhittlestone/farmbox/.env
+            echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> /home/jonwhittlestone/farmbox/.env
         - name: Add the private SSH key to the ssh-agent
           env:
             SSH_AUTH_SOCK: /tmp/ssh_agent.sock
