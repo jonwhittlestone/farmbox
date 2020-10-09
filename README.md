@@ -39,7 +39,7 @@ Example Workflow
 
 - No separate customer model. Cannot see all historical orders for a single customer
 
-- Created repeat order forms do not currently take into account unpublished products 
+- Created repeat order forms do not currently take into account unpublished products
 
 
 ## What's next ..
@@ -52,24 +52,12 @@ Phase 1
 [x] Order spreadsheets ingestion from dropbox
 [x] New product selection / May order form
 [x] Deployment
-[ ] Dev Quality Tools
-        - interrogate: docstring coverage
-        - mypi: type checking
-
-[ ] Sheet Input Validation
-        - Don't allow parsed sheet to not have any products
-        - validate postcode if delivery
-        - fulfillment target date validation if in past
-
 [x] Customer sheets generation
-
 [x] Duplicate order to a new Fulfillment Event
-
-[ ] Cloudwatch triggering lambda for turning on/off production server at schedule
 [ ] Receipts
         [ ] Invoice/Costing calculation
 [ ] Dynamic Product listing
-        [ ] Allow user to modify product sequence using `adminsortable2` widget
+        [x] Allow user to modify product sequence using `adminsortable2` widget
                 - https://github.com/jrief/django-admin-sortable2
 
 
