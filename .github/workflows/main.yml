@@ -24,7 +24,7 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
+          ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
             docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py remove_remote_db"
           ENDSSH
       - name: Run Django management command for backing up
