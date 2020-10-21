@@ -143,5 +143,17 @@
             ],
             "django": true
         },
+
+        {
+            "name": "Mgmt Cmd: restore_db",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "restore_db",
+            ],
+            "django": true,
+            "justMyCode": false,
+        },
     ]
 }
