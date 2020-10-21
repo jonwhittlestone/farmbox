@@ -14,7 +14,13 @@ echo "==========================================================================
 
 CONTAINER_HOST_SSH_USER='jonwhittlestone'
 CONTAINER_HOST_IP_ADDRESS='109.74.205.44'
-export FARMBOX_DROPBOX_ACCESS_TOKEN=bSC8XiiZvuAAAAAAAAAADvNds2EgmP8TP058VpR1IvgotbBrlOgyYcXr8iWj7t71
+
+if [ -z ${FARMBOX_DROPBOX_ACCESS_TOKEN+x} ]; then
+    echo ""
+    echo "ERROR :( FARMBOX_DROPBOX_ACCESS_TOKEN not set. Exiting."
+    echo ""
+    exit 0
+fi
 
 
 ssh -tt jonwhittlestone@109.74.205.44 << 'ENDSSH'
