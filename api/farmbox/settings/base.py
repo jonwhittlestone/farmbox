@@ -7,9 +7,7 @@ PROJECT_DIR = os.path.dirname(
 )
 
 
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-)
+SECRET_KEY = os.environ.get("SECRET_KEY", "change_for_env")
 DEBUG = int(os.environ.get("DEBUG", default=0))
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
 
