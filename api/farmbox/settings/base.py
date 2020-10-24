@@ -80,7 +80,7 @@ DATABASE_HOSTS = {"STAGING": "ec2-176-34-123-50.eu-west-1.compute.amazonaws.com"
 
 DB_NAME = os.getenv("DB_NAME")
 DATABASES = {
-    "default": {
+    "postgres": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": DB_NAME,
         "USER": os.getenv("DB_USER"),
@@ -89,6 +89,10 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "5432"),
     },
     "sqlite": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
+    "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     },

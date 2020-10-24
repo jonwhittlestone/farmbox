@@ -57,6 +57,8 @@ class ProductQuantityInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "f_number",
+        "created_at",
+        "_repeated_order_original",
         "_customer_sheet_pdf",
         "customer_first_name",
         "customer_last_name",
@@ -65,8 +67,6 @@ class OrderAdmin(admin.ModelAdmin):
         "customer_postcode",
         "fulfillment_event",
         "fulfillment_method",
-        "_repeated_order_original",
-        "created_at",
     )
     search_fields = (
         "f_number",
@@ -82,6 +82,7 @@ class OrderAdmin(admin.ModelAdmin):
         "customer_id",
     )
     readonly_fields = (
+        "created_at",
         "customer_first_name",
         "customer_last_name",
         "customer_address",
@@ -94,6 +95,8 @@ class OrderAdmin(admin.ModelAdmin):
     )
     fields = (
         "f_number",
+        "created_at",
+        "_repeated_order_original",
         "customer_first_name",
         "customer_last_name",
         "customer_address",
@@ -104,7 +107,6 @@ class OrderAdmin(admin.ModelAdmin):
         "fulfillment_event",
         "notes",
         "_customer_sheet_pdf",
-        "created_at",
     )
 
     inlines = (ProductQuantityInline,)

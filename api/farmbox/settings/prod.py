@@ -1,4 +1,18 @@
-from ..base import *
+from .base import BASE_DIR
+from .bas import *
+import os
+
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    },
+}
+
+
+# test variable to identify if this env file is used at runtime
+ENV = "prod"
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration

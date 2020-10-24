@@ -8,3 +8,5 @@ api/mediafiles
 api/order/sample_sheets/local_fetch
 *.env
 .vscode/launch.json
+api/farmbox/sqlite_dump.json
+todo.md
