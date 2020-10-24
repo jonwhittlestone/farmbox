@@ -37,10 +37,7 @@ Example Workflow
 
 ## Current Limitations
 
-- No separate customer model. Cannot see all historical orders for a single customer
-
 - Created repeat order forms do not currently take into account unpublished products
-
 
 ## What's next ..
 ```
@@ -56,9 +53,7 @@ Phase 1
 [x] Duplicate order to a new Fulfillment Event
 [ ] Receipts
         [ ] Invoice/Costing calculation
-[ ] Dynamic Product listing
-        [x] Allow user to modify product sequence using `adminsortable2` widget
-                - https://github.com/jrief/django-admin-sortable2
+[x] Dynamic Product listing
 
 
 ## Bugs
