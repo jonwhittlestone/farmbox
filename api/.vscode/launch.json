@@ -1,8 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-
-
         {
             "name": "DEV",
             "type": "python",
@@ -74,7 +72,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/../venv/bin/pytest",
             "args": [
-                "sheets/tests.py::TestConnection"
+                "sheets/tests.py"
             ],
             "django": true
         },
@@ -87,6 +85,7 @@
             "args": [
                 "cloudstore/tests.py"
             ],
+            "justMyCode": false,
             "django": true
         },
 
@@ -122,6 +121,39 @@
                 "sheets/tests.py::test_i_can_read_a_locally_stored_sheet_to_an_order"
             ],
             "django": true
+        },
+
+        {
+            "name": "Test - Customer",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "customer/tests.py"
+            ],
+            "django": true
+        },
+        {
+            "name": "cmd - create_customers_from_orders",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "create_customers_from_orders",
+            ],
+            "django": true
+        },
+
+        {
+            "name": "Mgmt Cmd: restore_db",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "restore_db",
+            ],
+            "django": true,
+            "justMyCode": false,
         },
     ]
 }
