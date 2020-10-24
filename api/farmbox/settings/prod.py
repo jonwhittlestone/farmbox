@@ -1,5 +1,5 @@
 from .base import BASE_DIR
-from .bas import *
+from .base import *
 import os
 
 
