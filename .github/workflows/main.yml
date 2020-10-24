@@ -7,33 +7,33 @@ env:
   NGINX_IMAGE: docker.pkg.github.com/$GITHUB_REPOSITORY/nginx
 
 jobs:
-  # backup_prod_db:
-  #   name: Backup Production SQLite DB to Dropbox
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Add SSH key
-  #       env:
-  #         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-  #       run: |
-  #         mkdir -p ~/.ssh
-  #         ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-  #         ssh-keyscan github.com >> ~/.ssh/known_hosts
-  #         ssh-add - <<< "${{ secrets.LINODE_GITHUB_PRIVATE_KEY }}"
+  backup_prod_db:
+    name: Backup Production SQLite DB to Dropbox
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add SSH key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-add - <<< "${{ secrets.LINODE_GITHUB_PRIVATE_KEY }}"
 
-  #     - name: Run Django management command for removing online backup
-  #       env:
-  #         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-  #       run: |
-  #         ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
-  #           docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py remove_remote_db"
-  #         ENDSSH
-  #     - name: Run Django management command for backing up
-  #       env:
-  #         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-  #       run: |
-  #         ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
-  #           docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py backup_db"
-  #         ENDSSH
+      - name: Run Django management command for removing online backup
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
+            docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py remove_remote_db"
+          ENDSSH
+      - name: Run Django management command for backing up
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh -o StrictHostKeyChecking=no jonwhittlestone@${{ secrets.LINODE_IP_ADDRESS }} << 'ENDSSH'
+            docker exec "$(docker ps | grep farmbox_web | awk '{print $1}')" /bin/sh -c "python manage.py backup_db"
+          ENDSSH
   tests:
     name: Run Python Tests
     runs-on: ubuntu-latest
