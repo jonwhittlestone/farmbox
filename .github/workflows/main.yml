@@ -99,7 +99,7 @@ jobs:
       needs: build
       if: github.ref == 'refs/heads/master'
       steps:
-        - name: Checkout branch - deploy-to-linode
+        - name: Checkout branch - master
           uses: actions/checkout@v1
         - name: Add environment variables to .env
           run: |
