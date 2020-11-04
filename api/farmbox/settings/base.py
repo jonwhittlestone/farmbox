@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "sheets",
     "cloudstore",
     "customer",
+    "snapshot",
     # moved django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -257,10 +258,12 @@ ORDER_SHEET = {
 }
 
 SAMPLE_ORDER_SHEET_DIR = os.path.join(PROJECT_DIR, "order", "sample_sheets")
-
 SAMPLE_ORDER_SHEET_PATH = os.path.join(SAMPLE_ORDER_SHEET_DIR, "current.xlsx")
-
 LOCAL_FETCH_SHEETS_DIR = os.path.join(SAMPLE_ORDER_SHEET_DIR, "local_fetch")
+
+SAMPLE_PRODUCT_SHEET_DIR = os.path.join(PROJECT_DIR, "product", "sample_sheets")
+LOCAL_FETCH_PRODUCT_SHEETS_DIR = os.path.join(SAMPLE_PRODUCT_SHEET_DIR, "local_fetch")
+
 
 # Cloud store
 # Remote folder names

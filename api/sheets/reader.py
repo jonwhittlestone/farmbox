@@ -14,6 +14,7 @@ from django.db.utils import IntegrityError
 from order.exceptions import OrderFormReaderException
 from sheets.input_cleansing import OrderSheet as OrderSheetCleanser
 from customer.models import Customer
+from decimal import Decimal
 
 FILENAME = os.path.basename(settings.SAMPLE_ORDER_SHEET_PATH)
 
@@ -25,7 +26,7 @@ def collect_files_for_reading(path=None) -> list:
     return list(xlsx_files)
 
 
-class OrderSheet:
+class SheetReader:
     filename: str
     excel_data: []
     _order: Order
@@ -205,3 +206,31 @@ class OrderSheet:
             except Exception:
                 break
         return self._product_counts
+
+
+class OrderSheet(SheetReader):
+    def __init__(self):
+        self.cell_cleanser = OrderSheetCleanser()
+
+
+class ProductSelectionSheet(SheetReader):
+    def __init__(self):
+        super(SheetReader, self).__init__()
+
+    def get_products(self, file):
+        # self.read_to_model(file)
+
+        parsed = [
+            {
+                "name": "New Apples FV1",
+                "code": "FV1",
+                "price": Decimal(1.00),
+            },
+            {
+                "name": "Village Greens Veg Bag : Large FV3355",
+                "code": "FV3355",
+                "price": Decimal(15.00),
+            },
+        ]
+        # sheet = r.read()
+        return parsed

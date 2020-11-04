@@ -20,6 +20,10 @@ Example Workflow
 
 ## Release History
 
+* 2020.11.11
+  - Feature: Customer model. Created from order sheet ingestion
+  - Feature: Product selection parsing from dropbox
+
 * 2020.07.06
   - Fix: Customer sheet product headers ordering matches quantity
   - Fix: Parsing all words in last name is Sentence Case
