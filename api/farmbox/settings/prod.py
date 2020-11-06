@@ -1,3 +1,5 @@
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 from .base import BASE_DIR
 from .base import *
 import os
@@ -18,8 +20,6 @@ DATABASES = {
 # test variable to identify if this env file is used at runtime
 ENV = "prod"
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
     dsn="https://ad8f8ff44e804b90835d6c3a63d02ef8@o389188.ingest.sentry.io/5227023",
@@ -28,3 +28,5 @@ sentry_sdk.init(
     # django.contrib.auth) you may enable sending PII data.
     send_default_pii=True,
 )
+
+BACKUP_DB_BEFORE_PRODUCT_IMPORT = True

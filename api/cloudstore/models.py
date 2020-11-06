@@ -15,24 +15,39 @@ def create_media_dir():
         os.makedirs(settings.MEDIA_ROOT)
 
 
-def cloud_fetcher():
-    """Download zip of xlsxs to instance storage."""
+def cloud_fetcher(remote_path=None, extracted_dir=None):
+    """Download zip of order xlsxs to instance storage."""
+
+    if not remote_path:
+        remote_path = settings.NEW_ORDERS_REMOTE_PATH
+
+    if not extracted_dir:
+        extracted_dir = settings.NEW_ORDERS_FOLDER
+
     d = DropboxApp()
     # Download zip
     dest_filename = f"fetched-{timezone.now()}.zip"
     path_to_store_local_zip = os.path.join(settings.MEDIA_ROOT, dest_filename)
-    path_of_remote_files = settings.NEW_ORDERS_REMOTE_PATH
-    files_meta = d.download_all_as_zip(path_to_store_local_zip, path_of_remote_files)
-    extracted_dir = os.path.join(settings.MEDIA_ROOT, settings.NEW_ORDERS_FOLDER)
+    files_meta = d.download_all_as_zip(path_to_store_local_zip, remote_path)
+    extracted_dir = os.path.join(settings.MEDIA_ROOT, extracted_dir)
     # extract zip
     with ZipFile(path_to_store_local_zip, "r") as zipObj:
         zipObj.extractall(settings.MEDIA_ROOT)
     return extracted_dir, path_to_store_local_zip, files_meta
 
 
-def remove_remote_form_after_fetch_success(path):
+def remove_remote_form_after_fetch_success(path, remote_folder):
+    if not remote_folder:
+        remote_folder = settings.NEW_ORDERS_FOLDER
     d = DropboxApp()
-    d.remove(f"/{os.path.join(settings.NEW_ORDERS_FOLDER,os.path.basename(path))}")
+    d.remove(f"/{os.path.join(remote_folder, os.path.basename(path))}")
+
+
+def upload_product_form_to_processed_folder(f: PosixPath):
+    d = DropboxApp()
+    unique_filename = f"processed-{timezone.now()}.xlsx"
+    dest_path = f"/{os.path.join(settings.PROCESSED_PRODUCTS_FOLDER, unique_filename)}"
+    d.upload(f, dest_path)
 
 
 def upload_form_to_processed_folder(f: PosixPath, order: Order):

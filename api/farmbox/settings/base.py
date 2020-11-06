@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "sheets",
     "cloudstore",
     "customer",
+    "snapshot",
     # moved django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -243,6 +244,7 @@ CUSTOMER_SHEETS_PATH = os.path.join(MEDIA_ROOT, CUSTOMER_SHEETS_DIR)
 ORDER_SHEET = {
     "PRODUCT_NAME_COL": "A",
     "PRODUCT_COUNT_COL": "C",
+    "PRODUCT_PRICE_COL": "D",
     "DETAILS_CELL_MAP": {
         "C1": "customer_first_name",
         "C2": "customer_last_name",
@@ -257,15 +259,19 @@ ORDER_SHEET = {
 }
 
 SAMPLE_ORDER_SHEET_DIR = os.path.join(PROJECT_DIR, "order", "sample_sheets")
-
 SAMPLE_ORDER_SHEET_PATH = os.path.join(SAMPLE_ORDER_SHEET_DIR, "current.xlsx")
-
 LOCAL_FETCH_SHEETS_DIR = os.path.join(SAMPLE_ORDER_SHEET_DIR, "local_fetch")
+
+SAMPLE_PRODUCT_SHEET_DIR = os.path.join(PROJECT_DIR, "product", "sample_sheets")
+LOCAL_FETCH_PRODUCT_SHEETS_DIR = os.path.join(SAMPLE_PRODUCT_SHEET_DIR, "local_fetch")
+
 
 # Cloud store
 # Remote folder names
 NEW_ORDERS_FOLDER = "new-orders"
+NEW_PRODUCTS_FOLDER = "new-products"
 PROCESSED_ORDERS_FOLDER = "processed-orders"
+PROCESSED_PRODUCTS_FOLDER = "processed-products"
 BACKUP_DB_FOLDER = "backup-db"
 DEBUG_FOLDER = "howapped-debug"
 CLOUD_SUBFOLDERS = (
@@ -273,9 +279,12 @@ CLOUD_SUBFOLDERS = (
     DEBUG_FOLDER,
     NEW_ORDERS_FOLDER,
     PROCESSED_ORDERS_FOLDER,
+    NEW_PRODUCTS_FOLDER,
+    PROCESSED_PRODUCTS_FOLDER,
 )
-TESTING_ORDERS_DIRNAME = "testing"
+TESTING_DIRNAME = "testing"
 NEW_ORDERS_REMOTE_PATH = f"/{NEW_ORDERS_FOLDER}"
-TESTING_ORDERS_REMOTE_PATH = (
-    f"/{os.path.join(NEW_ORDERS_FOLDER,TESTING_ORDERS_DIRNAME)}"
-)
+NEW_PRODUCTS_REMOTE_PATH = f"/{NEW_PRODUCTS_FOLDER}"
+TESTING_ORDERS_REMOTE_PATH = f"/{os.path.join(NEW_ORDERS_FOLDER,TESTING_DIRNAME)}"
+
+BACKUP_DB_BEFORE_PRODUCT_IMPORT = False

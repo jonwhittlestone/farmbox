@@ -1,0 +1,17 @@
+{% extends "admin/change_list_object_tools.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    <li>
+      <a href="{% url 'cloud_product_sheet_fetcher' %}" class="addlink" onclick="return confirm('⚡ Are you sure?\n\nThis will set the product selection according to the product selection sheet on the cloud drive\n\nAll subsequent order forms will need to follow the new product selection.')" title="Replace all Order and Event data with Factory settings">Fetch Products</a>
+    </li>
+  {% if has_add_permission %}
+  <li>
+    {% url cl.opts|admin_urlname:'add' as add_url %}
+    <a href="{% add_preserved_filters add_url is_popup to_field %}" class="addlink">
+      {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+    </a>
+  </li>
+  {% endif %}
+
+{% endblock %}

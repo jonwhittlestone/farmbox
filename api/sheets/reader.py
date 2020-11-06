@@ -1,7 +1,9 @@
 import os
 import json
+import re
 import sys
 from pathlib import Path
+from decimal import Decimal
 from datetime import datetime
 from django.utils import timezone
 from openpyxl import load_workbook
@@ -25,7 +27,7 @@ def collect_files_for_reading(path=None) -> list:
     return list(xlsx_files)
 
 
-class OrderSheet:
+class SheetReader:
     filename: str
     excel_data: []
     _order: Order
@@ -205,3 +207,50 @@ class OrderSheet:
             except Exception:
                 break
         return self._product_counts
+
+
+class OrderSheet(SheetReader):
+    def __init__(self):
+        self.cell_cleanser = OrderSheetCleanser()
+
+
+class ProductSelectionSheet(SheetReader):
+
+    _product_details: []
+
+    def __init__(self):
+        super(SheetReader, self).__init__()
+
+    @property
+    def product_details(self):
+        self._product_details = []
+        prod_regex = r"[A-z][0-9]+$"
+
+        for row in self.excel_data:
+            is_match = False
+            for cell in row:
+                if cell.value is None:
+                    break
+                if cell.column_letter == settings.ORDER_SHEET.get(
+                    "PRODUCT_NAME_COL", ""
+                ):
+                    is_match = []
+                    is_match = re.findall(prod_regex, cell.internal_value)
+                    if len(is_match) > 0:
+                        try:
+                            self._product_details.append(
+                                {
+                                    "name": row[0].value,
+                                    "code": re.findall("[A-Z]{2}[0-9]*$", row[0].value)[
+                                        0
+                                    ],
+                                    "price": Decimal(row[3].value),
+                                }
+                            )
+                        except Exception:
+                            continue
+        return self._product_details
+
+    def get_products(self, file):
+        self.read(file)
+        return self.product_details

@@ -155,5 +155,41 @@
             "django": true,
             "justMyCode": false,
         },
+
+        {
+            "name": "Mgmt Cmd: show_db_snapshot",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "show_db_snapshot",
+            ],
+            "django": true,
+            "justMyCode": false,
+        },
+
+        {
+            "name": "Test - Product",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "product/tests.py"
+            ],
+            "django": true,
+            "justMyCode": false,
+        },
+
+        {
+            "name": "Test - Sheets - TestDetailsAreCaptured",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "sheets/tests.py::TestDetailsAreCaptured"
+            ],
+            "django": true,
+            "justMyCode": true,
+        },
     ]
 }
