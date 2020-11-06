@@ -1,8 +1,11 @@
 import re
+import logging
 from django.db.models import F
 from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db import models
+
+logger = logging.getLogger(__name__)
 
 
 class ProductQuerySet(models.QuerySet):
@@ -28,7 +31,9 @@ class Product(models.Model):
     )
     published = models.BooleanField(default=False)
     sequence = models.PositiveSmallIntegerField(default=0, blank=False, null=False)
-    category = models.CharField(choices=Category.choices, max_length=16)
+    category = models.CharField(
+        choices=Category.choices, max_length=16, default=Category.ITEM
+    )
 
     objects = ProductManager()
 
@@ -67,9 +72,15 @@ class Product(models.Model):
                 p.sequence = i + 1
                 p.published = True
             else:
-                p = Product.objects.get(code=s.get("code"))
-                p.sequence = i + 1
-                p.published = True
+                try:
+                    p = Product.objects.get(code=s.get("code"))
+                    p.name = s.get("name")
+                    p.price = s.get("price")
+                    p.sequence = i + 1
+                    p.published = True
+                except Exception:
+                    logger.info(p)
+                    continue
             products.append(p)
 
         for p in products:

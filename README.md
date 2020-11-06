@@ -20,7 +20,7 @@ Example Workflow
 
 ## Release History
 
-* 2020.11.11
+* 2020.11.06
   - Feature: Customer model. Created from order sheet ingestion
   - Feature: Product selection parsing from dropbox
 

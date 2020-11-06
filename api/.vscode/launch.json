@@ -179,5 +179,17 @@
             "django": true,
             "justMyCode": false,
         },
+
+        {
+            "name": "Test - Sheets - TestDetailsAreCaptured",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/../venv/bin/pytest",
+            "args": [
+                "sheets/tests.py::TestDetailsAreCaptured"
+            ],
+            "django": true,
+            "justMyCode": true,
+        },
     ]
 }

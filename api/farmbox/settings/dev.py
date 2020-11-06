@@ -12,3 +12,6 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     },
 }
+
+ENV = "dev"
+BACKUP_DB_BEFORE_PRODUCT_IMPORT = False

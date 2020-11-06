@@ -15,25 +15,35 @@ from cloudstore.models import (
     cloud_fetcher,
     remove_remote_form_after_fetch_success,
     upload_form_to_processed_folder,
+    upload_product_form_to_processed_folder,
+    remove_remote_db,
+    DropboxApp,
 )
 from product.models import Product
 
 
 def local_product_sheet_fetch(request):
     r = ProductSheetReader()
+    count = 0
 
-    # validate for contents of local fetch directory - should only be one file
     for count, f in enumerate(
         collect_files_for_reading(settings.LOCAL_FETCH_PRODUCT_SHEETS_DIR)
     ):
         products = r.get_products(f)
         Product.write_new_selection(products)
 
-    messages.add_message(
-        request,
-        messages.SUCCESS,
-        "X products ingested from sheet on the cloud drive. Y new products.",
-    )
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            "Products ingested from locally stored sheet.",
+        )
+
+    if count < 1:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            f"No products ingested. Are you sure there was a file in directory: {settings.SAMPLE_PRODUCT_SHEET_DIR}",
+        )
 
     url = reverse("admin:product_product_changelist")
     return redirect(url)
@@ -41,13 +51,43 @@ def local_product_sheet_fetch(request):
 
 def cloud_product_sheet_fetch(request):
 
-    messages.add_message(
-        request,
-        messages.SUCCESS,
-        "X products ingested from sheet on the cloud drive. Y new products.",
+    ingested = False
+    r = ProductSheetReader()
+    # download product sheet to media root
+    # and unzip
+    containing_dir, zip_path, files_meta = cloud_fetcher(
+        settings.NEW_PRODUCTS_REMOTE_PATH, settings.NEW_PRODUCTS_FOLDER
     )
 
     url = reverse("admin:product_product_changelist")
+
+    for count, f in enumerate(collect_files_for_reading(containing_dir)):
+        ingested = True
+        # if in prod, backup the db
+        if settings.BACKUP_DB_BEFORE_PRODUCT_IMPORT:
+            remove_remote_db()
+            d = DropboxApp()
+            d.backup_db()
+
+        products = r.get_products(f)
+        Product.write_new_selection(products)
+        remove_remote_form_after_fetch_success(f, settings.NEW_PRODUCTS_FOLDER)
+        upload_product_form_to_processed_folder(f)
+        os.remove(f)
+
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            "Products ingested from cloud stored sheet.",
+        )
+
+    if ingested is False:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            f"No products ingested. Are you sure there is a product selection sheet in the cloud directory: {settings.NEW_PRODUCTS_REMOTE_PATH}",
+        )
+
     return redirect(url)
 
 
