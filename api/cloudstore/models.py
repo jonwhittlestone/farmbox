@@ -36,7 +36,7 @@ def cloud_fetcher(remote_path=None, extracted_dir=None):
     return extracted_dir, path_to_store_local_zip, files_meta
 
 
-def remove_remote_form_after_fetch_success(path, remote_folder):
+def remove_remote_form_after_fetch_success(path, remote_folder=None):
     if not remote_folder:
         remote_folder = settings.NEW_ORDERS_FOLDER
     d = DropboxApp()
