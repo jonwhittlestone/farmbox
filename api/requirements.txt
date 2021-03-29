@@ -80,7 +80,7 @@ py==1.8.1
 py-moneyed==0.8.0
 pycodestyle==2.5.0
 pycparser==2.20
-Pygments==2.6.1
+Pygments==2.7.4
 pyparsing==2.4.7
 PyPDF2==1.26.0
 Pyphen==0.9.5
