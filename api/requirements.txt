@@ -76,7 +76,7 @@ promise==2.3
 prompt-toolkit==3.0.5
 psycopg2==2.8.6
 ptyprocess==0.6.0
-py==1.8.1
+py==1.10.0
 py-moneyed==0.8.0
 pycodestyle==2.5.0
 pycparser==2.20
