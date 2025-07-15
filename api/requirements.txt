@@ -76,7 +76,7 @@ promise==2.3
 prompt-toolkit==3.0.5
 psycopg2==2.8.6
 ptyprocess==0.6.0
-py==1.8.1
+py==1.11.0
 py-moneyed==0.8.0
 pycodestyle==2.5.0
 pycparser==2.20
@@ -85,8 +85,8 @@ pyparsing==2.4.7
 PyPDF2==1.26.0
 Pyphen==0.9.5
 pyrsistent==0.16.0
-pytest==5.4.1
-pytest-django==3.9.0
+pytest==6.2.5
+pytest-django==4.4.0
 pytest-factoryboy==2.0.3
 python-dateutil==2.8.1
 pytz==2019.3

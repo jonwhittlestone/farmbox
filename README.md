@@ -63,6 +63,12 @@ docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py changepassword admin
 ```
 
+### Run local tests
+
+```
+docker-compose exec -T web pytest -v
+```
+
 ## Release History
 
 - 2020.07.25
