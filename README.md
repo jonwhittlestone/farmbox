@@ -10,40 +10,93 @@ Example Workflow
 
 1. The user uploads new order spreadsheets (xlsx) to the `new-orders` dropbox and initiates a `Fetch` operation in the Django Admin interface.
 
-2. They are ingested by the system according to fulfillment event target date.
-        - For example, if the xlsx cell has a _Deliver / Collection Date_ of 21st December 2020, the desired product quantities are read and the fulfillment event for 21/12/2020 is created.
+2. They are ingested by the system according to fulfillment event target date. - For example, if the xlsx cell has a _Deliver / Collection Date_ of 21st December 2020, the desired product quantities are read and the fulfillment event for 21/12/2020 is created.
 
 3. Repeat orders forms do not need to be reingested from Dropbox. They can be duplicated to a new fulfillment event. See below where 3 orders are duplicated from 8th June event to 1st August event.
 
 ![](https://i.imgur.com/17kTXnT.gif)
 
+## Secrets
+
+Vault: Freelance Customers > Village Greens Farmbox
+
+## Dropbox
+
+The Django app uses a Dropbox app for storage.
+
+u: farmbox--dev@outlook.com
+dashboard: [here](https://www.dropbox.com/developers/apps/info/2x58355mwxchk2t)
+
+## Local Development
+
+TLDR; see [CI](.github/workflows/main.yml)
+
+1. Create the `.env` file for local development.
+
+```
+cp .env.dev.example .env.dev
+```
+
+2. Populate the `FARMBOX_DROPBOX_ACCESS_TOKEN`
+
+```
+echo "FARMBOX_DROPBOX_ACCESS_TOKEN=changeme" >> .env.dev
+```
+
+3. Run the docker containers
+
+```
+docker-compose up
+```
+
+4. Go to http://localhost:8000 in a browser
+
+5. [Optional] Run the Database migrations
+
+```
+docker-compose exec web python manage.py migrate
+```
+
+6. Change the password for the admin user
+
+```
+docker-compose exec web python manage.py changepassword admin
+```
 
 ## Release History
 
-* 2020.11.06
+- 2020.07.25
+
+  - Usage docs
+  - Dev dockerfile
+
+- 2020.11.06
+
   - Feature: Customer model. Created from order sheet ingestion
   - Feature: Product selection parsing from dropbox
 
-* 2020.07.06
+- 2020.07.06
+
   - Fix: Customer sheet product headers ordering matches quantity
   - Fix: Parsing all words in last name is Sentence Case
 
-* 2020.06.26
+- 2020.06.26
+
   - Restore db backup
   - Product sequence editing with adminsortable2 widget
 
-* 2020.06.23
+- 2020.06.23
   - Customer order form parsing from Dropbox
   - Customer sheet generation (PDF/XLSX)
   - Static product selection #0 (< June 2020)
   - Duplicate order to new event as repeat
-
 
 ## Current Limitations
 
 - Created repeat order forms do not currently take into account unpublished products
 
 ## What's next ..
+
 ```
 ==========================================
 Phase 1
@@ -81,20 +134,21 @@ Phase 3
 ==========================================
 [ ] Mobile app for picking management / updating order
 ```
+
 ---
+
 ## To start project yourself, you'll need:
 
-* Access to the linked dropbox account
+- Access to the linked dropbox account
 
-* To save new order forms to the following dropbox folder:
-        - ![dropbox](dropbox.png)
+- To save new order forms to the following dropbox folder: - ![dropbox](dropbox.png)
 
 ## API
 
 Prerequisites
 
-* Python==3.8
-* Environment variables:
+- Python==3.8
+- Environment variables:
 
         export FARMBOX_DROPBOX_ACCESS_TOKEN=CHANGEME
         export DEFAULT_SUPERUSER_EMAIL=CHANGEME
@@ -105,22 +159,23 @@ Prerequisites
 
 ### Quickstart
 
-1. Clone this repo
-2. `cd api`
-3. With the virtual environment activated, install the API dependencies
-        pip install -r requirements.txt
-4. Run the migrations
+1.  Clone this repo
+2.  `cd api`
+3.  With the virtual environment activated, install the API dependencies
+    pip install -r requirements.txt
+4.  Run the migrations
 
         ./manage.py migrate
-3. Run the development server
+
+5.  Run the development server
 
         api $ ./manage.py runserver
 
-4. Log in at with the default superuser credentials (admin/Evoke-Enduring8-Figurine):
+6.  Log in at with the default superuser credentials (admin/Evoke-Enduring8-Figurine):
 
         http://localhost:8000/admin/
 
-5. There are a few tests scattered around.
+7.  There are a few tests scattered around.
 
         (venv) ➜  api git:(master) ✗ ../venv/bin/pytest .
         ============================================================== test session starts ==============================================================
